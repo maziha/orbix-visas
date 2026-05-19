@@ -1,3 +1,0 @@
-# SPA fallback: serve index.html for client routes on refresh / deep links.
-# Netlify serves existing files (assets, favicons, etc.) before applying this rule.
-/*    /index.html   200
