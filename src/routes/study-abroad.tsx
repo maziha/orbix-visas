@@ -1,5 +1,7 @@
 import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { ConsultationCta } from "@/components/site/HomeSections";
+import { useModal } from "@/components/site/modal-store";
 
 export const Route = createFileRoute("/study-abroad")({
   head: () => ({
@@ -24,6 +26,7 @@ const countries = [
 function Layout() {
   const matches = useMatches();
   const isChild = matches.some(m => m.routeId.startsWith("/study-abroad/"));
+  const { setOpen } = useModal();
   if (isChild) {
     return <SiteLayout><Outlet /></SiteLayout>;
   }
@@ -33,7 +36,7 @@ function Layout() {
         <div className="container-px mx-auto max-w-7xl">
           <span className="label-tag">Study Abroad</span>
           <h1 className="font-display text-4xl md:text-6xl mt-3">Choose Your Destination</h1>
-          <p className="text-white/80 mt-4 max-w-2xl text-lg">Explore world-class education across 7 countries and 100+ partner universities.</p>
+          <p className="text-white/80 mt-4 max-w-2xl text-lg">Explore study pathways across 7 countries — with guidance tailored to your goals and budget.</p>
         </div>
       </section>
       <section className="py-20">
@@ -46,7 +49,13 @@ function Layout() {
             </Link>
           ))}
         </div>
+        <div className="text-center mt-12">
+          <button type="button" onClick={() => setOpen("consultation")} className="btn-gold px-8 py-3.5 rounded-md">
+            Book a Free Consultation
+          </button>
+        </div>
       </section>
+      <ConsultationCta title="Need Help Choosing a Country?" subtitle="Tell us about your academic background and goals — we'll suggest destinations and next steps." />
     </SiteLayout>
   );
 }

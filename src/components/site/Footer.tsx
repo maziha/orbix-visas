@@ -38,7 +38,7 @@ export function Footer() {
         <div>
           <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--gold)]">Services</h4>
           <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
-            {["Spouse Visa","Parent Visa","Job Seekers Visa","Visit Visa","Language Training","IELTS Booking","Loan Assistance"].map(s => (
+            {["Spouse Visa","Parent Visa","Job Seekers Visa","Visit Visa","IELTS Booking","Loan Assistance"].map(s => (
               <li key={s}><Link to="/services" className="hover:text-[var(--gold)]">{s}</Link></li>
             ))}
           </ul>

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { MigrationPrograms } from "@/components/site/HomeSections";
+import { MigrationPrograms, ConsultationCta } from "@/components/site/HomeSections";
 
 export const Route = createFileRoute("/migration")({
   head: () => ({
@@ -29,6 +29,7 @@ function Layout() {
         </div>
       </section>
       <MigrationPrograms />
+      <ConsultationCta title="Not Sure Which Program Fits You?" subtitle="Our migration counsellors will review your profile and recommend the most suitable pathway for Australia or Canada." />
     </SiteLayout>
   );
 }

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
+import { ConsultationCta } from "@/components/site/HomeSections";
 import { Heart, Users, Briefcase, Plane, GraduationCap, Languages, Award, Wallet, Home } from "lucide-react";
 
 export const Route = createFileRoute("/services")({
@@ -55,6 +56,7 @@ function Services() {
           </div>
         </div>
       </section>
+      <ConsultationCta />
     </SiteLayout>
   );
 }

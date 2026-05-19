@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { FloatingButtons } from "./FloatingButtons";
-import { ConsultationModal, ReviewModal } from "./Modals";
+import { ConsultationModal /* , ReviewModal */ } from "./Modals";
 import { ModalProvider } from "./modal-store";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
@@ -13,7 +13,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <Footer />
       <FloatingButtons />
       <ConsultationModal />
-      <ReviewModal />
+      {/* <ReviewModal /> — enable when collecting client reviews */}
     </ModalProvider>
   );
 }

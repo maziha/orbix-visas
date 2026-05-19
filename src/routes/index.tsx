@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import {
   Hero, Destinations, StudyAbroadSplit, Eligibility, MigrationPrograms,
-  MigrationSplit, UniversityCarousel, Testimonials, OtherServices,
-  Achievements, ChoosingFuture, LeadershipTeaser, BrandPromise, Accreditations,
+  MigrationSplit, Testimonials, OtherServices,
+  Achievements, ChoosingFuture, LeadershipTeaser, BrandPromise,
 } from "@/components/site/HomeSections";
 
 export const Route = createFileRoute("/")({
@@ -19,14 +19,14 @@ function Index() {
       <Eligibility />
       <MigrationPrograms />
       <MigrationSplit />
-      <UniversityCarousel />
+      {/* <UniversityCarousel /> — enable when partner universities are confirmed */}
       <Testimonials />
       <OtherServices />
       <Achievements />
       <ChoosingFuture />
       <LeadershipTeaser />
       <BrandPromise />
-      <Accreditations />
+      {/* <Accreditations /> — enable when memberships are confirmed */}
     </SiteLayout>
   );
 }

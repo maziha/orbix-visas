@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronDown, Phone, Menu, X } from "lucide-react";
 import { useModal } from "./modal-store";
+import { MobileMenu } from "./MobileMenu";
 import logo from "@/assets/orbix-logo.jpg";
 
 const studyCountries = [
@@ -19,13 +20,8 @@ const migration = [
   { name: "Canada PR", to: "/migration/canada-pr" },
 ];
 
-const whySwift = [
+const whyOrbix = [
   { name: "Our Story", to: "/about" },
-  { name: "Blogs & News", to: "/about" },
-  { name: "Events", to: "/about" },
-  { name: "Leadership Team", to: "/about" },
-  { name: "Careers", to: "/about" },
-  { name: "Testimonials", to: "/testimonials" },
   { name: "Contact", to: "/contact" },
 ];
 
@@ -71,7 +67,7 @@ function ServicesDropdown() {
           <div>
             <div className="label-tag mb-2">Other Services</div>
             <ul className="space-y-1.5">
-              {["Language Training","IELTS Test Booking","Loan Assistance","Post Landing Services"].map(s => (
+              {["IELTS Test Booking","Loan Assistance","Post Landing Services"].map(s => (
                 <li key={s}><Link to="/services" className="text-sm text-foreground hover:text-[var(--gold)]">{s}</Link></li>
               ))}
             </ul>
@@ -94,6 +90,15 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileOpen]);
+
   return (
     <header
       className={`fixed top-0 inset-x-0 z-40 bg-white transition-all duration-300 ${
@@ -106,12 +111,9 @@ export function Header() {
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">
-          <Dropdown label="Why Orbix" items={whySwift} />
+          <Dropdown label="Why Orbix" items={whyOrbix} />
           <Dropdown label="Study Abroad" items={studyCountries} />
           <Dropdown label="Migration" items={migration} />
-          <Link to="/services" className="px-3 py-2 text-sm font-medium text-foreground hover:text-[var(--gold)] transition-colors">
-            Language Training
-          </Link>
           <ServicesDropdown />
           <Link to="/contact" className="px-3 py-2 text-sm font-medium text-foreground hover:text-[var(--gold)] transition-colors">
             Contact Us
@@ -132,30 +134,7 @@ export function Header() {
         </button>
       </div>
 
-      {mobileOpen && (
-        <div className="lg:hidden border-t border-border bg-white max-h-[80vh] overflow-y-auto">
-          <div className="container-px py-4 space-y-1">
-            {[
-              { label: "About", to: "/about" },
-              { label: "Study Abroad", to: "/study-abroad" },
-              { label: "Migration", to: "/migration" },
-              { label: "Services", to: "/services" },
-              { label: "Testimonials", to: "/testimonials" },
-              { label: "Contact", to: "/contact" },
-            ].map((l) => (
-              <Link key={l.label} to={l.to} onClick={() => setMobileOpen(false)} className="block py-2 text-foreground font-medium">
-                {l.label}
-              </Link>
-            ))}
-            <button
-              onClick={() => { setMobileOpen(false); setOpen("consultation"); }}
-              className="btn-gold w-full px-5 py-2.5 rounded-md text-sm mt-2"
-            >
-              Book a Consultation
-            </button>
-          </div>
-        </div>
-      )}
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );
 }

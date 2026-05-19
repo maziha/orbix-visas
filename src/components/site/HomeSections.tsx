@@ -11,41 +11,50 @@ import {
 export function Hero() {
   const { setOpen } = useModal();
   return (
-    <section className="relative min-h-[88vh] flex items-center overflow-hidden">
+    <section className="relative flex items-center overflow-hidden min-h-[75vh] md:min-h-[80vh]">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80)" }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.18_0.06_263/0.92)] via-[oklch(0.22_0.07_263/0.78)] to-[oklch(0.22_0.07_263/0.55)]" />
-      <div className="relative container-px mx-auto max-w-7xl py-24 text-white">
-        <span className="label-tag animate-fade-up">Trusted Since 2007</span>
-        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mt-3 leading-[1.05] max-w-4xl animate-fade-up-delay-1">
-          150,000+ Happy Smiles <span className="text-[var(--gold)]">and Counting</span>
-        </h1>
-        <p className="text-base md:text-lg text-white/85 mt-5 max-w-2xl animate-fade-up-delay-2">
-          We measure our success by the smiles we put on your faces. Orbix is the most trusted name in Study Abroad and Immigration Services.
-        </p>
-        <div className="flex flex-wrap gap-3 mt-7 animate-fade-up-delay-3">
-          <button onClick={() => setOpen("consultation")} className="btn-gold px-6 py-3.5 rounded-md inline-flex items-center gap-2">
-            Book a Free Consultation <ArrowRight className="h-4 w-4" />
-          </button>
-          <Link to="/services" className="btn-outline-white px-6 py-3.5 rounded-md inline-flex items-center gap-2">
-            Explore Services
-          </Link>
+      <div className="relative container-px mx-auto max-w-7xl w-full py-20 sm:py-24 md:py-28 lg:py-32 text-white">
+        <div className="max-w-2xl">
+          <span className="label-tag animate-fade-up">Study Abroad & Immigration</span>
+          <h1 className="font-display text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold mt-4 sm:mt-5 leading-[1.12] animate-fade-up-delay-1">
+            Your Gateway to <span className="text-[var(--gold)]">Global Opportunities</span>
+          </h1>
+          <p className="text-base md:text-lg text-white/85 mt-5 sm:mt-6 leading-relaxed animate-fade-up-delay-2">
+            Clear guidance for study abroad and migration — honest advice and support from your first consultation onward.
+          </p>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-6 sm:mt-8 animate-fade-up-delay-3">
+            <button
+              onClick={() => setOpen("consultation")}
+              className="btn-gold text-sm px-4 py-2 sm:text-base sm:px-5 sm:py-2.5 rounded-md inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap"
+            >
+              <span className="max-[380px]:hidden">Book a Free Consultation</span>
+              <span className="hidden max-[380px]:inline">Book Consultation</span>
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            </button>
+            <Link
+              to="/services"
+              className="btn-outline-white text-sm px-4 py-2 sm:text-base sm:px-5 sm:py-2.5 rounded-md inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap"
+            >
+              Explore Services
+            </Link>
+          </div>
         </div>
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl animate-fade-up-delay-3">
+        <ul className="mt-12 sm:mt-14 md:mt-16 pt-8 sm:pt-10 border-t border-white/15 flex flex-col sm:flex-row sm:flex-wrap gap-6 sm:gap-x-10 sm:gap-y-4 max-w-3xl animate-fade-up-delay-3">
           {[
-            ["17+","Years Experience"],
-            ["150K+","Success Stories"],
-            ["100+","Partner Universities"],
-            ["99.87%","Success Rate"],
-          ].map(([n,l]) => (
-            <div key={l} className="border-l-2 border-[var(--gold)] pl-3">
-              <div className="font-display text-2xl md:text-3xl text-[var(--gold)] font-bold">{n}</div>
-              <div className="text-xs md:text-sm text-white/80">{l}</div>
-            </div>
+            ["7", "Destination countries"],
+            ["Free", "First consultation"],
+            ["1-on-1", "Expert counselling"],
+          ].map(([n, l]) => (
+            <li key={l} className="flex items-baseline gap-2 sm:block sm:border-l-2 sm:border-[var(--gold)] sm:pl-4">
+              <span className="font-display text-xl sm:text-2xl text-[var(--gold)] font-bold">{n}</span>
+              <span className="text-sm text-white/75 sm:mt-1 sm:block">{l}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
@@ -103,12 +112,13 @@ export function StudyAbroadSplit() {
             Explore Study Destinations <ArrowRight className="h-4 w-4" />
           </Link>
           <div className="flex flex-wrap gap-6 mt-8 pt-6 border-t border-border">
-            {[["7","Countries"],["100+","Universities"],["50,000+","Students Placed"]].map(([n,l])=>(
+            {[["7","Countries We Cover"],["1-on-1","Expert Counselling"]].map(([n,l])=>(
               <div key={l}>
                 <div className="font-display text-2xl text-[var(--navy)] font-bold">{n}</div>
                 <div className="text-xs text-muted-foreground uppercase tracking-wider">{l}</div>
               </div>
             ))}
+            {/* [["100+","Universities"],["50,000+","Students Placed"]] — enable when partnerships/placements are live */}
           </div>
         </div>
         <div>
@@ -139,6 +149,7 @@ export function StudyAbroadSplit() {
 
 /* ---------- SECTION 5: ELIGIBILITY ---------- */
 export function Eligibility() {
+  const { setOpen } = useModal();
   return (
     <section className="py-20 bg-[var(--navy)]">
       <div className="container-px mx-auto max-w-7xl">
@@ -153,8 +164,12 @@ export function Eligibility() {
               <div className="text-5xl mb-3">{c.flag}</div>
               <h3 className="font-display text-2xl text-[var(--navy)] mb-2">{c.title}</h3>
               <p className="text-muted-foreground text-sm mb-5">{c.desc}</p>
-              <button className="btn-gold px-5 py-2.5 rounded-md inline-flex items-center gap-2">
-                Calculate Now <ArrowRight className="h-4 w-4" />
+              <button
+                type="button"
+                onClick={() => setOpen("consultation")}
+                className="btn-gold px-5 py-2.5 rounded-md inline-flex items-center gap-2"
+              >
+                Book Free Assessment <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           ))}
@@ -223,7 +238,7 @@ export function MigrationSplit() {
   );
 }
 
-/* ---------- SECTION 8: UNIVERSITY CAROUSEL ---------- */
+/* ---------- SECTION 8: UNIVERSITY CAROUSEL (enable when partner universities are confirmed) ----------
 const universities = [
   "University of Sheffield","University of Leeds","University of Liverpool","University of Essex","Swansea University",
   "University of Winchester","University of Aberdeen","University of Dundee","University of Surrey","Brunel University London",
@@ -248,8 +263,9 @@ export function UniversityCarousel() {
     </section>
   );
 }
+---------- */
 
-/* ---------- SECTION 9: TESTIMONIALS ---------- */
+/* ---------- SECTION 9: TESTIMONIALS (enable when client stories are available) ----------
 const testimonials = [
   { name:"Shali", initials:"S", program:"Student Visa", text:"I was lost and clueless just before I met Orbix. They guided me through every step and I couldn't be more grateful. An emotional journey that ended in success!" },
   { name:"Rahul Babu", initials:"RB", program:"MSc Corporate Management, Germany", text:"Extremely happy from initial advice on universities to the final visa. The whole process was smooth and professional. Highly recommended." },
@@ -258,40 +274,49 @@ const testimonials = [
   { name:"Geo Mathew Thomas", initials:"GM", program:"PR Visa, Canada", text:"I'd particularly appreciate the efforts of my case officer who followed up on every step. Professional and trustworthy." },
   { name:"Donald Abraham", initials:"DA", program:"PR Visa, Australia", text:"The agency was very cooperative and respectful throughout. A seamless experience from start to finish." },
 ];
+---------- */
 
-export function Testimonials() {
+export function ConsultationCta({
+  title = "Ready to Take the Next Step?",
+  subtitle = "Speak with our counsellors for a free, no-obligation session. We will help you understand your options for study abroad or migration and build a clear plan forward.",
+}: {
+  title?: string;
+  subtitle?: string;
+}) {
   const { setOpen } = useModal();
   return (
     <section className="py-20 bg-[var(--surface)]">
-      <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading label="Testimonials" title="What Our Clients Say" subtitle="50,000+ Happy Customers. And Counting." />
-        <div className="mt-12 overflow-hidden">
-          <div className="flex gap-6 animate-marquee w-max">
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <div key={i} className="shrink-0 w-[340px] md:w-[380px] bg-white rounded-xl p-6 border border-border shadow-sm">
-                <Quote className="h-7 w-7 text-[var(--gold)] mb-3" />
-                <div className="flex gap-0.5 mb-3">
-                  {Array.from({length:5}).map((_,i)=><Star key={i} className="h-4 w-4 fill-[var(--gold)] text-[var(--gold)]" />)}
-                </div>
-                <p className="text-sm text-foreground leading-relaxed mb-4 line-clamp-4">{t.text}</p>
-                <div className="flex items-center gap-3 pt-4 border-t border-border">
-                  <div className="h-10 w-10 rounded-full bg-[var(--gold)] text-[var(--navy)] flex items-center justify-center font-bold text-sm">{t.initials}</div>
-                  <div>
-                    <div className="font-semibold text-[var(--navy)] text-sm">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">{t.program}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="text-center mt-10">
-          <button onClick={()=>setOpen("review")} className="btn-outline-navy px-6 py-3 rounded-md">Add Your Review</button>
+      <div className="container-px mx-auto max-w-3xl text-center">
+        <span className="label-tag">Get Started</span>
+        <h2 className="font-display text-3xl md:text-5xl text-[var(--navy)] mt-3 leading-tight">{title}</h2>
+        <p className="text-muted-foreground mt-4 text-lg leading-relaxed max-w-2xl mx-auto">{subtitle}</p>
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-8">
+          <button
+            type="button"
+            onClick={() => setOpen("consultation")}
+            className="btn-gold px-8 py-3.5 rounded-md inline-flex items-center justify-center gap-2"
+          >
+            Book a Free Consultation <ArrowRight className="h-4 w-4" />
+          </button>
+          <Link to="/contact" className="btn-outline-navy px-8 py-3.5 rounded-md inline-flex items-center justify-center gap-2">
+            Contact Us
+          </Link>
         </div>
       </div>
     </section>
   );
 }
+
+/** @deprecated Use ConsultationCta — kept as alias until testimonials content exists */
+export function Testimonials() {
+  return <ConsultationCta />;
+}
+
+/*
+export function TestimonialsOriginal() {
+  ... marquee testimonials + Add Your Review ...
+}
+*/
 
 /* ---------- SECTION 10: OTHER SERVICES ---------- */
 const otherServices = [
@@ -317,8 +342,21 @@ export function OtherServices() {
             </div>
           ))}
         </div>
+        <OtherServicesCta />
       </div>
     </section>
+  );
+}
+
+function OtherServicesCta() {
+  const { setOpen } = useModal();
+  return (
+    <div className="text-center mt-12">
+      <p className="text-muted-foreground mb-4">Not sure which service fits your situation?</p>
+      <button type="button" onClick={() => setOpen("consultation")} className="btn-gold px-8 py-3.5 rounded-md inline-flex items-center gap-2">
+        Book a Free Consultation <ArrowRight className="h-4 w-4" />
+      </button>
+    </div>
   );
 }
 
@@ -327,18 +365,18 @@ export function Achievements() {
   return (
     <section className="py-20 bg-[var(--navy)]">
       <div className="container-px mx-auto max-w-7xl text-center">
-        <h2 className="font-display text-4xl md:text-5xl text-white">What We've Achieved</h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mt-12">
+        <h2 className="font-display text-4xl md:text-5xl text-white">Why Choose Orbix</h2>
+        <p className="text-white/75 mt-4 max-w-2xl mx-auto text-lg">Personal guidance built around your goals — honest advice from day one.</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
           {[
-            { n: 17, suffix:"+", l:"Years of Experience" },
-            { n: 150000, suffix:"+", l:"Abroad Success Stories" },
-            { n: 100, suffix:"+", l:"Affiliated Universities" },
-            { n: 2000, suffix:"+", l:"Professional Courses" },
-            { n: 99.87, suffix:"%", l:"Success Rate" },
+            { display: "7", l: "Study Destinations" },
+            { display: "Free", l: "First Consultation" },
+            { display: "Full", l: "Visa Guidance" },
+            { display: "1-on-1", l: "Counsellor Support" },
           ].map((s,i)=>(
             <div key={i}>
               <div className="font-display text-4xl md:text-5xl text-[var(--gold)] font-bold">
-                <Counter to={s.n} suffix={s.suffix} />
+                {s.display}
               </div>
               <div className="text-xs md:text-sm text-white/75 mt-2 uppercase tracking-wider">{s.l}</div>
             </div>
@@ -417,12 +455,27 @@ export function BrandPromise() {
         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
           Fear never builds the future — hope does. We exist for one thing alone: to take away any fears you might have about your future, and transform them into hope for a brighter tomorrow.
         </p>
+        <BrandPromiseCta />
       </div>
     </section>
   );
 }
 
-/* ---------- SECTION 15: ACCREDITATIONS ---------- */
+function BrandPromiseCta() {
+  const { setOpen } = useModal();
+  return (
+    <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-10">
+      <button type="button" onClick={() => setOpen("consultation")} className="btn-gold px-8 py-3.5 rounded-md inline-flex items-center justify-center gap-2">
+        Book a Free Consultation <ArrowRight className="h-4 w-4" />
+      </button>
+      <Link to="/contact" className="btn-outline-navy px-8 py-3.5 rounded-md inline-flex items-center justify-center">
+        Talk to Us
+      </Link>
+    </div>
+  );
+}
+
+/* ---------- SECTION 15: ACCREDITATIONS (enable when memberships are confirmed) ----------
 const accreds = ["MARA Registered","ICCRC Member","OISC Regulated","AIRC Member","NAFSA","ICEF","British Council","Campus France"];
 export function Accreditations() {
   return (
@@ -440,6 +493,7 @@ export function Accreditations() {
     </section>
   );
 }
+---------- */
 
 /* ---------- Helper ---------- */
 export function SectionHeading({ label, title, subtitle }: { label?: string; title: string; subtitle?: string }) {
