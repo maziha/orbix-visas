@@ -1,8 +1,9 @@
-import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ChevronDown, Phone, Menu, X } from "lucide-react";
 import { useModal } from "./modal-store";
 import { MobileMenu } from "./MobileMenu";
+import { forceUnlockBodyScroll, lockBodyScroll } from "@/lib/body-scroll-lock";
 import logo from "@/assets/orbix-logo.jpg";
 
 const studyCountries = [
@@ -82,6 +83,22 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { setOpen } = useModal();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isFirstPathname = useRef(true);
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileOpen(false);
+    forceUnlockBodyScroll();
+  }, []);
+
+  useEffect(() => {
+    if (isFirstPathname.current) {
+      isFirstPathname.current = false;
+      return;
+    }
+    setMobileOpen(false);
+    forceUnlockBodyScroll();
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -90,14 +107,14 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!mobileOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    return lockBodyScroll();
   }, [mobileOpen]);
+
+  useEffect(() => {
+    return () => forceUnlockBodyScroll();
+  }, []);
 
   return (
     <header
@@ -129,12 +146,17 @@ export function Header() {
           </button>
         </div>
 
-        <button className="lg:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
+        <button
+          className="lg:hidden p-2"
+          onClick={() => (mobileOpen ? closeMobileMenu() : setMobileOpen(true))}
+          aria-label="Menu"
+          aria-expanded={mobileOpen}
+        >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu open={mobileOpen} onClose={closeMobileMenu} />
     </header>
   );
 }

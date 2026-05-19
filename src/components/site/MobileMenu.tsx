@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown, Phone, X } from "lucide-react";
 import { useModal } from "./modal-store";
 
@@ -80,20 +81,11 @@ function SubLink({ to, label, onNavigate }: { to: string; label: string; onNavig
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { setOpen } = useModal();
 
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
-
   if (!open) return null;
 
   const navigate = () => onClose();
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
       <button
         type="button"
@@ -184,6 +176,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
