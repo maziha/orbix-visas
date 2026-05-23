@@ -34,7 +34,12 @@ function Services() {
       <PageHero label="Services" title="Everything You Need, Under One Roof." subtitle="From your first counselling session to your post-landing settlement — we are with you at every step." />
       <section className="py-20">
         <div className="container-px mx-auto max-w-7xl">
-          <h2 className="font-display text-3xl text-[var(--navy)] mb-2">Visa Services</h2>
+          <h2 id="family-visa" className="font-display text-3xl text-[var(--navy)] mb-2 scroll-mt-24">
+            Visa Services
+          </h2>
+          <p className="text-muted-foreground text-sm mt-1 mb-2">
+            Spouse, parent, dependent, and other family reunification pathways.
+          </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
             {visa.map(s => (
               <div key={s.name} className="card-lift bg-white rounded-xl p-6">

@@ -8,53 +8,51 @@ import {
 } from "lucide-react";
 
 /* ---------- SECTION 2: HERO ---------- */
-export function Hero() {
+export { HeroCarousel as Hero } from "./HeroCarousel";
+
+/* ---------- BRINGING FAMILY OVERSEAS ---------- */
+export function BringingFamilyOverseas() {
   const { setOpen } = useModal();
+  const familyVisas = ["Spouse Visa", "Parent Visa", "Student Dependent Visa"];
+
   return (
-    <section className="relative flex items-center overflow-hidden min-h-[75vh] md:min-h-[80vh]">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80)" }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[oklch(0.18_0.06_263/0.92)] via-[oklch(0.22_0.07_263/0.78)] to-[oklch(0.22_0.07_263/0.55)]" />
-      <div className="relative container-px mx-auto max-w-7xl w-full py-20 sm:py-24 md:py-28 lg:py-32 text-white">
-        <div className="max-w-2xl">
-          <span className="label-tag animate-fade-up">Study Abroad & Immigration</span>
-          <h1 className="font-display text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold mt-4 sm:mt-5 leading-[1.12] animate-fade-up-delay-1">
-            Your Gateway to <span className="text-[var(--gold)]">Global Opportunities</span>
-          </h1>
-          <p className="text-base md:text-lg text-white/85 mt-5 sm:mt-6 leading-relaxed animate-fade-up-delay-2">
-            Clear guidance for study abroad and migration — honest advice and support from your first consultation onward.
+    <section className="py-20 bg-[var(--surface)]">
+      <div className="container-px mx-auto max-w-7xl grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span className="label-tag">Family Visa</span>
+          <h2 className="font-display text-3xl md:text-4xl text-[var(--navy)] mt-2 leading-tight">
+            Spouse Visa & Family Reunification
+          </h2>
+          <p className="text-muted-foreground mt-4 leading-relaxed">
+            Reunite with your spouse, parents, or dependents abroad with clear guidance on eligibility,
+            documentation, and timelines — so you know what to expect at every step.
           </p>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-6 sm:mt-8 animate-fade-up-delay-3">
-            <button
-              onClick={() => setOpen("consultation")}
-              className="btn-gold text-sm px-4 py-2 sm:text-base sm:px-5 sm:py-2.5 rounded-md inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap"
-            >
-              <span className="max-[380px]:hidden">Book a Free Consultation</span>
-              <span className="hidden max-[380px]:inline">Book Consultation</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-            </button>
-            <Link
-              to="/services"
-              className="btn-outline-white text-sm px-4 py-2 sm:text-base sm:px-5 sm:py-2.5 rounded-md inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap"
-            >
-              Explore Services
-            </Link>
-          </div>
+          <button
+            type="button"
+            onClick={() => setOpen("consultation")}
+            className="btn-gold inline-flex items-center gap-2 px-6 py-3 rounded-md mt-6"
+          >
+            Book a Free Consultation <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
-        <ul className="mt-12 sm:mt-14 md:mt-16 pt-8 sm:pt-10 border-t border-white/15 flex flex-col sm:flex-row sm:flex-wrap gap-6 sm:gap-x-10 sm:gap-y-4 max-w-3xl animate-fade-up-delay-3">
-          {[
-            ["7", "Destination countries"],
-            ["Free", "First consultation"],
-            ["1-on-1", "Expert counselling"],
-          ].map(([n, l]) => (
-            <li key={l} className="flex items-baseline gap-2 sm:block sm:border-l-2 sm:border-[var(--gold)] sm:pl-4">
-              <span className="font-display text-xl sm:text-2xl text-[var(--gold)] font-bold">{n}</span>
-              <span className="text-sm text-white/75 sm:mt-1 sm:block">{l}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="bg-white rounded-xl border border-[var(--accent-sky)]/30 p-8 shadow-sm">
+          <h3 className="font-display text-xl text-[var(--navy)] mb-4">Visa types we support</h3>
+          <ul className="space-y-3">
+            {familyVisas.map((visa) => (
+              <li key={visa} className="flex items-center gap-3 text-foreground/90">
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--accent-sky)]" />
+                <span>{visa}</span>
+              </li>
+            ))}
+          </ul>
+          <Link
+            to="/services"
+            hash="family-visa"
+            className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[var(--navy)] hover:text-[var(--gold)]"
+          >
+            View all family visa services <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -75,7 +73,7 @@ export function Destinations() {
   return (
     <section className="py-20 bg-[var(--surface)]">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading label="Destinations" title="Choose Your Favourite Study Destination" />
+        <SectionHeading label="Destinations" title="Study Abroad — Explore 7 Countries" />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-12">
           {destinations.map((d) => (
             <Link key={d.slug} to="/study-abroad/$country" params={{ country: d.slug }}
@@ -193,7 +191,7 @@ export function MigrationPrograms() {
   return (
     <section className="py-20 bg-[var(--surface)]">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading label="Migration" title="Choose Your Migration Program" />
+        <SectionHeading label="Migration" title="Migrate & Get Permanent Residency" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
           {programs.map(p => (
             <div key={p.name} className="card-lift bg-white rounded-xl p-7">
@@ -444,7 +442,7 @@ export function LeadershipTeaser() {
 /* ---------- SECTION 14: BRAND PROMISE ---------- */
 export function BrandPromise() {
   return (
-    <section className="py-24 relative overflow-hidden" style={{background:"linear-gradient(135deg, oklch(0.96 0.06 80 / 0.5), white)"}}>
+    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[var(--surface)] to-white">
       <Quote className="absolute top-6 left-6 h-32 w-32 text-[var(--gold)]/15" />
       <Quote className="absolute bottom-6 right-6 h-32 w-32 text-[var(--gold)]/15 rotate-180" />
       <div className="container-px mx-auto max-w-3xl text-center relative">

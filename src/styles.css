@@ -64,6 +64,7 @@
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
   --color-surface: var(--surface);
+  --color-accent-sky: var(--accent-sky);
   --font-display: "Fraunces", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
@@ -75,7 +76,9 @@
   --navy-light: oklch(0.34 0.18 268);
   --gold: oklch(0.745 0.135 232);
   --gold-light: oklch(0.86 0.085 230);
-  --surface: oklch(0.978 0.008 230);
+  --accent-sky: #3fb8f7;
+  /* Brand subtle section BG #F4F6FB */
+  --surface: #f4f6fb;
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.22 0.005 250);
@@ -227,6 +230,97 @@
   .animate-fade-up-delay-1 { animation: fadeUp .8s ease-out .15s both; }
   .animate-fade-up-delay-2 { animation: fadeUp .8s ease-out .3s both; }
   .animate-fade-up-delay-3 { animation: fadeUp .8s ease-out .45s both; }
+
+  .hero-arrow {
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 9999px;
+    color: white;
+    background: rgb(255 255 255 / 0.12);
+    border: 1px solid rgb(255 255 255 / 0.25);
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .hero-arrow:hover {
+    background: rgb(255 255 255 / 0.22);
+    border-color: rgb(255 255 255 / 0.45);
+  }
+  .hero-arrow-inline {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  /* Side arrows: desktop only — avoids Tailwind display conflicts */
+  .hero-arrow-side {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    z-index: 20;
+    transform: translateY(-50%);
+  }
+  .hero-arrow-side--prev {
+    left: 1rem;
+  }
+  .hero-arrow-side--next {
+    right: 1rem;
+  }
+  @media (min-width: 768px) {
+    .hero-arrow-side {
+      display: inline-flex;
+    }
+    .hero-arrow-side--prev {
+      left: 1.5rem;
+    }
+    .hero-arrow-side--next {
+      right: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero-arrow-side--prev {
+      left: 2rem;
+    }
+    .hero-arrow-side--next {
+      right: 2rem;
+    }
+  }
+
+  /* Bar arrows: mobile only */
+  .hero-arrow-bar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 768px) {
+    .hero-arrow-bar {
+      display: none;
+    }
+  }
+
+  @keyframes heroSlideEnter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-slide-enter {
+    animation: heroSlideEnter 0.55s ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide-enter {
+      animation: none;
+    }
+    .hero-section [class*="transition"] {
+      transition: none !important;
+    }
+  }
 
   @keyframes pulseRing {
     0% { box-shadow: 0 0 0 0 oklch(0.745 0.135 232 / 0.7); }
