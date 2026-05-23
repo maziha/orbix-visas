@@ -3,6 +3,7 @@ import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown, Phone, X } from "lucide-react";
 import { useModal } from "./modal-store";
+import { navOtherServices, navVisaServices } from "./services-data";
 
 const studyCountries = [
   { name: "Canada", to: "/study-abroad/canada" },
@@ -22,20 +23,6 @@ const migration = [
 const whyOrbix = [
   { name: "Our Story", to: "/about" },
   { name: "Contact", to: "/contact" },
-];
-
-const visaServices = [
-  "Spouse Visa",
-  "Parent Visa",
-  "Job Seekers Visa",
-  "Visit Visa",
-  "Student Dependent Visa",
-];
-
-const otherServices = [
-  "IELTS Test Booking",
-  "Loan Assistance",
-  "Post Landing Services",
 ];
 
 function NavSection({
@@ -58,7 +45,7 @@ function NavSection({
       >
         <span className="font-display text-xl text-[var(--navy)]">{title}</span>
         <ChevronDown
-          className={`h-5 w-5 shrink-0 text-[var(--gold)] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`h-5 w-5 shrink-0 text-[var(--accent-sky)] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
       {open ? <div className="space-y-1 pb-5 pl-1">{children}</div> : null}
@@ -66,12 +53,23 @@ function NavSection({
   );
 }
 
-function SubLink({ to, label, onNavigate }: { to: string; label: string; onNavigate: () => void }) {
+function SubLink({
+  to,
+  hash,
+  label,
+  onNavigate,
+}: {
+  to: string;
+  hash?: string;
+  label: string;
+  onNavigate: () => void;
+}) {
   return (
     <Link
       to={to}
+      hash={hash}
       onClick={onNavigate}
-      className="block rounded-lg px-3 py-2.5 text-base text-foreground/90 transition-colors hover:bg-[var(--surface)] hover:text-[var(--navy)]"
+      className="block rounded-lg px-3 py-2.5 text-base text-foreground/90 transition-colors hover:bg-brand-subtle hover:text-[var(--navy)]"
     >
       {label}
     </Link>
@@ -89,18 +87,18 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
     <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
       <button
         type="button"
-        className="absolute inset-0 bg-[var(--navy)]/20 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-brand-dark/20 backdrop-blur-[2px]"
         onClick={onClose}
         aria-label="Close menu"
       />
 
-      <div className="absolute inset-y-0 right-0 flex w-full flex-col bg-white shadow-2xl">
+      <div className="absolute inset-y-0 right-0 flex w-full flex-col bg-brand-white shadow-2xl">
         <div className="flex shrink-0 items-center justify-between border-b border-border px-6 py-5">
           <span className="label-tag">Menu</span>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-2 text-[var(--navy)] transition-colors hover:bg-[var(--surface)]"
+            className="rounded-full p-2 text-[var(--navy)] transition-colors hover:bg-brand-subtle"
             aria-label="Close menu"
           >
             <X className="h-7 w-7" />
@@ -137,13 +135,25 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           </NavSection>
 
           <NavSection title="Services">
-            <p className="px-3 pt-1 text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Visa Services</p>
-            {visaServices.map((name) => (
-              <SubLink key={name} to="/services" label={name} onNavigate={navigate} />
+            <p className="px-3 pt-1 text-xs font-semibold uppercase tracking-widest text-[var(--accent-sky)]">Visa Services</p>
+            {navVisaServices.map((item) => (
+              <SubLink
+                key={item.hash}
+                to={item.to}
+                hash={item.hash}
+                label={item.name}
+                onNavigate={navigate}
+              />
             ))}
-            <p className="mt-3 px-3 text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Other Services</p>
-            {otherServices.map((name) => (
-              <SubLink key={name} to="/services" label={name} onNavigate={navigate} />
+            <p className="mt-3 px-3 text-xs font-semibold uppercase tracking-widest text-[var(--accent-sky)]">Other Services</p>
+            {navOtherServices.map((item) => (
+              <SubLink
+                key={item.hash}
+                to={item.to}
+                hash={item.hash}
+                label={item.name}
+                onNavigate={navigate}
+              />
             ))}
           </NavSection>
 
@@ -156,12 +166,12 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           </Link>
         </nav>
 
-        <div className="shrink-0 border-t border-border bg-[var(--surface)] px-6 py-6 space-y-4">
+        <div className="shrink-0 border-t border-border bg-brand-subtle px-6 py-6 space-y-4">
           <a
             href="tel:+918592026134"
             className="flex items-center justify-center gap-2 text-base font-medium text-[var(--navy)]"
           >
-            <Phone className="h-5 w-5 text-[var(--gold)]" />
+            <Phone className="h-5 w-5 text-[var(--accent-sky)]" />
             +91 8592026134
           </a>
           <button
@@ -170,9 +180,9 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
               onClose();
               setOpen("consultation");
             }}
-            className="btn-gold w-full rounded-lg px-6 py-4 text-base font-semibold"
+            className="btn-primary w-full"
           >
-            Book a Free Consultation
+            Book a Consultation
           </button>
         </div>
       </div>

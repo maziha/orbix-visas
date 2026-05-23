@@ -1,21 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { HOME_DESCRIPTION } from "@/lib/page-descriptions";
 import {
   Hero,
   MigrationPrograms,
   BringingFamilyOverseas,
   Destinations,
   StudyAbroadSplit,
-  Eligibility,
   OtherServices,
   Achievements,
-  ChoosingFuture,
-  LeadershipTeaser,
-  BrandPromise,
-  Testimonials,
+  ConsultationCta,
 } from "@/components/site/HomeSections";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Orbix Overseas Careers | Immigration & Study Abroad Consultants, Kochi Kerala" },
+      { name: "description", content: HOME_DESCRIPTION },
+      { property: "og:description", content: HOME_DESCRIPTION },
+    ],
+  }),
   component: Index,
 });
 
@@ -27,14 +31,11 @@ function Index() {
       <BringingFamilyOverseas />
       <Destinations />
       <StudyAbroadSplit />
-      <Eligibility />
-      {/* <UniversityCarousel /> — enable when partner universities are confirmed */}
-      <Testimonials />
       <OtherServices />
       <Achievements />
-      <ChoosingFuture />
-      <LeadershipTeaser />
-      <BrandPromise />
+      <ConsultationCta />
+      {/* LeadershipTeaser, BrandPromise, Eligibility, ChoosingFuture — removed from homepage per site plan */}
+      {/* <UniversityCarousel /> — enable when partner universities are confirmed */}
       {/* <Accreditations /> — enable when memberships are confirmed */}
     </SiteLayout>
   );

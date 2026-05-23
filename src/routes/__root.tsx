@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { HOME_DESCRIPTION } from "@/lib/page-descriptions";
 
 function NotFoundComponent() {
   return (
@@ -22,7 +23,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="btn-secondary"
           >
             Go home
           </Link>
@@ -51,13 +52,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="btn-primary"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="btn-secondary"
           >
             Go home
           </a>
@@ -72,11 +73,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Orbix Overseas Careers — Your Gateway to Global Opportunities" },
-      { name: "description", content: "Orbix Overseas Careers — expert study abroad and immigration guidance across Canada, Australia, UK, New Zealand, Germany, France, and Poland." },
+      { title: "Orbix Overseas Careers | Immigration & Study Abroad Consultants, Kochi Kerala" },
+      { name: "description", content: HOME_DESCRIPTION },
       { name: "author", content: "Orbix Overseas Careers" },
-      { property: "og:title", content: "Orbix Overseas Careers — Your Gateway to Global Opportunities" },
-      { property: "og:description", content: "Study abroad and migration counselling with clear, honest guidance from your first free consultation." },
+      { property: "og:title", content: "Orbix Overseas Careers | Immigration & Study Abroad Consultants, Kochi Kerala" },
+      { property: "og:description", content: HOME_DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

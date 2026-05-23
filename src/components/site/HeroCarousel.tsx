@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useModal } from "./modal-store";
 import { heroSlides, HERO_SLIDE_INTERVAL_MS } from "./hero-slides";
-
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
 
@@ -54,14 +53,18 @@ export function HeroCarousel() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [autoplayEpoch, setAutoplayEpoch] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const bumpAutoplay = useCallback(() => setAutoplayEpoch((n) => n + 1), []);
 
   const goTo = useCallback(
     (index: number) => {
       const next = ((index % slides.length) + slides.length) % slides.length;
       setActiveIndex(next);
+      bumpAutoplay();
     },
-    [slides.length],
+    [slides.length, bumpAutoplay],
   );
 
   const goNext = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
@@ -84,13 +87,11 @@ export function HeroCarousel() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [paused, prefersReducedMotion, slides.length]);
+  }, [paused, prefersReducedMotion, slides.length, autoplayEpoch]);
 
   return (
     <section
       className="hero-section relative flex items-center overflow-hidden min-h-[100dvh] -mt-16 lg:-mt-20 pt-16 lg:pt-20"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
       {/* Stock backgrounds — crossfade */}
       <div className="absolute inset-0" aria-hidden>
@@ -105,7 +106,7 @@ export function HeroCarousel() {
           />
         ))}
         <div
-          className="absolute inset-0 bg-gradient-to-r from-[#040175]/92 via-[#040175]/72 to-[#040175]/35"
+          className="absolute inset-0 bg-gradient-to-r from-[color-mix(in_srgb,var(--color-bg-dark)_92%,transparent)] via-[color-mix(in_srgb,var(--color-bg-dark)_72%,transparent)] to-[color-mix(in_srgb,var(--color-bg-dark)_35%,transparent)]"
           aria-hidden
         />
       </div>
@@ -120,15 +121,16 @@ export function HeroCarousel() {
 
       <div className="relative container-px mx-auto max-w-7xl w-full py-12 sm:py-16 md:px-14 lg:px-16">
         <div className="max-w-2xl text-white">
-          <div key={slide.id} className="hero-slide-enter">
+          <h1 className="font-display text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold leading-[1.12]">
+            Immigration &amp; Study Abroad Consultants in Kochi, Kerala
+          </h1>
+          <p className="mt-3 text-lg sm:text-xl font-medium text-[var(--accent-sky)] leading-snug">
+            Your Gateway to Global Opportunities
+          </p>
+
+          <div key={slide.id} className="hero-slide-enter mt-6 sm:mt-8">
             <span className="label-tag text-[var(--accent-sky)]">{slide.label}</span>
-
-            <h1 className="font-display text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold mt-5 sm:mt-6 leading-[1.12]">
-              {slide.title}{" "}
-              <span className="text-[var(--accent-sky)]">{slide.titleAccent}</span>
-            </h1>
-
-            <p className="text-base md:text-lg text-white/85 mt-6 max-w-lg leading-relaxed">
+            <p className="text-base md:text-lg text-white/85 mt-4 max-w-lg leading-relaxed">
               {slide.subtitle}
             </p>
 
@@ -136,53 +138,35 @@ export function HeroCarousel() {
               <button
                 type="button"
                 onClick={() => setOpen("consultation")}
-                className="btn-gold text-sm sm:text-base px-5 py-2.5 sm:px-6 sm:py-3 rounded-md inline-flex items-center justify-center gap-2"
+                className="btn-primary inline-flex items-center justify-center gap-2"
               >
-                Book a Free Consultation
+                Book a Consultation
                 <ArrowRight className="h-4 w-4 shrink-0" />
               </button>
               <Link
                 to={slide.secondaryCta.to}
                 hash={slide.secondaryCta.hash}
-                className="btn-outline-white text-sm sm:text-base px-5 py-2.5 sm:px-6 sm:py-3 rounded-md inline-flex items-center justify-center gap-2"
+                className="btn-secondary inline-flex items-center justify-center gap-2"
               >
                 {slide.secondaryCta.label}
               </Link>
             </div>
-          </div>
 
           {showControls && (
-            <div className="mt-10 sm:mt-12 md:mt-14">
-              {/* Mobile: arrows + dots (side arrows hidden via md:inline-flex above) */}
-              <div className="flex items-center justify-center gap-4 md:hidden">
-                <HeroArrowButton direction="prev" onClick={goPrev} placement="bar" />
-                <div
-                  className="flex items-center justify-center gap-2.5"
-                  role="tablist"
-                  aria-label="Hero slides"
-                >
-                  {slides.map((s, i) => (
-                    <button
-                      key={s.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={i === activeIndex}
-                      aria-label={s.dotLabel}
-                      onClick={() => goTo(i)}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        i === activeIndex
-                          ? "w-8 bg-[var(--accent-sky)]"
-                          : "w-2 bg-white/40 hover:bg-white/60"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <HeroArrowButton direction="next" onClick={goNext} placement="bar" />
-              </div>
-
-              {/* Desktop: dots only */}
+            <div
+              className="mt-10 sm:mt-12 md:mt-14 flex items-center justify-center gap-4"
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+              onFocusCapture={() => setPaused(true)}
+              onBlurCapture={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                  setPaused(false);
+                }
+              }}
+            >
+              <HeroArrowButton direction="prev" onClick={goPrev} placement="bar" />
               <div
-                className="hidden md:flex items-center gap-2.5"
+                className="flex items-center justify-center gap-2.5"
                 role="tablist"
                 aria-label="Hero slides"
               >
@@ -197,13 +181,15 @@ export function HeroCarousel() {
                     className={`h-2 rounded-full transition-all duration-300 ${
                       i === activeIndex
                         ? "w-8 bg-[var(--accent-sky)]"
-                        : "w-2 bg-white/40 hover:bg-white/60"
+                        : "w-2 bg-[color-mix(in_srgb,var(--color-bg-white)_40%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-bg-white)_60%,transparent)]"
                     }`}
                   />
                 ))}
               </div>
+              <HeroArrowButton direction="next" onClick={goNext} placement="bar" />
             </div>
           )}
+          </div>
         </div>
       </div>
     </section>

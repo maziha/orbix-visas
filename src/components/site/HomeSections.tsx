@@ -1,10 +1,19 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { useModal } from "./modal-store";
+import { QuickEnquiryForm } from "./QuickEnquiryForm";
+import { migrationProgramGroups } from "./migration-programs";
+import { homepageOtherServices } from "./services-data";
+import { SectionHeading } from "./SectionHeading";
+import { SectionEyebrow } from "./SectionEyebrow";
+
+export { SectionHeading } from "./SectionHeading";
+export { SectionEyebrow } from "./SectionEyebrow";
 import { Counter } from "./Counter";
+import { CountryFlag } from "./CountryFlag";
+import { COUNTRIES } from "@/lib/countries";
 import {
   ArrowRight, Star, Heart, Users, Briefcase, Plane,
-  MapPin, GraduationCap, CheckCircle2, Quote
+  MapPin, GraduationCap, CheckCircle2
 } from "lucide-react";
 
 /* ---------- SECTION 2: HERO ---------- */
@@ -16,42 +25,37 @@ export function BringingFamilyOverseas() {
   const familyVisas = ["Spouse Visa", "Parent Visa", "Student Dependent Visa"];
 
   return (
-    <section className="py-20 bg-[var(--surface)]">
-      <div className="container-px mx-auto max-w-7xl grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <span className="label-tag">Family Visa</span>
-          <h2 className="font-display text-3xl md:text-4xl text-[var(--navy)] mt-2 leading-tight">
-            Spouse Visa & Family Reunification
-          </h2>
-          <p className="text-muted-foreground mt-4 leading-relaxed">
-            Reunite with your spouse, parents, or dependents abroad with clear guidance on eligibility,
-            documentation, and timelines — so you know what to expect at every step.
-          </p>
-          <button
-            type="button"
-            onClick={() => setOpen("consultation")}
-            className="btn-gold inline-flex items-center gap-2 px-6 py-3 rounded-md mt-6"
-          >
-            Book a Free Consultation <ArrowRight className="h-4 w-4" />
-          </button>
-        </div>
-        <div className="bg-white rounded-xl border border-[var(--accent-sky)]/30 p-8 shadow-sm">
-          <h3 className="font-display text-xl text-[var(--navy)] mb-4">Visa types we support</h3>
-          <ul className="space-y-3">
+    <section className="py-20 bg-brand-subtle">
+      <div className="container-px mx-auto max-w-7xl">
+        <SectionHeading eyebrow="VISA SERVICES" title="Bringing Family Overseas" />
+        <div className="grid lg:grid-cols-2 gap-12 items-center mt-12">
+          <div>
+            <h3 className="font-display text-3xl md:text-4xl text-[var(--navy)] leading-tight">
+              Spouse Visa & Family Reunification
+            </h3>
+            <p className="text-muted-foreground mt-4 leading-relaxed">
+              Reunite with your spouse, parents, or dependents abroad with clear guidance on eligibility,
+              documentation, and timelines.
+            </p>
+            <p className="text-muted-foreground mt-3 leading-relaxed">
+              Our counsellors walk you through each step so you know what to expect before you apply.
+            </p>
+            <button
+              type="button"
+              onClick={() => setOpen("consultation")}
+              className="btn-primary mt-6"
+            >
+              Book a Consultation <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+          <ul className="space-y-4">
             {familyVisas.map((visa) => (
-              <li key={visa} className="flex items-center gap-3 text-foreground/90">
+              <li key={visa} className="flex items-center gap-3 text-[var(--navy)] font-medium">
                 <CheckCircle2 className="h-5 w-5 shrink-0 text-[var(--accent-sky)]" />
                 <span>{visa}</span>
               </li>
             ))}
           </ul>
-          <Link
-            to="/services"
-            hash="family-visa"
-            className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[var(--navy)] hover:text-[var(--gold)]"
-          >
-            View all family visa services <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
         </div>
       </div>
     </section>
@@ -59,32 +63,55 @@ export function BringingFamilyOverseas() {
 }
 
 /* ---------- SECTION 3: DESTINATIONS ---------- */
-const destinations = [
-  { flag:"🇨🇦", name:"Canada", slug:"canada", desc:"Globally recognized institutes, affordable tuition, ample scholarships & work opportunities" },
-  { flag:"🇦🇺", name:"Australia", slug:"australia", desc:"Outstanding training facilities, strong student support, abundant scholarships" },
-  { flag:"🇳🇿", name:"New Zealand", slug:"new-zealand", desc:"Research-driven, diverse culture, safe study environment, affordable living" },
-  { flag:"🇬🇧", name:"UK", slug:"uk", desc:"High employability rankings, multicultural society, strong part-time work opportunities" },
-  { flag:"🇫🇷", name:"France", slug:"france", desc:"Hotbed of innovation & research, rich culture, thriving student life" },
-  { flag:"🇩🇪", name:"Germany", slug:"germany", desc:"Highly regarded education, low-cost tuition, safe multicultural cities" },
-  { flag:"🇵🇱", name:"Poland", slug:"poland", desc:"Well-respected universities, lowest tuition fees and cost of living in Europe" },
-];
+const destinations = COUNTRIES.map((c) => ({
+  ...c,
+  hasMigration: c.slug === "canada" || c.slug === "australia",
+  desc:
+    c.slug === "canada"
+      ? "Globally recognized institutes, affordable tuition, ample scholarships & work opportunities"
+      : c.slug === "australia"
+        ? "Outstanding training facilities, strong student support, abundant scholarships"
+        : c.slug === "new-zealand"
+          ? "Research-driven, diverse culture, safe study environment, affordable living"
+          : c.slug === "uk"
+            ? "High employability rankings, multicultural society, strong part-time work opportunities"
+            : c.slug === "france"
+              ? "Hotbed of innovation & research, rich culture, thriving student life"
+              : c.slug === "germany"
+                ? "Highly regarded education, low-cost tuition, safe multicultural cities"
+                : "Well-respected universities, lowest tuition fees and cost of living in Europe",
+}));
 
 export function Destinations() {
   return (
-    <section className="py-20 bg-[var(--surface)]">
+    <section className="py-20 bg-brand-subtle">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading label="Destinations" title="Study Abroad — Explore 7 Countries" />
+        <SectionHeading eyebrow="EXPLORE DESTINATIONS" title="Explore Destinations" />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-12">
           {destinations.map((d) => (
-            <Link key={d.slug} to="/study-abroad/$country" params={{ country: d.slug }}
-              className="card-lift bg-white rounded-xl p-6 block">
-              <div className="text-5xl mb-3">{d.flag}</div>
+            <div key={d.slug} className="card-lift bg-brand-white rounded-xl p-6 flex flex-col">
+              <CountryFlag code={d.code} size="lg" title={d.name} className="mb-3" />
               <h3 className="font-display text-2xl text-[var(--navy)] mb-2">{d.name}</h3>
-              <p className="text-sm text-muted-foreground">{d.desc}</p>
-              <div className="mt-4 text-sm text-[var(--gold)] font-semibold inline-flex items-center gap-1">
-                Explore <ArrowRight className="h-3.5 w-3.5" />
+              <p className="text-sm text-muted-foreground flex-1">{d.desc}</p>
+              <div className="flex flex-wrap gap-2 mt-4">
+                <Link
+                  to="/study-abroad/$country"
+                  params={{ country: d.slug }}
+                  className="destination-pill"
+                >
+                  Study
+                </Link>
+                {d.hasMigration && (
+                  <Link
+                    to="/migration/$program"
+                    params={{ program: `${d.slug}-pr` }}
+                    className="destination-pill"
+                  >
+                    PR / Migration
+                  </Link>
+                )}
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
@@ -94,50 +121,44 @@ export function Destinations() {
 
 /* ---------- SECTION 4: STUDY ABROAD SPLIT ---------- */
 export function StudyAbroadSplit() {
-  const [submitted, setSubmitted] = useState(false);
   return (
     <section className="py-20">
-      <div className="container-px mx-auto max-w-7xl grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container-px mx-auto max-w-7xl grid lg:grid-cols-2 gap-10 lg:gap-12 items-start">
         <div>
-          <span className="label-tag">Study Abroad</span>
-          <h2 className="font-display text-4xl md:text-5xl text-[var(--navy)] mt-2 leading-tight">
-            Open Doors. <span className="text-[var(--gold)]">Expand Horizons.</span>
+          <SectionEyebrow>STUDY ABROAD</SectionEyebrow>
+          <h2 className="font-display text-4xl md:text-5xl text-[var(--navy)] leading-tight">
+            Open Doors. <span className="heading-accent">Expand Horizons.</span>
           </h2>
           <p className="text-muted-foreground mt-5 leading-relaxed">
             By studying abroad, you gain new perspectives, navigate diverse cultures, work with international peers, and communicate across languages. These skills make you more competitive globally and transform you into a well-rounded citizen of the world.
           </p>
-          <Link to="/study-abroad" className="btn-gold inline-flex items-center gap-2 px-6 py-3 rounded-md mt-6">
+          <Link to="/study-abroad" className="btn-secondary mt-6">
             Explore Study Destinations <ArrowRight className="h-4 w-4" />
           </Link>
-          <div className="flex flex-wrap gap-6 mt-8 pt-6 border-t border-border">
+          <div className="flex flex-wrap gap-6 mt-8 pt-6 border-t border-[color-mix(in_srgb,var(--accent-sky)_35%,var(--border))]">
             {[["7","Countries We Cover"],["1-on-1","Expert Counselling"]].map(([n,l])=>(
               <div key={l}>
-                <div className="font-display text-2xl text-[var(--navy)] font-bold">{n}</div>
+                <div className="font-display text-2xl text-[var(--accent-sky)] font-bold">{n}</div>
                 <div className="text-xs text-muted-foreground uppercase tracking-wider">{l}</div>
               </div>
             ))}
             {/* [["100+","Universities"],["50,000+","Students Placed"]] — enable when partnerships/placements are live */}
           </div>
         </div>
-        <div>
-          <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
-            <iframe className="w-full h-full" src="https://www.youtube.com/embed/GL-dVRy1OIw" title="Study Abroad" allowFullScreen />
+        <div className="lg:sticky lg:top-24 space-y-6">
+          <div>
+            <h3 className="font-display text-2xl text-[var(--color-bg-dark)] leading-tight">
+              See How Our Process Works
+            </h3>
+            <p className="text-muted-foreground mt-3 leading-relaxed">
+              From your first consultation to landing abroad — here&apos;s what the Orbix journey looks like.
+            </p>
+            {/* TODO: Confirm video relevance with client before going live.
+                Prior embed was a generic study-abroad promo, not the Orbix process.
+                If the client provides a process walkthrough video, add it here above the form. */}
           </div>
-          <div className="mt-6 bg-white rounded-xl border border-border p-6 shadow-md">
-            <h4 className="font-display text-xl text-[var(--navy)] mb-3">Quick Enquiry</h4>
-            {submitted ? (
-              <div className="text-sm text-[oklch(0.55_0.15_145)] flex items-center gap-2"><CheckCircle2 className="h-4 w-4"/> Thanks — we'll reach out within 24 hours.</div>
-            ) : (
-              <form onSubmit={(e)=>{e.preventDefault();setSubmitted(true);}} className="grid sm:grid-cols-3 gap-2">
-                <input required placeholder="Name" className="px-3 py-2 border border-border rounded-md text-sm" />
-                <input required type="tel" placeholder="Phone" className="px-3 py-2 border border-border rounded-md text-sm" />
-                <select required className="px-3 py-2 border border-border rounded-md text-sm bg-white">
-                  <option value="">Qualification</option>
-                  <option>Master's / Above</option><option>Degree</option><option>Plus Two / Diploma / Others</option>
-                </select>
-                <button className="btn-gold col-span-full py-2.5 rounded-md text-sm mt-1">Get Free Assessment</button>
-              </form>
-            )}
+          <div className="bg-brand-white rounded-xl border border-border p-6 sm:p-8 shadow-md">
+            <QuickEnquiryForm />
           </div>
         </div>
       </div>
@@ -149,25 +170,28 @@ export function StudyAbroadSplit() {
 export function Eligibility() {
   const { setOpen } = useModal();
   return (
-    <section className="py-20 bg-[var(--navy)]">
+    <section className="py-20 bg-brand-dark">
       <div className="container-px mx-auto max-w-7xl">
+        <SectionEyebrow tone="dark" className="mx-auto block w-fit text-center">
+          ELIGIBILITY
+        </SectionEyebrow>
         <h2 className="font-display text-4xl md:text-5xl text-white text-center">Calculate Your Eligibility Now</h2>
         <p className="text-white/70 text-center mt-3 max-w-xl mx-auto">Get an instant assessment of your immigration eligibility.</p>
         <div className="grid md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
           {[
-            { flag:"🇦🇺", title:"Australia PR Point Calculator", desc:"Calculate your points for Australia Skilled Migration visas (189/190/491)." },
-            { flag:"🇨🇦", title:"Canada PR Point Calculator", desc:"Estimate your CRS score for Canada Express Entry program." },
+            { countryCode: "AU" as const, title:"Australia PR Point Calculator", desc:"Calculate your points for Australia Skilled Migration visas (189/190/491)." },
+            { countryCode: "CA" as const, title:"Canada PR Point Calculator", desc:"Estimate your CRS score for Canada Express Entry program." },
           ].map(c => (
-            <div key={c.title} className="bg-white rounded-xl p-8 border-t-4 border-[var(--gold)] card-lift">
-              <div className="text-5xl mb-3">{c.flag}</div>
+            <div key={c.title} className="eligibility-card bg-brand-white rounded-xl p-8 card-lift">
+              <CountryFlag code={c.countryCode} size="lg" title={c.title} className="mb-3" />
               <h3 className="font-display text-2xl text-[var(--navy)] mb-2">{c.title}</h3>
               <p className="text-muted-foreground text-sm mb-5">{c.desc}</p>
               <button
                 type="button"
                 onClick={() => setOpen("consultation")}
-                className="btn-gold px-5 py-2.5 rounded-md inline-flex items-center gap-2"
+                className="btn-primary inline-flex items-center gap-2"
               >
-                Book Free Assessment <ArrowRight className="h-4 w-4" />
+                Book a Consultation <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           ))}
@@ -178,31 +202,69 @@ export function Eligibility() {
 }
 
 /* ---------- SECTION 6: MIGRATION PROGRAMS ---------- */
-const programs = [
-  { name:"Canada Express Entry", flag:"🇨🇦", desc:"Skilled worker pathway to permanent Canadian residency." },
-  { name:"Provincial Nominee Program", flag:"🇨🇦", desc:"Immigrate via nomination by a Canadian province or territory." },
-  { name:"Australia Subclass 189", flag:"🇦🇺", desc:"Permanent residency for invited skilled workers (Skilled Independent)." },
-  { name:"Australia Subclass 190", flag:"🇦🇺", desc:"Permanent residency for state-nominated skilled workers." },
-  { name:"Australia Subclass 491", flag:"🇦🇺", desc:"Live and work in regional Australia as a skilled migrant." },
-  { name:"Canada Family Sponsorship", flag:"🇨🇦", desc:"Sponsor relatives to live, study and work in Canada." },
-];
+function MigrationProgramGroupLabel({ label }: { label: string }) {
+  return <h3 className="program-group-label">{label}</h3>;
+}
 
 export function MigrationPrograms() {
   return (
-    <section className="py-20 bg-[var(--surface)]">
+    <section className="py-20 bg-brand-subtle">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading label="Migration" title="Migrate & Get Permanent Residency" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {programs.map(p => (
-            <div key={p.name} className="card-lift bg-white rounded-xl p-7">
-              <div className="text-4xl mb-3">{p.flag}</div>
-              <h3 className="font-display text-xl text-[var(--navy)] mb-2">{p.name}</h3>
-              <p className="text-muted-foreground text-sm mb-4">{p.desc}</p>
-              <Link to="/migration" className="text-sm text-[var(--gold)] font-semibold inline-flex items-center gap-1">
-                Learn More <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
+        <SectionHeading eyebrow="MIGRATION" title="Migrate & Get Permanent Residency" />
+        <div className="mt-12 space-y-14">
+          {migrationProgramGroups.map((group) => (
+            <div key={group.label}>
+              <MigrationProgramGroupLabel label={group.label} />
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                {group.programs.map((p) => (
+                  <div key={p.id} className="card-lift migration-program-card bg-brand-white rounded-xl p-7 flex flex-col h-full">
+                    <CountryFlag code={p.countryCode} size="md" title={p.name} className="mb-3" />
+                    <h3 className="font-display text-xl text-[var(--navy)] mb-2">{p.name}</h3>
+                    <p className="text-muted-foreground text-sm flex-1">{p.desc}</p>
+                    <Link to="/migration" hash={p.id} className="btn-secondary mt-6 self-start">
+                      Learn More <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Anchored program sections for /migration */
+export function MigrationProgramSections() {
+  return (
+    <section className="py-20 bg-brand-subtle">
+      <div className="container-px mx-auto max-w-7xl">
+        <SectionHeading
+          eyebrow="MIGRATION"
+          title="Migrate & Get Permanent Residency"
+          align="left"
+          className="max-w-none"
+        />
+        <div className="mt-12 space-y-16">
+        {migrationProgramGroups.map((group) => (
+          <div key={group.label}>
+            <MigrationProgramGroupLabel label={group.label} />
+            <div className="mt-8 space-y-6">
+              {group.programs.map((p) => (
+                <article
+                  key={p.id}
+                  id={p.id}
+                  className="scroll-mt-28 content-card-accent bg-brand-white rounded-xl border border-border p-8 md:p-10"
+                >
+                  <CountryFlag code={p.countryCode} size="lg" title={p.name} className="mb-3" />
+                  <h2 className="font-display text-2xl md:text-3xl text-[var(--navy)] mb-3">{p.name}</h2>
+                  <p className="text-muted-foreground leading-relaxed max-w-3xl">{p.desc}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
         </div>
       </div>
     </section>
@@ -222,12 +284,12 @@ export function MigrationSplit() {
         <div className="order-1 lg:order-2">
           <span className="label-tag">Migration</span>
           <h2 className="font-display text-4xl md:text-5xl text-[var(--navy)] mt-2 leading-tight">
-            Your New Chapter <span className="text-[var(--gold)]">Begins Here.</span>
+            Your New Chapter <span className="heading-accent">Begins Here.</span>
           </h2>
           <p className="text-muted-foreground mt-5 leading-relaxed">
             The decision to migrate can be fuelled by career opportunities, better education, improved living standards, or simply the joy of something new. Apart from a whole new direction in life, you'll gain cultural awareness, global perspective, and elevated confidence. Let us guide you through the HOWs.
           </p>
-          <Link to="/migration" className="btn-gold inline-flex items-center gap-2 px-6 py-3 rounded-md mt-6">
+          <Link to="/migration" className="btn-secondary mt-6">
             Explore Migration Programs <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -245,14 +307,14 @@ const universities = [
 ];
 export function UniversityCarousel() {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-brand-white">
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading label="Partners" title="Our Partnering Universities" />
       </div>
       <div className="mt-12 overflow-hidden">
         <div className="flex gap-5 animate-marquee-slow w-max">
           {[...universities, ...universities].map((u, i) => (
-            <div key={i} className="shrink-0 w-64 h-24 bg-[var(--surface)] border border-border rounded-lg flex items-center justify-center px-4 text-center">
+            <div key={i} className="shrink-0 w-64 h-24 bg-brand-subtle border border-border rounded-lg flex items-center justify-center px-4 text-center">
               <span className="text-sm font-semibold text-[var(--navy)] font-display leading-tight">{u}</span>
             </div>
           ))}
@@ -276,27 +338,26 @@ const testimonials = [
 
 export function ConsultationCta({
   title = "Ready to Take the Next Step?",
-  subtitle = "Speak with our counsellors for a free, no-obligation session. We will help you understand your options for study abroad or migration and build a clear plan forward.",
+  subtitle = "Speak with our counsellors for a no-obligation session. We will help you understand your options for study abroad or migration and build a clear plan forward.",
 }: {
   title?: string;
   subtitle?: string;
 }) {
   const { setOpen } = useModal();
   return (
-    <section className="py-20 bg-[var(--surface)]">
+    <section className="py-20 bg-brand-subtle">
       <div className="container-px mx-auto max-w-3xl text-center">
-        <span className="label-tag">Get Started</span>
-        <h2 className="font-display text-3xl md:text-5xl text-[var(--navy)] mt-3 leading-tight">{title}</h2>
+        <h2 className="font-display text-3xl md:text-5xl text-[var(--navy)] leading-tight">{title}</h2>
         <p className="text-muted-foreground mt-4 text-lg leading-relaxed max-w-2xl mx-auto">{subtitle}</p>
         <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-8">
           <button
             type="button"
             onClick={() => setOpen("consultation")}
-            className="btn-gold px-8 py-3.5 rounded-md inline-flex items-center justify-center gap-2"
+            className="btn-primary inline-flex items-center justify-center gap-2"
           >
-            Book a Free Consultation <ArrowRight className="h-4 w-4" />
+            Book a Consultation <ArrowRight className="h-4 w-4" />
           </button>
-          <Link to="/contact" className="btn-outline-navy px-8 py-3.5 rounded-md inline-flex items-center justify-center gap-2">
+          <Link to="/contact" className="btn-secondary inline-flex items-center justify-center gap-2">
             Contact Us
           </Link>
         </div>
@@ -317,28 +378,27 @@ export function TestimonialsOriginal() {
 */
 
 /* ---------- SECTION 10: OTHER SERVICES ---------- */
-const otherServices = [
-  { name:"Spouse Visa", icon: Heart, desc:"Reunite with your loved one abroad." },
-  { name:"Parent Visa", icon: Users, desc:"Bring your parents to join you." },
-  { name:"Job Seekers Visa", icon: Briefcase, desc:"Explore opportunities overseas." },
-  { name:"Visit Visa", icon: Plane, desc:"Travel the world with ease." },
-];
 export function OtherServices() {
   return (
     <section className="py-20">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading label="Services" title="Other Services We Offer" />
+        <SectionHeading eyebrow="OTHER SERVICES" title="Other Services We Offer" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          {otherServices.map(s => (
-            <div key={s.name} className="card-lift bg-white rounded-xl p-7 text-center">
-              <div className="h-14 w-14 rounded-full bg-[var(--gold)]/15 flex items-center justify-center mx-auto mb-4">
-                <s.icon className="h-6 w-6 text-[var(--gold)]" />
+          {homepageOtherServices.map((s) => {
+            const Icon = s.icon;
+            return (
+            <div key={s.id} className="card-lift bg-brand-white rounded-xl p-7 text-center flex flex-col h-full">
+              <div className="icon-well-accent h-14 w-14 rounded-full mx-auto mb-4">
+                <Icon className="h-6 w-6" />
               </div>
               <h3 className="font-display text-lg text-[var(--navy)] mb-2">{s.name}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{s.desc}</p>
-              <Link to="/services" className="text-sm text-[var(--gold)] font-semibold">Learn More →</Link>
+              <p className="text-sm text-muted-foreground flex-1">{s.desc}</p>
+              <Link to="/services" hash={s.id} className="btn-secondary mt-6 self-center">
+                Learn More →
+              </Link>
             </div>
-          ))}
+            );
+          })}
         </div>
         <OtherServicesCta />
       </div>
@@ -351,8 +411,8 @@ function OtherServicesCta() {
   return (
     <div className="text-center mt-12">
       <p className="text-muted-foreground mb-4">Not sure which service fits your situation?</p>
-      <button type="button" onClick={() => setOpen("consultation")} className="btn-gold px-8 py-3.5 rounded-md inline-flex items-center gap-2">
-        Book a Free Consultation <ArrowRight className="h-4 w-4" />
+      <button type="button" onClick={() => setOpen("consultation")} className="btn-primary inline-flex items-center gap-2">
+        Book a Consultation <ArrowRight className="h-4 w-4" />
       </button>
     </div>
   );
@@ -361,19 +421,20 @@ function OtherServicesCta() {
 /* ---------- SECTION 11: ACHIEVEMENTS ---------- */
 export function Achievements() {
   return (
-    <section className="py-20 bg-[var(--navy)]">
+    <section className="py-20 bg-brand-dark">
       <div className="container-px mx-auto max-w-7xl text-center">
+        <SectionEyebrow tone="dark">WHY ORBIX</SectionEyebrow>
         <h2 className="font-display text-4xl md:text-5xl text-white">Why Choose Orbix</h2>
         <p className="text-white/75 mt-4 max-w-2xl mx-auto text-lg">Personal guidance built around your goals — honest advice from day one.</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
           {[
             { display: "7", l: "Study Destinations" },
-            { display: "Free", l: "First Consultation" },
+            { display: "2", l: "PR Pathways" },
             { display: "Full", l: "Visa Guidance" },
             { display: "1-on-1", l: "Counsellor Support" },
           ].map((s,i)=>(
             <div key={i}>
-              <div className="font-display text-4xl md:text-5xl text-[var(--gold)] font-bold">
+              <div className="font-display text-4xl md:text-5xl text-[var(--accent-sky)] font-bold">
                 {s.display}
               </div>
               <div className="text-xs md:text-sm text-white/75 mt-2 uppercase tracking-wider">{s.l}</div>
@@ -398,8 +459,8 @@ export function ChoosingFuture() {
             Choosing your future is the most important decision you'll ever make. And you need the right partner to navigate the challenging landscape. Whether you want to study, work, or obtain permanent residency — Orbix is someone you can trust. We anticipate your needs even before you do.
           </p>
           <div className="flex flex-wrap gap-3 mt-6">
-            <button onClick={()=>setOpen("consultation")} className="btn-gold px-6 py-3 rounded-md inline-flex items-center gap-2">Book Consultation</button>
-            <Link to="/about" className="btn-outline-navy px-6 py-3 rounded-md inline-flex items-center gap-2">Learn About Our Process</Link>
+            <button onClick={()=>setOpen("consultation")} className="btn-primary">Book a Consultation</button>
+            <Link to="/about" className="btn-secondary">Learn About Our Process</Link>
           </div>
         </div>
         <div className="aspect-square max-w-md mx-auto rounded-2xl overflow-hidden shadow-2xl">
@@ -411,65 +472,77 @@ export function ChoosingFuture() {
 }
 
 /* ---------- SECTION 13: LEADERSHIP ---------- */
+function LeadershipInitialsAvatar({ initials }: { initials: string }) {
+  return (
+    <div
+      className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-brand-dark text-[28px] font-semibold leading-none text-white"
+      role="img"
+      aria-label={`${initials} — photo placeholder`}
+    >
+      {initials}
+    </div>
+  );
+}
+
 export function LeadershipTeaser() {
   return (
-    <section className="py-20 bg-[var(--surface)]">
-      <div className="container-px mx-auto max-w-7xl grid md:grid-cols-2 gap-12 items-center">
-        <div className="text-center">
-          <div className="h-64 w-64 mx-auto rounded-full overflow-hidden shadow-xl border-4 border-[var(--gold)]">
-            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" alt="Anup Kannan" className="w-full h-full object-cover" />
-          </div>
-          <h3 className="font-display text-xl text-[var(--navy)] mt-5">Anup Kannan</h3>
-          <div className="text-sm text-muted-foreground">Managing Director</div>
-        </div>
-        <div>
-          <span className="label-tag">Our Leadership</span>
-          <h2 className="font-display text-4xl md:text-5xl text-[var(--navy)] mt-2 leading-tight">
-            More Than Just Managers — <span className="text-[var(--gold)]">Leaders</span>
-          </h2>
-          <p className="text-muted-foreground mt-5 leading-relaxed">
-            Unlike most consultancies, you can rest assured that you are entrusting your future to skilled, licensed experts in the immigration field. Our team consists of certified professionals with years of real-world experience.
-          </p>
-          <Link to="/about" className="btn-gold inline-flex items-center gap-2 px-6 py-3 rounded-md mt-6">
-            Meet the Team <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- SECTION 14: BRAND PROMISE ---------- */
-export function BrandPromise() {
-  return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[var(--surface)] to-white">
-      <Quote className="absolute top-6 left-6 h-32 w-32 text-[var(--gold)]/15" />
-      <Quote className="absolute bottom-6 right-6 h-32 w-32 text-[var(--gold)]/15 rotate-180" />
-      <div className="container-px mx-auto max-w-3xl text-center relative">
-        <span className="label-tag">Our Promise</span>
-        <h2 className="font-display text-4xl md:text-6xl text-[var(--navy)] mt-3 leading-tight">
-          Hope Builds <span className="text-[var(--gold)] italic">Future</span>
+    <section className="py-20 bg-brand-subtle">
+      <div className="container-px mx-auto max-w-2xl flex flex-col items-center text-center gap-5">
+        <SectionEyebrow>OUR LEADERSHIP</SectionEyebrow>
+        <h2 className="font-display text-4xl md:text-5xl text-[var(--navy)] leading-tight">
+          Our Leadership
         </h2>
-        <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-          Fear never builds the future — hope does. We exist for one thing alone: to take away any fears you might have about your future, and transform them into hope for a brighter tomorrow.
-        </p>
-        <BrandPromiseCta />
+
+        {/* TODO: Replace with real photo before launch - coordinate with client */}
+        <LeadershipInitialsAvatar initials="AK" />
+
+        <div className="flex flex-col items-center gap-1">
+          <h3 className="font-display text-xl text-[var(--navy)]">Anup Kannan</h3>
+          <p className="text-sm text-muted-foreground">Managing Director</p>
+          {/* TODO: Confirm credentials copy with client before launch */}
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-md mt-2">
+            Certified immigration consultant with expertise in Canadian and Australian migration pathways.
+          </p>
+        </div>
+
+        <Link to="/about" className="btn-secondary mt-2">
+          Meet the Team <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </section>
   );
 }
 
-function BrandPromiseCta() {
+/* ---------- FULL-WIDTH CTA STRIP (replaces Brand Promise) ---------- */
+export function BrandPromise() {
   const { setOpen } = useModal();
+
   return (
-    <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-10">
-      <button type="button" onClick={() => setOpen("consultation")} className="btn-gold px-8 py-3.5 rounded-md inline-flex items-center justify-center gap-2">
-        Book a Free Consultation <ArrowRight className="h-4 w-4" />
-      </button>
-      <Link to="/contact" className="btn-outline-navy px-8 py-3.5 rounded-md inline-flex items-center justify-center">
-        Talk to Us
-      </Link>
-    </div>
+    <section className="cta-strip w-full">
+      <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+        <h2 className="cta-strip__title font-display">Ready to take the first step?</h2>
+        <p className="cta-strip__text max-w-xl">
+          Speak with a counsellor — no obligation, available 6 days a week from Kochi.
+        </p>
+        <div className="cta-strip__actions">
+          <button
+            type="button"
+            onClick={() => setOpen("consultation")}
+            className="btn-cta-strip-primary"
+          >
+            Book a Consultation
+          </button>
+          <a
+            href="https://wa.me/918592026134"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-cta-strip-secondary"
+          >
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -477,14 +550,14 @@ function BrandPromiseCta() {
 const accreds = ["MARA Registered","ICCRC Member","OISC Regulated","AIRC Member","NAFSA","ICEF","British Council","Campus France"];
 export function Accreditations() {
   return (
-    <section className="py-14 bg-white border-b border-border">
+    <section className="py-14 bg-brand-white border-b border-border">
       <div className="container-px mx-auto max-w-7xl">
         <h3 className="font-display text-2xl text-[var(--navy)] text-center mb-8">Accreditations & Memberships</h3>
       </div>
       <div className="overflow-hidden">
         <div className="flex gap-4 animate-marquee-slow w-max">
           {[...accreds, ...accreds, ...accreds].map((a,i)=>(
-            <div key={i} className="shrink-0 px-6 py-3 border border-border rounded-md bg-[var(--surface)] text-sm font-semibold text-[var(--navy)] whitespace-nowrap">{a}</div>
+            <div key={i} className="shrink-0 px-6 py-3 border border-border rounded-md bg-brand-subtle text-sm font-semibold text-[var(--navy)] whitespace-nowrap">{a}</div>
           ))}
         </div>
       </div>
@@ -492,14 +565,3 @@ export function Accreditations() {
   );
 }
 ---------- */
-
-/* ---------- Helper ---------- */
-export function SectionHeading({ label, title, subtitle }: { label?: string; title: string; subtitle?: string }) {
-  return (
-    <div className="text-center max-w-3xl mx-auto">
-      {label && <span className="label-tag">{label}</span>}
-      <h2 className="font-display text-3xl md:text-5xl text-[var(--navy)] mt-2 leading-tight">{title}</h2>
-      {subtitle && <p className="text-muted-foreground mt-3 text-lg">{subtitle}</p>}
-    </div>
-  );
-}

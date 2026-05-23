@@ -1,4 +1,4 @@
-export const HERO_SLIDE_INTERVAL_MS = 7000;
+export const HERO_SLIDE_INTERVAL_MS = 3000;
 
 export type HeroSlide = {
   id: string;
@@ -37,7 +37,7 @@ export const heroSlides: HeroSlide[] = [
     title: "Study at Top Universities in",
     titleAccent: "7 Countries",
     subtitle:
-      "Undergraduate and postgraduate programs with honest advice from your first consultation.",
+      "Undergraduate and postgraduate programs with honest advice from day one.",
     secondaryCta: { label: "Explore Study Abroad", to: "/study-abroad" },
     backgroundImage:
       "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80&auto=format&fit=crop",
@@ -57,8 +57,8 @@ export const heroSlides: HeroSlide[] = [
       hash: "family-visa",
     },
     backgroundImage:
-      "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80&auto=format&fit=crop",
-    backgroundImageAlt: "Family spending time together outdoors",
+      "https://images.unsplash.com/photo-1543269664-56d93c1b41a6?w=1920&q=80&auto=format&fit=crop",
+    backgroundImageAlt: "Couple embracing — family and spouse reunification overseas",
     dotLabel: "Family and spouse visa",
   },
 ];

@@ -1,25 +1,36 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Instagram, Linkedin, Youtube, Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import logo from "@/assets/orbix-logo-transparent.png";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/contact-info";
+
+/*
+ * Social links: add real profile URLs before going live.
+ * Example reinstatement:
+ *
+ * const socialLinks = [
+ *   { label: "Facebook", href: "https://facebook.com/...", icon: Facebook },
+ *   { label: "Instagram", href: "https://instagram.com/...", icon: Instagram },
+ * ];
+ *
+ * {socialLinks.map(({ label, href, icon: Icon }) => (
+ *   <a key={label} href={href} aria-label={label} target="_blank" rel="noreferrer" ...>
+ *     <Icon />
+ *   </a>
+ * ))}
+ */
 
 export function Footer() {
   return (
-    <footer className="bg-[var(--navy)] text-white">
+    <footer className="site-footer bg-brand-dark text-white">
       <div className="container-px mx-auto max-w-7xl py-10 sm:py-12 lg:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
         <div>
           <img src={logo} alt="Orbix Overseas Careers" className="h-10 sm:h-12 lg:h-14 w-auto mb-4 object-contain" />
-          <p className="text-white/70 text-xs sm:text-sm mb-5">Your trusted partner for global opportunities.</p>
-          <div className="flex gap-2 sm:gap-3">
-            {[Facebook, Instagram, Linkedin, Youtube].map((Icon, i) => (
-              <a key={i} href="#" className="h-8 w-8 sm:h-9 sm:w-9 rounded-full border border-white/20 inline-flex items-center justify-center hover:bg-[var(--gold)] hover:border-[var(--gold)] hover:text-[var(--navy)] transition-all">
-                <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              </a>
-            ))}
-          </div>
+          <p className="text-white/70 text-xs sm:text-sm">Your trusted partner for global opportunities.</p>
+          {/* Social links: add real profile URLs before going live */}
         </div>
 
         <div>
-          <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--gold)]">Study Abroad</h4>
+          <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">Study Abroad</h4>
           <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
             {[
               ["Canada","/study-abroad/canada"],
@@ -30,37 +41,40 @@ export function Footer() {
               ["France","/study-abroad/france"],
               ["Poland","/study-abroad/poland"],
             ].map(([n,t]) => (
-              <li key={n}><Link to={t} className="hover:text-[var(--gold)]">{n}</Link></li>
+              <li key={n}><Link to={t}>{n}</Link></li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--gold)]">Services</h4>
+          <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">Services</h4>
           <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
             {["Spouse Visa","Parent Visa","Job Seekers Visa","Visit Visa","IELTS Booking","Loan Assistance"].map(s => (
-              <li key={s}><Link to="/services" className="hover:text-[var(--gold)]">{s}</Link></li>
+              <li key={s}><Link to="/services">{s}</Link></li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--gold)]">Contact</h4>
+          <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">Contact</h4>
           <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-white/80">
-            <li className="flex items-start gap-2"><Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--gold)]" /> +91 8592026134</li>
-            <li className="flex items-start gap-2"><Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--gold)]" /> <span className="break-all">orbixoverseascareers@gmail.com</span></li>
-            <li className="flex items-start gap-2"><MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--gold)]" /> Head Office, Kochi, Kerala, India</li>
-            <li><Link to="/contact" className="text-[var(--gold)] hover:underline">View All Offices →</Link></li>
+            <li className="flex items-start gap-2"><Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--accent-sky)]" /> {CONTACT_PHONE}</li>
+            <li className="flex items-start gap-2">
+              <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--accent-sky)]" />
+              {/* TODO: Confirm final domain email address with client before going live */}
+              <a href={`mailto:${CONTACT_EMAIL}`} className="break-all">
+                {CONTACT_EMAIL}
+              </a>
+            </li>
+            <li className="flex items-start gap-2"><MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--accent-sky)]" /> Head Office, Kochi, Kerala, India</li>
+            <li><Link to="/contact" className="text-[var(--accent-sky)] hover:underline">View All Offices →</Link></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="container-px mx-auto max-w-7xl py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-3 text-[11px] sm:text-xs text-white/60 text-center md:text-left">
           <span>© {new Date().getFullYear()} Orbix Overseas Careers. All rights reserved.</span>
-          <div className="flex gap-4 sm:gap-5">
-            <a href="#" className="hover:text-white">Privacy Policy</a>
-            <a href="#" className="hover:text-white">Terms of Service</a>
-          </div>
+          {/* Legal links: add Privacy Policy and Terms URLs before going live */}
         </div>
       </div>
     </footer>

@@ -1,12 +1,14 @@
 import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { MigrationPrograms, ConsultationCta } from "@/components/site/HomeSections";
+import { MigrationProgramSections, ConsultationCta, SectionEyebrow } from "@/components/site/HomeSections";
+import { PAGE_DESCRIPTIONS } from "@/lib/page-descriptions";
+import { PAGE_TITLES } from "@/lib/page-titles";
 
 export const Route = createFileRoute("/migration")({
   head: () => ({
     meta: [
-      { title: "Migration — Orbix Overseas Careers" },
-      { name: "description", content: "Permanent residency pathways for Australia and Canada with Orbix experts." },
+      { title: PAGE_TITLES.migration },
+      { name: "description", content: PAGE_DESCRIPTIONS.migration },
     ],
   }),
   component: Layout,
@@ -18,17 +20,17 @@ function Layout() {
   if (isChild) return <SiteLayout><Outlet /></SiteLayout>;
   return (
     <SiteLayout>
-      <section className="py-20 bg-[var(--navy)] text-white">
+      <section className="py-20 bg-brand-dark text-white">
         <div className="container-px mx-auto max-w-7xl">
-          <span className="label-tag">Migration</span>
-          <h1 className="font-display text-4xl md:text-6xl mt-3">Your New Chapter Begins Here</h1>
+          <SectionEyebrow tone="dark">MIGRATION</SectionEyebrow>
+          <h1 className="font-display text-4xl md:text-6xl mt-0">Your New Chapter Begins Here</h1>
           <div className="flex flex-wrap gap-3 mt-6">
-            <Link to="/migration/$program" params={{program:"australia-pr"}} className="btn-gold px-6 py-3 rounded-md">Australia PR</Link>
-            <Link to="/migration/$program" params={{program:"canada-pr"}} className="btn-outline-white px-6 py-3 rounded-md">Canada PR</Link>
+            <Link to="/migration/$program" params={{program:"australia-pr"}} className="btn-secondary">Australia PR</Link>
+            <Link to="/migration/$program" params={{program:"canada-pr"}} className="btn-secondary">Canada PR</Link>
           </div>
         </div>
       </section>
-      <MigrationPrograms />
+      <MigrationProgramSections />
       <ConsultationCta title="Not Sure Which Program Fits You?" subtitle="Our migration counsellors will review your profile and recommend the most suitable pathway for Australia or Canada." />
     </SiteLayout>
   );

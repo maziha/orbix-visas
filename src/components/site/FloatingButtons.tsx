@@ -16,14 +16,14 @@ export function FloatingButtons() {
         target="_blank"
         rel="noreferrer"
         aria-label="WhatsApp"
-        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-30 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-[oklch(0.62_0.17_145)] text-white flex items-center justify-center shadow-xl pulse-green"
+        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-30 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-brand-dark text-white flex items-center justify-center shadow-xl pulse-gold ring-2 ring-[color-mix(in_srgb,var(--accent-sky)_40%,transparent)]"
       >
         <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
       </a>
       <a
         href="tel:+918592026134"
         aria-label="Call Now"
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-[var(--gold)] text-[var(--navy)] flex items-center justify-center shadow-xl pulse-gold"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-brand-dark text-white flex items-center justify-center shadow-xl pulse-gold ring-2 ring-[color-mix(in_srgb,var(--accent-sky)_40%,transparent)]"
       >
         <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
       </a>
