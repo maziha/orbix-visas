@@ -1,17 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
-import { LeadershipTeaser, BrandPromise, Achievements, ConsultationCta, SectionEyebrow } from "@/components/site/HomeSections";
-import { PAGE_DESCRIPTIONS } from "@/lib/page-descriptions";
-import { PAGE_TITLES } from "@/lib/page-titles";
+import { LeadershipTeaser, BrandPromise, Achievements, SectionEyebrow } from "@/components/site/HomeSections";
+import { headForPage } from "@/lib/site-meta";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: PAGE_TITLES.about },
-      { name: "description", content: PAGE_DESCRIPTIONS.about },
-    ],
-  }),
+  head: () => headForPage("about"),
   component: About,
 });
 
@@ -32,7 +26,6 @@ function About() {
       <Achievements />
       <LeadershipTeaser />
       <BrandPromise />
-      <ConsultationCta />
     </SiteLayout>
   );
 }

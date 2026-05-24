@@ -1,12 +1,12 @@
 /** Document title tags — pattern: [keyword] | Orbix Overseas Careers (home uses bespoke format). */
 
 export const HOME_TITLE =
-  "Orbix Overseas Careers | Immigration & Study Abroad Consultants, Kochi Kerala";
+  "Orbix Overseas Careers | Canada PR, Australia PR & Study Abroad — Kochi";
 
 export const PAGE_TITLES = {
-  about: "About Us | Orbix Overseas Careers",
-  contact: "Contact Us | Orbix Overseas Careers",
-  services: "Visa & Immigration Services | Orbix Overseas Careers",
+  about: "About Orbix Overseas Careers | Immigration Consultants, Kochi",
+  contact: "Contact Orbix Overseas Careers | Book a Free Consultation, Kochi",
+  services: "Visa Services Kerala | Spouse, Parent & Family Visa | Orbix",
   migration: "Migration & PR Consultants Kerala | Orbix Overseas Careers",
   studyAbroad:
     "Study Abroad Consultant Kochi | UK, Canada, Germany & More | Orbix",
@@ -16,6 +16,12 @@ export const PAGE_TITLES = {
 export const MIGRATION_PROGRAM_TITLES: Record<string, string> = {
   "canada-pr": "Canada PR Consultant in Kerala | Orbix Overseas Careers",
   "australia-pr": "Australia PR Consultant in Kerala | Orbix Overseas Careers",
+};
+
+export const FAMILY_VISA_TITLES: Record<string, string> = {
+  "spouse-visa": "Spouse Visa Consultant Kochi | Orbix Overseas Careers",
+  "parent-visa": "Parent Visa Consultant Kerala | Orbix Overseas Careers",
+  "student-dependent-visa": "Student Dependent Visa Kochi | Orbix Overseas Careers",
 };
 
 export const STUDY_COUNTRY_TITLES: Record<string, string> = {

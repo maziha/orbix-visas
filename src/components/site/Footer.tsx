@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Mail, MapPin } from "lucide-react";
-import logo from "@/assets/orbix-logo-transparent.png";
+import { BRAND_LOGOS } from "@/lib/brand-logos";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/contact-info";
 
 /*
@@ -19,12 +19,40 @@ import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/contact-info";
  * ))}
  */
 
+const studyAbroadLinks = [
+  { label: "Canada", to: "/study-abroad/canada" as const },
+  { label: "Australia", to: "/study-abroad/australia" as const },
+  { label: "UK", to: "/study-abroad/uk" as const },
+  { label: "New Zealand", to: "/study-abroad/new-zealand" as const },
+  { label: "Germany", to: "/study-abroad/germany" as const },
+  { label: "France", to: "/study-abroad/france" as const },
+  { label: "Poland", to: "/study-abroad/poland" as const },
+];
+
+const migrationLinks = [
+  { label: "Canada PR", to: "/migration/canada-pr" as const },
+  { label: "Australia PR", to: "/migration/australia-pr" as const },
+];
+
+const serviceLinks = [
+  { label: "Spouse Visa", hash: "spouse-visa" },
+  { label: "Parent Visa", hash: "parent-visa" },
+  { label: "Job Seekers Visa", hash: "job-seekers-visa" },
+  { label: "Visit Visa", hash: "visit-visa" },
+  { label: "IELTS Booking", hash: "ielts-booking" },
+  { label: "Loan Assistance", hash: "loan-assistance" },
+] as const;
+
 export function Footer() {
   return (
     <footer className="site-footer bg-brand-dark text-white">
-      <div className="container-px mx-auto max-w-7xl py-10 sm:py-12 lg:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+      <div className="container-px mx-auto max-w-7xl py-10 sm:py-12 lg:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
         <div>
-          <img src={logo} alt="Orbix Overseas Careers" className="h-10 sm:h-12 lg:h-14 w-auto mb-4 object-contain" />
+          <img
+            src={BRAND_LOGOS.onNavy}
+            alt="Orbix Overseas Careers"
+            className="h-10 sm:h-12 lg:h-14 w-auto mb-4 object-contain"
+          />
           <p className="text-white/70 text-xs sm:text-sm">Your trusted partner for global opportunities.</p>
           {/* Social links: add real profile URLs before going live */}
         </div>
@@ -32,16 +60,21 @@ export function Footer() {
         <div>
           <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">Study Abroad</h4>
           <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
-            {[
-              ["Canada","/study-abroad/canada"],
-              ["Australia","/study-abroad/australia"],
-              ["UK","/study-abroad/uk"],
-              ["New Zealand","/study-abroad/new-zealand"],
-              ["Germany","/study-abroad/germany"],
-              ["France","/study-abroad/france"],
-              ["Poland","/study-abroad/poland"],
-            ].map(([n,t]) => (
-              <li key={n}><Link to={t}>{n}</Link></li>
+            {studyAbroadLinks.map(({ label, to }) => (
+              <li key={to}>
+                <Link to={to}>{label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">Migration</h4>
+          <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
+            {migrationLinks.map(({ label, to }) => (
+              <li key={to}>
+                <Link to={to}>{label}</Link>
+              </li>
             ))}
           </ul>
         </div>
@@ -49,8 +82,12 @@ export function Footer() {
         <div>
           <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">Services</h4>
           <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
-            {["Spouse Visa","Parent Visa","Job Seekers Visa","Visit Visa","IELTS Booking","Loan Assistance"].map(s => (
-              <li key={s}><Link to="/services">{s}</Link></li>
+            {serviceLinks.map(({ label, hash }) => (
+              <li key={hash}>
+                <Link to="/services" hash={hash}>
+                  {label}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>

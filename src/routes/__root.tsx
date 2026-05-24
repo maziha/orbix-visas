@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
-import { HOME_DESCRIPTION } from "@/lib/page-descriptions";
+import { getOgImageUrl } from "@/lib/site-meta";
 
 function NotFoundComponent() {
   return (
@@ -73,13 +73,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Orbix Overseas Careers | Immigration & Study Abroad Consultants, Kochi Kerala" },
-      { name: "description", content: HOME_DESCRIPTION },
       { name: "author", content: "Orbix Overseas Careers" },
-      { property: "og:title", content: "Orbix Overseas Careers | Immigration & Study Abroad Consultants, Kochi Kerala" },
-      { property: "og:description", content: HOME_DESCRIPTION },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Orbix Overseas Careers" },
+      { property: "og:image", content: getOgImageUrl() },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:type", content: "image/jpeg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: getOgImageUrl() },
     ],
     links: [
       { rel: "icon", href: "/favicon.ico", sizes: "48x48" },

@@ -1,19 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
-import { ConsultationCta } from "@/components/site/HomeSections";
+import { BrandPromise } from "@/components/site/HomeSections";
 import { useModal } from "@/components/site/modal-store";
 import { ArrowRight } from "lucide-react";
-import { PAGE_DESCRIPTIONS } from "@/lib/page-descriptions";
-import { PAGE_TITLES } from "@/lib/page-titles";
+import { headForPage } from "@/lib/site-meta";
 
 export const Route = createFileRoute("/testimonials")({
-  head: () => ({
-    meta: [
-      { title: PAGE_TITLES.testimonials },
-      { name: "description", content: PAGE_DESCRIPTIONS.testimonials },
-    ],
-  }),
+  head: () => headForPage("testimonials"),
   component: Page,
 });
 
@@ -45,7 +39,7 @@ function Page() {
           </div>
         </div>
       </section>
-      <ConsultationCta />
+      <BrandPromise />
     </SiteLayout>
   );
 }

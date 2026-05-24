@@ -1,16 +1,10 @@
 import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { MigrationProgramSections, ConsultationCta, SectionEyebrow } from "@/components/site/HomeSections";
-import { PAGE_DESCRIPTIONS } from "@/lib/page-descriptions";
-import { PAGE_TITLES } from "@/lib/page-titles";
+import { MigrationProgramSections, BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
+import { headForPage } from "@/lib/site-meta";
 
 export const Route = createFileRoute("/migration")({
-  head: () => ({
-    meta: [
-      { title: PAGE_TITLES.migration },
-      { name: "description", content: PAGE_DESCRIPTIONS.migration },
-    ],
-  }),
+  head: () => headForPage("migration"),
   component: Layout,
 });
 
@@ -31,7 +25,7 @@ function Layout() {
         </div>
       </section>
       <MigrationProgramSections />
-      <ConsultationCta title="Not Sure Which Program Fits You?" subtitle="Our migration counsellors will review your profile and recommend the most suitable pathway for Australia or Canada." />
+      <BrandPromise />
     </SiteLayout>
   );
 }

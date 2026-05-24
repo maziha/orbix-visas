@@ -18,6 +18,7 @@ const SIZE_CLASS = {
   md: "w-12",
   lg: "w-16",
   xl: "w-20",
+  "2xl": "w-[5.5rem]",
 } as const;
 
 type CountryFlagProps = {

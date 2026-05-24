@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudyAbroadCountryRouteImport } from './routes/study-abroad.$country'
+import { Route as ServicesVisaRouteImport } from './routes/services.$visa'
 import { Route as MigrationProgramRouteImport } from './routes/migration.$program'
 
 const TestimonialsRoute = TestimonialsRouteImport.update({
@@ -59,6 +60,11 @@ const StudyAbroadCountryRoute = StudyAbroadCountryRouteImport.update({
   path: '/$country',
   getParentRoute: () => StudyAbroadRoute,
 } as any)
+const ServicesVisaRoute = ServicesVisaRouteImport.update({
+  id: '/$visa',
+  path: '/$visa',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const MigrationProgramRoute = MigrationProgramRouteImport.update({
   id: '/$program',
   path: '/$program',
@@ -70,10 +76,11 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/migration': typeof MigrationRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/study-abroad': typeof StudyAbroadRouteWithChildren
   '/testimonials': typeof TestimonialsRoute
   '/migration/$program': typeof MigrationProgramRoute
+  '/services/$visa': typeof ServicesVisaRoute
   '/study-abroad/$country': typeof StudyAbroadCountryRoute
 }
 export interface FileRoutesByTo {
@@ -81,10 +88,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/migration': typeof MigrationRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/study-abroad': typeof StudyAbroadRouteWithChildren
   '/testimonials': typeof TestimonialsRoute
   '/migration/$program': typeof MigrationProgramRoute
+  '/services/$visa': typeof ServicesVisaRoute
   '/study-abroad/$country': typeof StudyAbroadCountryRoute
 }
 export interface FileRoutesById {
@@ -93,10 +101,11 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/migration': typeof MigrationRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/study-abroad': typeof StudyAbroadRouteWithChildren
   '/testimonials': typeof TestimonialsRoute
   '/migration/$program': typeof MigrationProgramRoute
+  '/services/$visa': typeof ServicesVisaRoute
   '/study-abroad/$country': typeof StudyAbroadCountryRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/study-abroad'
     | '/testimonials'
     | '/migration/$program'
+    | '/services/$visa'
     | '/study-abroad/$country'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/study-abroad'
     | '/testimonials'
     | '/migration/$program'
+    | '/services/$visa'
     | '/study-abroad/$country'
   id:
     | '__root__'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/study-abroad'
     | '/testimonials'
     | '/migration/$program'
+    | '/services/$visa'
     | '/study-abroad/$country'
   fileRoutesById: FileRoutesById
 }
@@ -140,7 +152,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   MigrationRoute: typeof MigrationRouteWithChildren
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
   StudyAbroadRoute: typeof StudyAbroadRouteWithChildren
   TestimonialsRoute: typeof TestimonialsRoute
 }
@@ -203,6 +215,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudyAbroadCountryRouteImport
       parentRoute: typeof StudyAbroadRoute
     }
+    '/services/$visa': {
+      id: '/services/$visa'
+      path: '/$visa'
+      fullPath: '/services/$visa'
+      preLoaderRoute: typeof ServicesVisaRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/migration/$program': {
       id: '/migration/$program'
       path: '/$program'
@@ -225,6 +244,18 @@ const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
   MigrationRouteChildren,
 )
 
+interface ServicesRouteChildren {
+  ServicesVisaRoute: typeof ServicesVisaRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesVisaRoute: ServicesVisaRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 interface StudyAbroadRouteChildren {
   StudyAbroadCountryRoute: typeof StudyAbroadCountryRoute
 }
@@ -242,7 +273,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   MigrationRoute: MigrationRouteWithChildren,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
   StudyAbroadRoute: StudyAbroadRouteWithChildren,
   TestimonialsRoute: TestimonialsRoute,
 }

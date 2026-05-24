@@ -1,47 +1,57 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { ChevronDown, Phone, Menu, X } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { useModal } from "./modal-store";
 import { MobileMenu } from "./MobileMenu";
 import { forceUnlockBodyScroll, lockBodyScroll } from "@/lib/body-scroll-lock";
-import logo from "@/assets/orbix-logo.jpg";
-import { navOtherServices, navVisaServices } from "./services-data";
+import { CONTACT_PHONE, CONTACT_PHONE_TEL } from "@/lib/contact-info";
+import { getHeaderLogo } from "@/lib/brand-logos";
+import {
+  migrationLinks,
+  serviceNavLinks,
+  studyCountryLinks,
+} from "@/lib/nav-links";
 
-const studyCountries = [
-  { name: "Canada", to: "/study-abroad/canada" },
-  { name: "Australia", to: "/study-abroad/australia" },
-  { name: "New Zealand", to: "/study-abroad/new-zealand" },
-  { name: "UK", to: "/study-abroad/uk" },
-  { name: "France", to: "/study-abroad/france" },
-  { name: "Germany", to: "/study-abroad/germany" },
-  { name: "Poland", to: "/study-abroad/poland" },
-];
-
-const migration = [
-  { name: "Australia PR", to: "/migration/australia-pr" },
-  { name: "Canada PR", to: "/migration/canada-pr" },
-];
-
-const whyOrbix = [
-  { name: "Our Story", to: "/about" },
-  { name: "Contact", to: "/contact" },
-];
-
-function Dropdown({ label, items }: { label: string; items: { name: string; to: string }[] }) {
+function NavPhoneIcon() {
   return (
-    <div className="relative group">
-      <button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground transition-colors">
-        {label} <ChevronDown className="h-3.5 w-3.5" />
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function NavDropdown({
+  label,
+  items,
+}: {
+  label: string;
+  items: readonly { name: string; to: string; hash?: string }[];
+}) {
+  return (
+    <div className="nav-dropdown-wrap">
+      <button type="button" className="site-nav__trigger" aria-haspopup="true">
+        {label} <ChevronDown className="site-nav__chevron h-3.5 w-3.5 shrink-0" aria-hidden />
       </button>
-      <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-        <div className="bg-brand-white rounded-lg shadow-xl border border-border min-w-[220px] py-2">
-          {items.map((i) => (
+      <div className="nav-dropdown-panel">
+        <div className="nav-dropdown-panel__inner">
+          {items.map((item) => (
             <Link
-              key={i.name}
-              to={i.to}
-              className="block px-4 py-2 text-sm text-foreground hover:bg-[color-mix(in_srgb,var(--accent-sky)_12%,transparent)] hover:text-[var(--accent-sky)] transition-colors"
+              key={item.name}
+              to={item.to}
+              {...(item.hash ? { hash: item.hash } : {})}
+              className="nav-dropdown-link"
             >
-              {i.name}
+              {item.name}
             </Link>
           ))}
         </div>
@@ -51,44 +61,39 @@ function Dropdown({ label, items }: { label: string; items: { name: string; to: 
 }
 
 function ServicesDropdown() {
+  const visa = serviceNavLinks.slice(0, 5);
+  const other = serviceNavLinks.slice(5);
+
   return (
-    <div className="relative group">
-      <button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground transition-colors">
-        Services <ChevronDown className="h-3.5 w-3.5" />
+    <div className="nav-dropdown-wrap">
+      <button type="button" className="site-nav__trigger" aria-haspopup="true">
+        Services <ChevronDown className="site-nav__chevron h-3.5 w-3.5 shrink-0" aria-hidden />
       </button>
-      <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-        <div className="bg-brand-white rounded-lg shadow-xl border border-border min-w-[460px] p-5 grid grid-cols-2 gap-4">
-          <div>
-            <div className="label-tag mb-2">Visa Services</div>
-            <ul className="space-y-1.5">
-              {navVisaServices.map((s) => (
-                <li key={s.hash}>
-                  <Link
-                    to={s.to}
-                    hash={s.hash}
-                    className="text-sm text-foreground hover:text-[var(--accent-sky)]"
-                  >
-                    {s.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+      <div className="nav-dropdown-panel">
+        <div className="nav-dropdown-panel__inner nav-dropdown-panel__inner--services">
+          <div className="nav-dropdown-column">
+            {visa.map((item) => (
+              <Link
+                key={item.name}
+                to={item.to}
+                {...(item.hash ? { hash: item.hash } : {})}
+                className="nav-dropdown-link"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
-          <div>
-            <div className="label-tag mb-2">Other Services</div>
-            <ul className="space-y-1.5">
-              {navOtherServices.map((s) => (
-                <li key={s.hash}>
-                  <Link
-                    to={s.to}
-                    hash={s.hash}
-                    className="text-sm text-foreground hover:text-[var(--accent-sky)]"
-                  >
-                    {s.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="nav-dropdown-column">
+            {other.map((item) => (
+              <Link
+                key={item.name}
+                to={item.to}
+                {...(item.hash ? { hash: item.hash } : {})}
+                className="nav-dropdown-link"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -101,6 +106,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { setOpen } = useModal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isHome = pathname === "/";
   const isFirstPathname = useRef(true);
 
   const closeMobileMenu = useCallback(() => {
@@ -118,9 +124,9 @@ export function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => setScrolled(window.scrollY >= 80);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -133,43 +139,49 @@ export function Header() {
     return () => forceUnlockBodyScroll();
   }, []);
 
+  const atTop = !scrolled;
+  const onHero = isHome && atTop;
+
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-40 bg-brand-white transition-all duration-300 ${
-        scrolled ? "shadow-md" : "shadow-none"
-      }`}
+      className={`site-header ${atTop ? "site-header--overlay" : "site-header--solid"}${onHero ? " site-header--on-hero" : ""}`}
     >
-      <div className="container-px mx-auto flex items-center justify-between h-16 lg:h-20 max-w-7xl">
-        <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Orbix Overseas Careers" className="h-10 lg:h-12 w-auto" />
+      <div className="container-px mx-auto flex h-16 max-w-7xl items-center justify-between lg:h-20">
+        <Link to="/" className="site-header__logo-link flex shrink-0 items-center">
+          <img
+            src={getHeaderLogo(scrolled, onHero)}
+            alt="Orbix Overseas Careers"
+            className="site-header__logo h-10 w-auto lg:h-12"
+          />
         </Link>
 
-        <nav className="site-nav hidden lg:flex items-center gap-1">
-          <Dropdown label="Why Orbix" items={whyOrbix} />
-          <Dropdown label="Study Abroad" items={studyCountries} />
-          <Dropdown label="Migration" items={migration} />
+        <nav className="site-nav hidden items-center lg:ml-8 lg:flex" aria-label="Main">
+          <NavDropdown label="Study Abroad" items={studyCountryLinks} />
+          <NavDropdown label="Migration" items={migrationLinks} />
           <ServicesDropdown />
-          <Link to="/contact" className="px-3 py-2 text-sm font-medium text-foreground transition-colors">
-            Contact Us
+          <Link to="/about" className="site-nav__link px-3 py-2 text-sm font-medium">
+            About
           </Link>
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4">
-          <a href="tel:+918592026134" className="flex items-center gap-1.5 text-sm font-medium text-[var(--navy)]">
-            <Phone className="h-4 w-4 text-[var(--accent-sky)]" /> +91 8592026134
+        <div className="hidden items-center gap-4 lg:ml-auto lg:flex">
+          <a href={`tel:${CONTACT_PHONE_TEL}`} className="nav-phone">
+            <NavPhoneIcon />
+            {CONTACT_PHONE}
           </a>
-          <button onClick={() => setOpen("consultation")} className="btn-primary">
+          <button type="button" onClick={() => setOpen("consultation")} className="nav-cta">
             Book a Consultation
           </button>
         </div>
 
         <button
-          className="lg:hidden p-2"
-          onClick={() => (mobileOpen ? closeMobileMenu() : setMobileOpen(true))}
-          aria-label="Menu"
+          type="button"
+          className="site-header__menu-btn lg:hidden"
+          onClick={() => setMobileOpen(true)}
+          aria-label="Open menu"
           aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <Menu className="h-6 w-6" aria-hidden />
         </button>
       </div>
 
