@@ -10,22 +10,20 @@ export function FamilyVisaHighlightSection() {
   return (
     <section className="family-highlight-section bg-brand-subtle py-16 md:py-20">
       <div className="container-px mx-auto max-w-7xl">
-        <div className="flex flex-col overflow-hidden rounded-2xl border border-[#e4e8f0] lg:flex-row lg:min-h-[28rem]">
-          <div className="family-highlight-section__copy bg-[var(--accent-sky)] lg:w-[55%] px-6 py-12 md:px-10 md:py-16 lg:px-12">
-            <SectionEyebrow className="!text-[var(--navy)] ![border-bottom-color:var(--navy)]">
-              VISA SERVICES
-            </SectionEyebrow>
+        <div className="flex flex-col overflow-hidden rounded-2xl border border-[#e4e8f0] bg-brand-white lg:flex-row lg:min-h-[28rem]">
+          <div className="family-highlight-section__copy bg-transparent lg:w-[55%] px-6 py-12 md:px-10 md:py-16 lg:px-12">
+            <SectionEyebrow>VISA SERVICES</SectionEyebrow>
             <h2 className="mt-3 font-display text-3xl md:text-4xl text-[var(--navy)] leading-tight">
               Bringing Family Overseas
             </h2>
             <h3 className="mt-4 font-display text-2xl text-[var(--navy)] leading-snug">
               Spouse Visa &amp; Family Reunification
             </h3>
-            <p className="mt-4 text-[#1A1A2E]/80 leading-relaxed">
+            <p className="mt-4 text-muted-foreground leading-relaxed">
               Reunite with your spouse, parents, or dependents abroad with clear guidance on eligibility,
               documentation, and timelines.
             </p>
-            <p className="mt-3 text-[#1A1A2E]/80 leading-relaxed">
+            <p className="mt-3 text-muted-foreground leading-relaxed">
               Our counsellors walk you through each step so you know what to expect before you apply.
             </p>
             <button
@@ -39,7 +37,7 @@ export function FamilyVisaHighlightSection() {
               <Link
                 to="/services"
                 hash="family-visa"
-                className="font-semibold text-[var(--navy)] hover:underline"
+                className="font-semibold text-[var(--accent-sky)] hover:underline"
               >
                 Compare all family visa guides →
               </Link>
