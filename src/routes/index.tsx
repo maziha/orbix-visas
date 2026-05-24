@@ -10,7 +10,6 @@ import {
   EnquiryFormSection,
   OtherServices,
   Achievements,
-  BrandPromise,
 } from "@/components/site/HomeSections";
 
 export const Route = createFileRoute("/")({
@@ -29,7 +28,6 @@ function Index() {
       <OtherServices />
       <EnquiryFormSection />
       <Achievements />
-      <BrandPromise />
     </SiteLayout>
   );
 }

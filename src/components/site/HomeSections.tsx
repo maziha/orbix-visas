@@ -14,7 +14,8 @@ import { EnquiryFormSection } from "./EnquiryFormSection";
 import { FamilyVisaHighlightSection } from "./FamilyVisaHighlightSection";
 import { OtherServicesTableSection } from "./OtherServicesTableSection";
 import { StudyAbroadCountriesSection } from "./StudyAbroadCountriesSection";
-import { WhyOrbixStatsSection } from "./WhyOrbixStatsSection";
+import { WhyOrbixClosingSection } from "./WhyOrbixClosingSection";
+import { ClosingCtaPanel } from "./ClosingCtaPanel";
 import {
   ArrowRight, Star, Heart, Users, Briefcase, Plane,
   MapPin, GraduationCap, CheckCircle2
@@ -249,9 +250,9 @@ export function OtherServices() {
   return <OtherServicesTableSection />;
 }
 
-/* ---------- SECTION 8: WHY ORBIX STATS ---------- */
+/* ---------- WHY ORBIX + CLOSING CTA (homepage) ---------- */
 export function Achievements() {
-  return <WhyOrbixStatsSection />;
+  return <WhyOrbixClosingSection />;
 }
 
 /* ---------- SECTION 12: CHOOSING FUTURE ---------- */
@@ -319,34 +320,12 @@ export function LeadershipTeaser() {
   );
 }
 
-/* ---------- FULL-WIDTH CTA STRIP (replaces Brand Promise) ---------- */
+/* ---------- CLOSING CTA (inner pages) ---------- */
 export function BrandPromise() {
-  const { setOpen } = useModal();
-
   return (
-    <section className="cta-strip bg-brand-white w-full">
-      <div className="container-px mx-auto flex max-w-4xl flex-col items-center text-center">
-        <h2 className="cta-strip__title font-display">Ready to take the first step?</h2>
-        <p className="cta-strip__text max-w-2xl">
-          Speak with a counsellor — no obligation, available 6 days a week from Kochi.
-        </p>
-        <div className="cta-strip__actions">
-          <button
-            type="button"
-            onClick={() => setOpen("consultation")}
-            className="btn-primary"
-          >
-            Book a Free Consultation
-          </button>
-          <a
-            href="https://wa.me/918592026134"
-            target="_blank"
-            rel="noreferrer"
-            className="btn-secondary"
-          >
-            Chat on WhatsApp
-          </a>
-        </div>
+    <section className="bg-brand-white py-12 md:py-16">
+      <div className="container-px mx-auto max-w-7xl">
+        <ClosingCtaPanel />
       </div>
     </section>
   );

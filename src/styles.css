@@ -327,42 +327,42 @@
     animation: cardRevealIn 150ms var(--ease-snappy) 200ms both;
   }
 
-  /* Destination cards — key stat on white strip */
+  /* Destination cards — reveal stat on hover without hiding content */
   .card-hover-destination {
-    position: relative;
-    overflow: hidden;
     border: 1px solid var(--border);
+    transition:
+      border-color 200ms var(--ease-snappy),
+      box-shadow 200ms var(--ease-snappy);
   }
-  .card-hover-destination .destination-card-preview,
-  .card-hover-destination .destination-card-actions {
-    transition: opacity 150ms var(--ease-snappy);
+  .card-hover-destination:hover {
+    border-color: color-mix(in srgb, var(--accent-sky) 55%, var(--border));
+    box-shadow: 0 10px 28px rgb(4 1 117 / 0.08);
   }
-  .card-hover-destination:hover .destination-card-preview,
-  .card-hover-destination:hover .destination-card-actions {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .card-hover-destination .card-reveal-stat {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  .card-hover-destination .destination-card-stat {
+    max-height: 0;
     margin: 0;
-    padding: 0.75rem 1rem;
-    background-color: var(--color-bg-white);
-    color: var(--accent-sky);
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    border-left: 4px solid transparent;
     font-size: 0.8125rem;
     font-weight: 600;
-    line-height: 1.4;
-    opacity: 0;
-    transform: translateY(6px);
-    pointer-events: none;
+    line-height: 1.45;
+    color: var(--color-bg-dark);
+    transition:
+      max-height 250ms var(--ease-snappy),
+      opacity 200ms var(--ease-snappy),
+      margin 250ms var(--ease-snappy),
+      padding 250ms var(--ease-snappy),
+      border-color 200ms var(--ease-snappy);
   }
-  .card-hover-destination .card-reveal-stat::before {
-    content: attr(data-stat);
-  }
-  .card-hover-destination:hover .card-reveal-stat {
-    animation: cardRevealIn 150ms var(--ease-snappy) both;
+  .card-hover-destination:hover .destination-card-stat {
+    max-height: 6rem;
+    margin-top: 1rem;
+    padding: 0.75rem 0.875rem;
+    opacity: 1;
+    border-left-color: var(--accent-sky);
+    background-color: var(--color-bg-subtle);
   }
 
   /* Service cards — typical timeline reveal */
@@ -406,11 +406,18 @@
 
   @media (prefers-reduced-motion: reduce) {
     .card-hover-migration:hover .card-reveal-footer,
-    .card-hover-destination:hover .card-reveal-stat,
     .card-hover-service:hover .card-reveal-timeline {
       animation: none;
       opacity: 1;
       transform: none;
+    }
+    .card-hover-destination .destination-card-stat {
+      max-height: none;
+      margin-top: 1rem;
+      padding: 0.75rem 0.875rem;
+      opacity: 1;
+      border-left-color: var(--accent-sky);
+      background-color: var(--color-bg-subtle);
     }
   }
 
@@ -464,47 +471,70 @@
   .animate-fade-up-delay-2 { animation: fadeUp .8s ease-out .3s both; }
   .animate-fade-up-delay-3 { animation: fadeUp .8s ease-out .45s both; }
 
-  /* Closing CTA — continues white band after Why Orbix, before navy footer */
-  .cta-strip {
-    padding: 0 0 5rem;
+  /* Why Orbix + closing CTA (merged homepage section) */
+  .why-orbix-closing__stats {
+    border-top: 1px solid #e4e8f0;
+    border-bottom: 1px solid #e4e8f0;
+    padding-block: 2.5rem;
   }
+
+  .why-orbix-closing__stat-value {
+    font-size: 3rem;
+  }
+
+  .why-orbix-closing__stat-value--text {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+  }
+
+  .closing-cta-panel {
+    margin-top: 3rem;
+    border-radius: 1rem;
+    padding: 2.5rem 1.5rem;
+  }
+
   @media (min-width: 768px) {
-    .cta-strip {
-      padding: 0 0 6.5rem;
+    .closing-cta-panel {
+      margin-top: 3.5rem;
+      padding: 3.5rem 2.5rem;
     }
   }
-  .cta-strip__title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+
+  .closing-cta-panel__title {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
     font-weight: 700;
     line-height: 1.2;
-    color: var(--color-bg-dark);
+    color: var(--color-bg-white);
   }
-  .cta-strip__text {
-    margin-top: 1.25rem;
+
+  .closing-cta-panel__text {
+    margin-top: 1rem;
     font-size: 1.0625rem;
     line-height: 1.65;
-    color: color-mix(in srgb, var(--color-bg-dark) 65%, transparent);
+    color: color-mix(in srgb, var(--color-bg-white) 72%, transparent);
   }
-  .cta-strip__actions {
+
+  .closing-cta-panel__actions {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
-    margin-top: 2.5rem;
+    margin: 2rem auto 0;
     width: 100%;
-    max-width: 32rem;
+    max-width: 28rem;
   }
+
   @media (min-width: 640px) {
-    .cta-strip__actions {
+    .closing-cta-panel__actions {
       flex-direction: row;
       align-items: center;
       justify-content: center;
       max-width: none;
       width: auto;
-      gap: 1.25rem;
+      gap: 1rem;
     }
-    .cta-strip__actions .btn-primary,
-    .cta-strip__actions .btn-secondary {
+
+    .closing-cta-panel__actions .btn-primary,
+    .closing-cta-panel__actions .btn-secondary {
       padding: 14px 32px;
       font-size: 1rem;
     }
@@ -1102,14 +1132,6 @@
 
   .other-services-table__link:hover {
     color: var(--accent-sky);
-  }
-
-  .why-orbix-stats-section__value {
-    font-size: 48px;
-  }
-
-  .why-orbix-stats-section__value--text {
-    font-size: clamp(2rem, 5vw, 2.75rem);
   }
 
   @media (prefers-reduced-motion: reduce) {

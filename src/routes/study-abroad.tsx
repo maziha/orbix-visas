@@ -47,17 +47,17 @@ function Layout() {
               return (
                 <div
                   key={c.slug}
-                  className="card-hover-destination card-base bg-brand-white rounded-xl p-8 pb-16 flex flex-col h-full"
-                  data-stat={DESTINATION_HOVER_STATS[c.slug]}
+                  className="card-hover-destination card-base bg-brand-white rounded-xl p-8 flex flex-col h-full"
                 >
                   <CountryFlag code={c.code} size="lg" title={c.name} className="mb-3" />
                   <h3 className="font-display text-2xl text-[var(--navy)]">{c.name}</h3>
-                  <p className="destination-card-preview text-sm text-[var(--accent-sky)] font-medium mt-2 leading-snug">
+                  <p className="text-sm text-[var(--accent-sky)] font-medium mt-2 leading-snug">
                     {guide.previewLine}
                   </p>
-                  <p className="destination-card-preview text-sm text-muted-foreground mt-3 flex-1 leading-relaxed">
+                  <p className="text-sm text-muted-foreground mt-3 flex-1 leading-relaxed">
                     {guide.heroSubtitle.slice(0, 120)}…
                   </p>
+                  <p className="destination-card-stat">{DESTINATION_HOVER_STATS[c.slug]}</p>
                   <div className="destination-card-actions mt-6">
                     <Link
                       to="/study-abroad/$country"
@@ -67,11 +67,6 @@ function Layout() {
                       Explore guide →
                     </Link>
                   </div>
-                  <p
-                    className="card-reveal-stat"
-                    data-stat={DESTINATION_HOVER_STATS[c.slug]}
-                    aria-hidden="true"
-                  />
                 </div>
               );
             })}
