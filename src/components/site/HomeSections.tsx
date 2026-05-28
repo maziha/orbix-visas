@@ -45,7 +45,7 @@ export { EnquiryFormSection };
 
 /* ---------- SECTION 5: ELIGIBILITY ---------- */
 export function Eligibility() {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
   return (
     <section className="py-20 bg-brand-dark">
       <div className="container-px mx-auto max-w-7xl">
@@ -65,7 +65,9 @@ export function Eligibility() {
               <p className="text-muted-foreground text-sm mb-5">{c.desc}</p>
               <button
                 type="button"
-                onClick={() => setOpen("consultation")}
+                onClick={() =>
+                  openConsultation({ goal: "migrate", migrateCountry: "Canada", headline: "Canada PR consultation" })
+                }
                 className="btn-primary inline-flex items-center gap-2"
               >
                 Book a Consultation <ArrowRight className="h-4 w-4" />
@@ -183,7 +185,7 @@ export function Achievements() {
 
 /* ---------- SECTION 12: CHOOSING FUTURE ---------- */
 export function ChoosingFuture() {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
   return (
     <section className="py-20">
       <div className="container-px mx-auto max-w-7xl grid lg:grid-cols-2 gap-12 items-center">
@@ -194,7 +196,9 @@ export function ChoosingFuture() {
             Choosing your future is the most important decision you'll ever make. And you need the right partner to navigate the challenging landscape. Whether you want to study, work, or obtain permanent residency — Orbix is someone you can trust. We anticipate your needs even before you do.
           </p>
           <div className="flex flex-wrap gap-3 mt-6">
-            <button onClick={()=>setOpen("consultation")} className="btn-primary">Book a Consultation</button>
+            <button type="button" onClick={() => openConsultation()} className="btn-primary">
+              Book a Consultation
+            </button>
             <Link to="/about" className="btn-secondary">Learn About Our Process</Link>
           </div>
         </div>

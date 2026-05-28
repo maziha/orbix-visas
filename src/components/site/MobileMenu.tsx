@@ -77,7 +77,7 @@ function TopNavLink({
 }
 
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
 
   if (!open) return null;
 
@@ -143,7 +143,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
             type="button"
             onClick={() => {
               onClose();
-              setOpen("consultation");
+              openConsultation();
             }}
             className="nav-cta w-full"
           >

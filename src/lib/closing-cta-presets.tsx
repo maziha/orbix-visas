@@ -1,5 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import type { ClosingCtaPanelProps } from "@/components/site/ClosingCtaPanel";
+import {
+  presetFromFamilyVisa,
+  presetFromMigrationProgram,
+  presetFromStudyCountry,
+} from "@/lib/enquiry-options";
 import type { FamilyVisaContent } from "@/lib/family-visa-content";
 import type { MigrationProgramContent } from "@/lib/migration-program-content";
 import type { StudyCountryContent } from "@/lib/study-country-content";
@@ -12,6 +17,7 @@ export function familyVisaClosingCta(content: FamilyVisaContent): ClosingCtaPane
     description:
       "Share your sponsor's status and relationship details — we will tell you what documents to gather and whether your file is ready to lodge.",
     primaryLabel: content.primaryCtaLabel,
+    consultationPreset: presetFromFamilyVisa(content),
     secondary: { kind: "whatsapp" },
     footer: (
       <p>
@@ -32,6 +38,7 @@ export function studyCountryClosingCta(
     title: page.finalCtaLabel,
     description: `Share your marks, English score, and budget — we will suggest realistic options in ${content.name} before you pay any application fees.`,
     primaryLabel: STUDY_CLOSING_PRIMARY_LABEL,
+    consultationPreset: presetFromStudyCountry(content),
     footer: (
       <p>
         Comparing countries?{" "}
@@ -48,6 +55,7 @@ export function migrationProgramClosingCta(content: MigrationProgramContent): Cl
     title: content.finalCtaTitle,
     description: content.finalCtaSubtitle,
     primaryLabel: content.primaryCtaLabel,
+    consultationPreset: presetFromMigrationProgram(content),
   };
 }
 

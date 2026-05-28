@@ -14,7 +14,7 @@ const PANEL_BODY =
   "Canada and Australia are the two most accessible permanent residency pathways for Kerala professionals. The right program depends on your age, qualification, work experience, and English level. Our counsellors assess your profile and recommend the correct pathway — free, at your first session.";
 
 export function MigrationProgramsSection() {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
 
   return (
     <section className="migration-programs-section bg-brand-white py-16 md:py-[72px]">
@@ -37,7 +37,7 @@ export function MigrationProgramsSection() {
 
           <button
             type="button"
-            onClick={() => setOpen("consultation")}
+            onClick={() => openConsultation({ goal: "migrate", headline: "Migration consultation" })}
             className="btn-primary mt-8 inline-flex items-center justify-center gap-2"
           >
             Get a Free Profile Assessment

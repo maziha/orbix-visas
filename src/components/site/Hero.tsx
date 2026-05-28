@@ -6,8 +6,13 @@ const HERO_BACKGROUND_IMAGE =
 
 const HERO_DISPLAY_HEADLINE = "Your Path to Canada or Australia Starts Here.";
 const HERO_SEO_H1 = "Immigration & Study Abroad Consultants in Kochi, Kerala";
-const HERO_SUPPORTING_LINE =
-  "Canada PR · Australia PR · Study Abroad · Spouse & Family Visa — free first consultation from Kochi.";
+
+const HERO_SERVICES = [
+  "Canada PR",
+  "Australia PR",
+  "Study Abroad",
+  "Spouse & Family Visa",
+] as const;
 
 export function Hero() {
   return (
@@ -28,8 +33,20 @@ export function Hero() {
             <p className="font-display text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold leading-[1.12] text-white">
               {HERO_DISPLAY_HEADLINE}
             </p>
-            <h1 className="mt-4 text-[18px] font-normal leading-snug text-white/75">{HERO_SEO_H1}</h1>
-            <p className="mt-4 text-[20px] leading-relaxed text-white/75">{HERO_SUPPORTING_LINE}</p>
+            <h1 className="hero-seo-h1 mt-3 sm:mt-4">{HERO_SEO_H1}</h1>
+            <div className="hero-services mt-5 sm:mt-6">
+              <ul className="hero-service-pills" aria-label="Services we offer">
+                {HERO_SERVICES.map((service) => (
+                  <li key={service}>
+                    <span className="hero-service-pill">{service}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="hero-consultation-note">
+                <span className="hero-consultation-note__dot" aria-hidden />
+                Free first consultation from Kochi
+              </p>
+            </div>
           </div>
 
           <HeroRoutingCards />

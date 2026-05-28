@@ -5,10 +5,11 @@ import { STUDY_PAGE_CONTENT } from "@/lib/study-country-page-content";
 import { studyCountryClosingCta } from "@/lib/closing-cta-presets";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { CountryFlag } from "./CountryFlag";
+import { presetFromStudyCountry } from "@/lib/enquiry-options";
 import { useModal } from "./modal-store";
 
 export function StudyCountryPageContent({ content }: { content: StudyCountryContent }) {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
   const page = STUDY_PAGE_CONTENT[content.slug];
 
   return (
@@ -52,7 +53,7 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
           </div>
           <button
             type="button"
-            onClick={() => setOpen("consultation")}
+            onClick={() => openConsultation(presetFromStudyCountry(content))}
             className="btn-primary mt-8 inline-flex items-center gap-2"
           >
             {page.finalCtaLabel}

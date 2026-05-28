@@ -5,7 +5,7 @@ import { useModal } from "./modal-store";
 import { SectionEyebrow } from "./SectionEyebrow";
 
 export function FamilyVisaHighlightSection() {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
 
   return (
     <section className="family-highlight-section bg-brand-subtle py-16 md:py-20">
@@ -28,7 +28,7 @@ export function FamilyVisaHighlightSection() {
             </p>
             <button
               type="button"
-              onClick={() => setOpen("consultation")}
+              onClick={() => openConsultation({ goal: "family", headline: "Family visa consultation" })}
               className="btn-primary mt-8 inline-flex items-center gap-2"
             >
               Book a Consultation <ArrowRight className="h-4 w-4" />

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
 import { CONTACT_PHONES, CONTACT_PHONE_TEL, whatsAppUrlFor } from "@/lib/contact-info";
+import type { ConsultationPreset } from "@/lib/enquiry-options";
 import { useModal } from "./modal-store";
 
 const DEFAULT_TITLE = "Ready to take the first step?";
@@ -20,6 +21,7 @@ export type ClosingCtaPanelProps = {
   secondary?: ClosingCtaSecondaryAction;
   footer?: ReactNode;
   className?: string;
+  consultationPreset?: ConsultationPreset;
 };
 
 function ClosingCtaSecondary({ action }: { action: ClosingCtaSecondaryAction }) {
@@ -71,15 +73,20 @@ export function ClosingCtaPanel({
   secondary = { kind: "whatsapp" },
   footer,
   className = "",
+  consultationPreset,
 }: ClosingCtaPanelProps) {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
 
   return (
     <div className={`closing-cta-panel bg-brand-dark text-center ${className}`.trim()}>
       <h2 className="closing-cta-panel__title font-display">{title}</h2>
       <p className="closing-cta-panel__text mx-auto max-w-2xl">{description}</p>
       <div className="closing-cta-panel__actions">
-        <button type="button" onClick={() => setOpen("consultation")} className="btn-primary">
+        <button
+          type="button"
+          onClick={() => openConsultation(consultationPreset)}
+          className="btn-primary"
+        >
           {primaryLabel}
         </button>
         <ClosingCtaSecondary action={secondary} />

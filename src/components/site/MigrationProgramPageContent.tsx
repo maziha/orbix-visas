@@ -4,10 +4,11 @@ import type { MigrationProgramContent } from "@/lib/migration-program-content";
 import { migrationProgramClosingCta } from "@/lib/closing-cta-presets";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { CountryFlag } from "./CountryFlag";
+import { presetFromMigrationProgram } from "@/lib/enquiry-options";
 import { useModal } from "./modal-store";
 
 export function MigrationProgramPageContent({ content }: { content: MigrationProgramContent }) {
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
 
   return (
     <>
@@ -42,7 +43,7 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
           </div>
           <button
             type="button"
-            onClick={() => setOpen("consultation")}
+            onClick={() => openConsultation(presetFromMigrationProgram(content))}
             className="btn-primary mt-8 inline-flex items-center gap-2"
           >
             {content.primaryCtaLabel}

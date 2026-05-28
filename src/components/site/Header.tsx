@@ -104,7 +104,7 @@ function ServicesDropdown() {
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { setOpen } = useModal();
+  const { openConsultation } = useModal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isHome = pathname === "/";
   const isFirstPathname = useRef(true);
@@ -189,7 +189,7 @@ export function Header() {
               </span>
             ))}
           </div>
-          <button type="button" onClick={() => setOpen("consultation")} className="nav-cta">
+          <button type="button" onClick={() => openConsultation()} className="nav-cta">
             Book a Consultation
           </button>
         </div>
