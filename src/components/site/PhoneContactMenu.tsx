@@ -1,38 +1,36 @@
 import { useState } from "react";
+import { Phone } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { CONTACT_PHONES, whatsAppUrlFor } from "@/lib/contact-info";
+import { CONTACT_PHONES, type ContactPhone } from "@/lib/contact-info";
 import { ContactPhoneAvatar } from "./ContactPhoneAvatar";
 import { cn } from "@/lib/utils";
 
-type WhatsAppContactMenuProps = {
-  /** Floating green FAB (default) or secondary-style button on dark panels */
+type PhoneContactMenuProps = {
   variant?: "floating" | "inline";
-  /** Shown beside inline trigger (e.g. on closing CTA) */
   triggerLabel?: string;
   className?: string;
 };
 
-function displayShort(phone: (typeof CONTACT_PHONES)[number]) {
+function displayShort(phone: ContactPhone) {
   return phone.display.replace("+91 ", "");
 }
 
-export function WhatsAppContactMenu({
+export function PhoneContactMenu({
   variant = "floating",
   triggerLabel,
   className,
-}: WhatsAppContactMenuProps) {
+}: PhoneContactMenuProps) {
   const [open, setOpen] = useState(false);
 
   const triggerClass =
     variant === "floating"
-      ? "floating-whatsapp pulse-whatsapp flex h-12 w-12 items-center justify-center rounded-full sm:h-14 sm:w-14"
-      : "whatsapp-menu-trigger btn-secondary";
+      ? "floating-phone pulse-gold flex h-12 w-12 items-center justify-center rounded-full sm:h-14 sm:w-14"
+      : "phone-menu-trigger btn-secondary";
 
   const ariaLabel =
     variant === "inline" && triggerLabel
-      ? `${triggerLabel} — choose a WhatsApp line`
-      : "Choose a WhatsApp line";
+      ? `${triggerLabel} — choose a phone line`
+      : "Choose a phone line to call";
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -43,28 +41,26 @@ export function WhatsAppContactMenu({
           aria-expanded={open}
           className={cn(triggerClass, className)}
         >
-          <WhatsAppIcon className={variant === "floating" ? "h-6 w-6 sm:h-7 sm:w-7" : "h-5 w-5"} />
+          <Phone className={variant === "floating" ? "h-5 w-5 sm:h-6 sm:w-6" : "h-5 w-5"} aria-hidden />
           {variant === "inline" && triggerLabel ? (
-            <span className="whatsapp-menu-trigger__label">{triggerLabel}</span>
+            <span className="phone-menu-trigger__label">{triggerLabel}</span>
           ) : null}
         </button>
       </PopoverTrigger>
       <PopoverContent
         side="top"
-        align="start"
+        align={variant === "floating" ? "end" : "start"}
         sideOffset={12}
         className="orbix-popover-content contact-line-menu w-[min(100vw-2rem,17.5rem)] p-2"
       >
-        <p className="contact-line-menu__title">Chat on WhatsApp</p>
-        <p className="contact-line-menu__hint">Choose a line — we&apos;ll reply from Vyttila.</p>
+        <p className="contact-line-menu__title">Call us</p>
+        <p className="contact-line-menu__hint">Pick a director — tap their line when you&apos;re ready to dial.</p>
         <ul className="contact-line-menu__list">
           {CONTACT_PHONES.map((phone) => (
             <li key={phone.tel}>
               <a
-                href={whatsAppUrlFor(phone)}
-                target="_blank"
-                rel="noreferrer"
-                className="contact-line-menu__item contact-line-menu__item--whatsapp"
+                href={`tel:${phone.tel}`}
+                className="contact-line-menu__item contact-line-menu__item--phone"
                 onClick={() => setOpen(false)}
               >
                 <ContactPhoneAvatar phone={phone} size="md" />
@@ -74,7 +70,7 @@ export function WhatsAppContactMenu({
                     {phone.role} · {displayShort(phone)}
                   </span>
                 </span>
-                <WhatsAppIcon className="contact-line-menu__action-icon h-4 w-4 shrink-0" aria-hidden />
+                <Phone className="contact-line-menu__action-icon h-4 w-4 shrink-0" aria-hidden />
               </a>
             </li>
           ))}

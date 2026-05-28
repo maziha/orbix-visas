@@ -45,23 +45,21 @@ export const visaServices: ServiceItem[] = [
     id: "job-seekers-visa",
     name: "Job Seekers Visa",
     icon: Briefcase,
-    previewLine: "Germany Chancenkarte · 6+ points · blocked account · no job offer to enter",
-    desc: "A job seeker permit lets you enter a country to look for skilled work without a prior employer contract. Germany’s Opportunity Card (Chancenkarte) is the main route Indians use: up to 12 months in Germany, part-time work while searching, then a work permit once you are hired.",
-    typicalProcessing:
-      "Typical timeline: 4–12 weeks embassy processing after biometrics (varies by VFS city in India)",
+    previewLine: "Germany Chancenkarte · points-based entry · blocked account",
+    desc: "Search for skilled work abroad without a job offer first — we guide eligibility, documents, and embassy filing.",
+    typicalProcessing: "Typical processing: 4–12 weeks",
     keyDocuments:
-      "Key documents: recognised degree or vocational qualification, language proof (A1 German or B2 English), blocked account (~€1,091/month), health insurance, police clearance",
+      "Key documents: recognised qualification, language proof, blocked account, insurance",
   },
   {
     id: "visit-visa",
     name: "Visit Visa",
     icon: Plane,
-    previewLine: "Canada · UK · Schengen · Australia · tourism, business & family visits",
-    desc: "Visitor visas are short-stay permits for tourism, business, or seeing family abroad. You must show a genuine trip purpose, enough funds, and strong ties to India. We help you prepare forms, cover letters, and supporting papers so the file is complete before biometrics.",
-    typicalProcessing:
-      "Typical timeline: ~3–4 weeks UK visitor (after biometrics); ~4 weeks Canada TRV; Schengen often 15 calendar days (may extend in peak season)",
+    previewLine: "Canada · UK · Schengen · tourism, business & family visits",
+    desc: "Short-stay visitor visas for tourism, business, or family trips abroad with complete ties evidence.",
+    typicalProcessing: "Typical processing: 3–6 weeks (varies by country)",
     keyDocuments:
-      "Key documents: valid passport, bank statements, travel itinerary, employment or business ties, invitation letter if visiting family or a host",
+      "Key documents: passport, funds proof, itinerary, employment or invitation letter",
   },
   {
     id: "student-dependent-visa",

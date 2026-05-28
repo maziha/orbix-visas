@@ -6,7 +6,7 @@ import {
   MigrationPrograms,
   BringingFamilyOverseas,
   Destinations,
-  StudyAbroadSplit,
+  // StudyAbroadSplit,
   EnquiryFormSection,
   OtherServices,
   Achievements,
@@ -24,7 +24,7 @@ function Index() {
       <MigrationPrograms />
       <BringingFamilyOverseas />
       <Destinations />
-      <StudyAbroadSplit />
+      {/* <StudyAbroadSplit /> — 7 countries study abroad block */}
       <OtherServices />
       <EnquiryFormSection />
       <Achievements />

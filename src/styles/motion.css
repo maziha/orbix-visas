@@ -1,0 +1,267 @@
+/*
+ * Orbix motion — smooth, travel-inspired transitions.
+ * "Flight" easing for panels; "runway" for fades; "stamp" for playful pops.
+ */
+
+:root {
+  --ease-flight: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-runway: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-stamp: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-instant: 140ms;
+  --duration-fast: 240ms;
+  --duration-normal: 400ms;
+  --duration-slow: 520ms;
+  --duration-slower: 640ms;
+}
+
+@keyframes orbixFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes orbixFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes orbixSlideUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes orbixSlideDownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes orbixSlideFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes orbixNavLinkIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes orbixDialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes orbixDialogOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+
+@keyframes orbixPopoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes orbixPopoverOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+}
+
+@keyframes orbixPageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes orbixFlightArcDrift {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0.35;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.7;
+  }
+}
+
+@keyframes orbixStampPulse {
+  0%,
+  100% {
+    opacity: 0.05;
+    transform: scale(1) rotate(-12deg);
+  }
+  50% {
+    opacity: 0.09;
+    transform: scale(1.03) rotate(-10deg);
+  }
+}
+
+/* Route / page content */
+.page-content-enter {
+  animation: orbixPageEnter var(--duration-slow) var(--ease-flight) both;
+}
+
+.page-content-enter::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, color-mix(in srgb, var(--accent-sky) 8%, transparent), transparent 55%),
+    radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--navy) 4%, transparent), transparent 40%);
+  opacity: 0;
+  animation: orbixFadeIn var(--duration-slower) var(--ease-runway) 0.1s both;
+}
+
+/* Dialog */
+.site-dialog-overlay[data-state="open"] {
+  animation: orbixFadeIn var(--duration-normal) var(--ease-runway) both !important;
+}
+
+.site-dialog-overlay[data-state="closed"] {
+  animation: orbixFadeOut var(--duration-fast) var(--ease-runway) both !important;
+}
+
+.site-dialog-content[data-state="open"] {
+  animation: orbixDialogIn var(--duration-slow) var(--ease-flight) both !important;
+}
+
+.site-dialog-content[data-state="closed"] {
+  animation: orbixDialogOut var(--duration-normal) var(--ease-flight) both !important;
+}
+
+/* WhatsApp / popovers */
+.orbix-popover-content[data-state="open"] {
+  animation: orbixPopoverIn var(--duration-normal) var(--ease-flight) both !important;
+}
+
+.orbix-popover-content[data-state="closed"] {
+  animation: orbixPopoverOut var(--duration-fast) var(--ease-runway) both !important;
+}
+
+.orbix-popover-content[data-state="open"] .contact-line-menu__item {
+  animation: orbixSlideUpIn var(--duration-normal) var(--ease-flight) both;
+}
+
+.orbix-popover-content[data-state="open"] .contact-line-menu__list > li:nth-child(1) .contact-line-menu__item {
+  animation-delay: 50ms;
+}
+
+.orbix-popover-content[data-state="open"] .contact-line-menu__list > li:nth-child(2) .contact-line-menu__item {
+  animation-delay: 110ms;
+}
+
+/* Accordion (Radix) */
+[data-state="open"].orbix-accordion-content {
+  animation: accordion-down var(--duration-normal) var(--ease-flight) forwards;
+}
+
+[data-state="closed"].orbix-accordion-content {
+  animation: accordion-up var(--duration-normal) var(--ease-flight) forwards;
+}
+
+.orbix-accordion-trigger > svg {
+  transition: transform var(--duration-normal) var(--ease-flight);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-content-enter,
+  .page-content-enter::before,
+  .site-dialog-overlay[data-state="open"],
+  .site-dialog-overlay[data-state="closed"],
+  .site-dialog-content[data-state="open"],
+  .site-dialog-content[data-state="closed"],
+  .orbix-popover-content[data-state="open"],
+  .orbix-popover-content[data-state="closed"],
+  .orbix-popover-content[data-state="open"] .contact-line-menu__item,
+  [data-state="open"].orbix-accordion-content,
+  [data-state="closed"].orbix-accordion-content,
+  .mobile-nav-section--open .mobile-nav-link,
+  .nav-dropdown-wrap:hover .nav-dropdown-link,
+  .nav-dropdown-wrap:focus-within .nav-dropdown-link {
+    animation: none !important;
+  }
+
+  .page-content-enter {
+    opacity: 1;
+    transform: none;
+  }
+
+  .site-dialog-content[data-state="open"],
+  .site-dialog-content[data-state="closed"] {
+    transform: none;
+  }
+
+  .mobile-nav-panel,
+  .mobile-nav-backdrop,
+  .mobile-nav-section__panel-wrap,
+  .nav-dropdown-panel__inner {
+    transition: none !important;
+  }
+
+  .mobile-nav-root--active .mobile-nav-panel {
+    transform: translateX(0);
+  }
+
+  .mobile-nav-panel__flight-arc,
+  .mobile-nav-panel__stamp {
+    animation: none !important;
+  }
+}

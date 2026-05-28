@@ -32,7 +32,6 @@ export const heroRoutingCards: HeroRoutingCard[] = [
     description: "Reunite with your spouse, parents, or dependents overseas",
     exploreLabel: "Explore Visa Services →",
     to: "/services",
-    hash: "family-visa",
     icon: Heart,
   },
 ];

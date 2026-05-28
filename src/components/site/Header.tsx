@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { ChevronDown, Menu } from "lucide-react";
 import { useModal } from "./modal-store";
 import { MobileMenu } from "./MobileMenu";
@@ -44,12 +44,13 @@ function NavDropdown({
       </button>
       <div className="nav-dropdown-panel">
         <div className="nav-dropdown-panel__inner">
-          {items.map((item) => (
+          {items.map((item, index) => (
             <Link
               key={item.name}
               to={item.to}
               {...(item.hash ? { hash: item.hash } : {})}
               className="nav-dropdown-link"
+              style={{ "--link-i": index } as CSSProperties}
             >
               {item.name}
             </Link>
@@ -72,24 +73,26 @@ function ServicesDropdown() {
       <div className="nav-dropdown-panel">
         <div className="nav-dropdown-panel__inner nav-dropdown-panel__inner--services">
           <div className="nav-dropdown-column">
-            {visa.map((item) => (
+            {visa.map((item, index) => (
               <Link
                 key={item.name}
                 to={item.to}
                 {...(item.hash ? { hash: item.hash } : {})}
                 className="nav-dropdown-link"
+                style={{ "--link-i": index } as CSSProperties}
               >
                 {item.name}
               </Link>
             ))}
           </div>
           <div className="nav-dropdown-column">
-            {other.map((item) => (
+            {other.map((item, index) => (
               <Link
                 key={item.name}
                 to={item.to}
                 {...(item.hash ? { hash: item.hash } : {})}
                 className="nav-dropdown-link"
+                style={{ "--link-i": visa.length + index } as CSSProperties}
               >
                 {item.name}
               </Link>

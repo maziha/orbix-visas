@@ -5,12 +5,15 @@ import { FloatingButtons } from "./FloatingButtons";
 import { ScrollToTop } from "./ScrollToTop";
 import { ConsultationModal /* , ReviewModal */ } from "./Modals";
 import { ModalProvider } from "./modal-store";
+import { PageTransition } from "./PageTransition";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <ModalProvider>
       <Header />
-      <main className="pt-16 lg:pt-20">{children}</main>
+      <main className="pt-16 lg:pt-20">
+        <PageTransition>{children}</PageTransition>
+      </main>
       <Footer />
       <FloatingButtons />
       <ScrollToTop />

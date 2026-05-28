@@ -13,7 +13,7 @@ import { DestinationsSection } from "./DestinationsSection";
 import { EnquiryFormSection } from "./EnquiryFormSection";
 import { FamilyVisaHighlightSection } from "./FamilyVisaHighlightSection";
 import { OtherServicesTableSection } from "./OtherServicesTableSection";
-import { StudyAbroadCountriesSection } from "./StudyAbroadCountriesSection";
+// import { StudyAbroadCountriesSection } from "./StudyAbroadCountriesSection";
 import { WhyOrbixClosingSection } from "./WhyOrbixClosingSection";
 import { consultationClosingCta } from "@/lib/closing-cta-presets";
 import { ClosingCtaPanel, type ClosingCtaPanelProps } from "./ClosingCtaPanel";
@@ -35,10 +35,11 @@ export function Destinations() {
   return <DestinationsSection />;
 }
 
-/* ---------- SECTION 5: STUDY ABROAD (country list) ---------- */
+/* ---------- SECTION 5: STUDY ABROAD (country list) — enable when ready ----------
 export function StudyAbroadSplit() {
   return <StudyAbroadCountriesSection />;
 }
+---------- */
 
 /* ---------- SECTION 6: ENQUIRY FORM ---------- */
 export { EnquiryFormSection };
