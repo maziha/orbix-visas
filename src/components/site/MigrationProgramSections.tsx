@@ -7,21 +7,75 @@ import {
   migrationProgramAnchorDetails,
   migrationProgramGroups,
   type MigrationProgram,
+  type MigrationProgramGroup,
 } from "./migration-programs";
 
 const groupTabValue = (label: string) => label.toLowerCase();
 
+function countryGuideSlug(group: MigrationProgramGroup) {
+  return group.label === "CANADA" ? "canada-pr" : "australia-pr";
+}
+
+function countryDisplayName(group: MigrationProgramGroup) {
+  return group.label === "CANADA" ? "Canada" : "Australia";
+}
+
+function CountryPathwayHub({ group }: { group: MigrationProgramGroup }) {
+  const country = countryDisplayName(group);
+  const code = group.programs[0]?.countryCode ?? "CA";
+
+  return (
+    <div className="migration-country-hub">
+      <div className="migration-country-hub__main">
+        <CountryFlag code={code} size="lg" title={country} className="shrink-0" />
+        <div className="min-w-0">
+          <p className="migration-country-hub__eyebrow">{country} pathways</p>
+          <p className="migration-country-hub__text">
+            {group.label === "CANADA"
+              ? "One guide covers Express Entry, provincial nomination, and family sponsorship — timelines, documents, and how Orbix helps."
+              : "One guide covers Subclass 189, 190, and 491 — points, state nomination, and regional routes explained together."}
+          </p>
+          <Link
+            to="/migration/$program"
+            params={{ program: countryGuideSlug(group) }}
+            className="btn-primary mt-4 inline-flex items-center gap-2"
+          >
+            Full {country} guide
+            <ArrowRight className="h-4 w-4 shrink-0" />
+          </Link>
+        </div>
+      </div>
+
+      <nav className="migration-pathway-jump" aria-label={`Jump to a ${country} pathway`}>
+        <span className="migration-pathway-jump__label">On this page</span>
+        <div className="migration-pathway-jump__chips">
+          {group.programs.map((program) => (
+            <a key={program.id} href={`#${program.id}`} className="migration-pathway-jump__chip">
+              {program.jumpLabel}
+            </a>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+}
+
 function MigrationProgramCard({ program }: { program: MigrationProgram }) {
   const details = migrationProgramAnchorDetails[program.id];
-  const countryName = program.programPage === "canada-pr" ? "Canada" : "Australia";
 
   return (
     <article
       id={program.id}
-      className="scroll-mt-28 content-card-accent bg-brand-white rounded-xl border border-border p-8 md:p-10"
+      className="scroll-mt-28 migration-pathway-card content-card-accent bg-brand-white rounded-xl border border-border p-8 md:p-10"
     >
-      <h3 className="font-display text-2xl md:text-3xl text-[var(--navy)] mb-3">{program.name}</h3>
-      <p className="text-muted-foreground leading-relaxed max-w-3xl">{program.desc}</p>
+      <div className="migration-pathway-card__header">
+        <div className="min-w-0">
+          <h3 className="font-display text-2xl md:text-3xl text-[var(--navy)]">{program.name}</h3>
+          <p className="text-muted-foreground leading-relaxed max-w-3xl mt-2">{program.desc}</p>
+        </div>
+        <span className="migration-pathway-card__tag">{program.tag}</span>
+      </div>
+
       {details && (
         <div className="mt-5 space-y-3 max-w-3xl text-muted-foreground leading-relaxed">
           <p>{details.overview}</p>
@@ -31,14 +85,22 @@ function MigrationProgramCard({ program }: { program: MigrationProgram }) {
           </p>
         </div>
       )}
-      <Link
-        to="/migration/$program"
-        params={{ program: program.programPage }}
-        className="btn-secondary inline-flex items-center gap-2 mt-6"
-      >
-        Full {countryName} PR guide
-        <ArrowRight className="h-3.5 w-3.5" />
-      </Link>
+
+      <div className="migration-pathway-card__footer">
+        <p className="migration-pathway-card__timeline">
+          <span className="font-semibold text-[var(--navy)]">Typical timeline: </span>
+          {program.typicalTimeline}
+        </p>
+        <Link
+          to="/migration/$program"
+          params={{ program: program.programPage }}
+          className="migration-pathway-card__cta"
+        >
+          <span className="migration-pathway-card__cta-label">First step</span>
+          <span className="migration-pathway-card__cta-value">{program.firstStep}</span>
+          <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+        </Link>
+      </div>
     </article>
   );
 }
@@ -69,7 +131,7 @@ export function MigrationProgramSections() {
                   title={group.label}
                   className="hidden sm:block"
                 />
-                {group.label === "CANADA" ? "Canada" : "Australia"}
+                {countryDisplayName(group)}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -80,24 +142,8 @@ export function MigrationProgramSections() {
               value={groupTabValue(group.label)}
               className="mt-8 focus-visible:outline-none"
             >
-              <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-muted-foreground max-w-xl">
-                  {group.label === "CANADA"
-                    ? "Federal and provincial skilled pathways, plus family sponsorship options for Canadian sponsors."
-                    : "Points-tested and state-nominated skilled visas, plus regional pathways to PR."}
-                </p>
-                <Link
-                  to="/migration/$program"
-                  params={{
-                    program: group.label === "CANADA" ? "canada-pr" : "australia-pr",
-                  }}
-                  className="btn-primary inline-flex shrink-0 items-center gap-2 self-start sm:self-auto"
-                >
-                  Full {group.label === "CANADA" ? "Canada" : "Australia"} guide
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-              <div className="space-y-6">
+              <CountryPathwayHub group={group} />
+              <div className="mt-8 space-y-6">
                 {group.programs.map((program) => (
                   <MigrationProgramCard key={program.id} program={program} />
                 ))}

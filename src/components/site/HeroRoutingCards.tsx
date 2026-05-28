@@ -18,7 +18,14 @@ export function HeroRoutingCards() {
     if (!track) return;
     const card = track.children[index] as HTMLElement | undefined;
     if (!card) return;
-    card.scrollIntoView({ behavior, inline: "center", block: "nearest" });
+
+    // Scroll the track only — scrollIntoView can jump the page to the hero on autoplay.
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const targetLeft = card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2;
+    track.scrollTo({
+      left: Math.max(0, Math.min(targetLeft, maxScroll)),
+      behavior,
+    });
   }, []);
 
   const syncIndexFromScroll = useCallback(() => {

@@ -8,7 +8,7 @@ export function ContactPhoneAvatar({
   showBadge = true,
 }: {
   phone: ContactPhone;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md";
   showBadge?: boolean;
 }) {
   const [imgFailed, setImgFailed] = useState(false);

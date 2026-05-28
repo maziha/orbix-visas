@@ -23,7 +23,7 @@ function Layout() {
             Compare Canada and Australia permanent residency pathways below — use the tabs to switch
             countries without scrolling.
           </p>
-          <Link
+          {/* <Link
             to="/migration"
             hash="migration-pathways"
             className="btn-secondary mt-6 inline-flex items-center gap-2"
@@ -31,7 +31,7 @@ function Layout() {
             <CountryFlag code="CA" size="sm" title="Canada" className="ring-1 ring-white/30" />
             <CountryFlag code="AU" size="sm" title="Australia" className="-ml-1 ring-1 ring-white/30" />
             View pathways
-          </Link>
+          </Link> */}
         </div>
       </section>
       <MigrationProgramSections />

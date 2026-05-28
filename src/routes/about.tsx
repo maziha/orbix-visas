@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
-import { LeadershipTeaser, Achievements, SectionEyebrow } from "@/components/site/HomeSections";
+import { Achievements, SectionEyebrow } from "@/components/site/HomeSections";
 import { COMPANY_NAME } from "@/lib/contact-info";
 import { headForPage } from "@/lib/site-meta";
 
@@ -24,7 +24,6 @@ function About() {
           <p className="text-muted-foreground leading-relaxed">We exist to take away the fear, complexity, and confusion of moving abroad — replacing it with clarity, confidence, and hope.</p>
         </div>
       </section>
-      <LeadershipTeaser />
       <Achievements />
     </SiteLayout>
   );

@@ -5,6 +5,8 @@ export type MigrationProgramPage = "canada-pr" | "australia-pr";
 export type MigrationProgram = {
   id: string;
   name: string;
+  /** Short label for in-page jump chips on /migration */
+  jumpLabel: string;
   countryCode: CountryCode;
   programPage: MigrationProgramPage;
   desc: string;
@@ -27,6 +29,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
       {
         id: "canada-express-entry",
         name: "Canada Express Entry",
+        jumpLabel: "Express Entry",
         countryCode: "CA",
         programPage: "canada-pr",
         desc: "Best for skilled workers with CLB 7+ English and 1+ year NOC-eligible experience. Recent CRS cutoffs: 470–540.",
@@ -40,6 +43,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
       {
         id: "canada-pnp",
         name: "Provincial Nominee Program",
+        jumpLabel: "PNP",
         countryCode: "CA",
         programPage: "canada-pr",
         desc: "Best for professionals with a job offer or ties to a specific Canadian province.",
@@ -53,6 +57,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
       {
         id: "canada-family-sponsorship",
         name: "Canada Family Sponsorship",
+        jumpLabel: "Family",
         countryCode: "CA",
         programPage: "canada-pr",
         desc: "Best for Canadian citizens and PR holders sponsoring a spouse, partner, parent, or dependent child.",
@@ -71,6 +76,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
       {
         id: "australia-189",
         name: "Subclass 189",
+        jumpLabel: "Subclass 189",
         countryCode: "AU",
         programPage: "australia-pr",
         desc: "Best for skilled workers invited by the Department of Home Affairs — no state sponsor needed. Points-tested.",
@@ -84,6 +90,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
       {
         id: "australia-190",
         name: "Subclass 190",
+        jumpLabel: "Subclass 190",
         countryCode: "AU",
         programPage: "australia-pr",
         desc: "Best when a state or territory nominates you — often lower points thresholds than Subclass 189.",
@@ -97,6 +104,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
       {
         id: "australia-491",
         name: "Subclass 491",
+        jumpLabel: "Subclass 491",
         countryCode: "AU",
         programPage: "australia-pr",
         desc: "Best for skilled workers willing to live and work in regional Australia, with a pathway to permanent residency.",
