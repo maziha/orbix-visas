@@ -15,15 +15,17 @@ export default defineConfig(({ mode }) => {
     envDefine[`import.meta.env.${key}`] = JSON.stringify(value);
   }
 
+  const serverDefine: Record<string, string> = {};
   for (const key of ["RESEND_API_KEY", "ENQUIRY_TO_EMAIL", "RESEND_FROM_EMAIL"] as const) {
-    const value = serverEnv[key];
+    const value = serverEnv[key] ?? process.env[key];
     if (value) {
       process.env[key] = value;
+      serverDefine[`process.env.${key}`] = JSON.stringify(value);
     }
   }
 
   return {
-    define: envDefine,
+    define: { ...envDefine, ...serverDefine },
 
     resolve: {
       alias: {

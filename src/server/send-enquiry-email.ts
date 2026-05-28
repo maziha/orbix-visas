@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { CONTACT_EMAIL, COMPANY_NAME } from "@/lib/contact-info";
 import type { SubmitEnquiryInput } from "@/lib/enquiry-types";
+import { getServerEnv } from "@/server/env";
 
 const SOURCE_LABELS: Record<SubmitEnquiryInput["source"], string> = {
   contact: "Contact page",
@@ -67,14 +68,17 @@ function buildTextBody(data: SubmitEnquiryInput) {
 }
 
 export async function sendEnquiryEmail(data: SubmitEnquiryInput) {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = getServerEnv("RESEND_API_KEY");
   if (!apiKey) {
-    throw new Error("RESEND_API_KEY is not configured on the server.");
+    throw new Error(
+      "Email is not configured on the server. Set RESEND_API_KEY in Netlify environment variables and redeploy.",
+    );
   }
 
-  const to = process.env.ENQUIRY_TO_EMAIL ?? CONTACT_EMAIL;
+  const to = getServerEnv("ENQUIRY_TO_EMAIL") ?? CONTACT_EMAIL;
   const from =
-    process.env.RESEND_FROM_EMAIL ?? `${COMPANY_NAME} <orbixvisas@resend.dev>`;
+    getServerEnv("RESEND_FROM_EMAIL") ??
+    `${COMPANY_NAME} <orbixvisas@resend.dev>`;
   const replyTo = data.email?.trim() || undefined;
 
   const resend = new Resend(apiKey);
