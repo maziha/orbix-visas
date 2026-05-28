@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
-import { CONTACT_PHONES, CONTACT_PHONE_TEL, whatsAppUrlFor } from "@/lib/contact-info";
+import { CONTACT_PHONE_TEL } from "@/lib/contact-info";
 import type { ConsultationPreset } from "@/lib/enquiry-options";
 import { useModal } from "./modal-store";
+import { WhatsAppContactMenu } from "./WhatsAppContactMenu";
 
 const DEFAULT_TITLE = "Ready to take the first step?";
 const DEFAULT_DESCRIPTION =
@@ -27,19 +28,7 @@ export type ClosingCtaPanelProps = {
 function ClosingCtaSecondary({ action }: { action: ClosingCtaSecondaryAction }) {
   if (action.kind === "whatsapp") {
     return (
-      <div className="closing-cta-panel__dual-whatsapp">
-        {CONTACT_PHONES.map((phone) => (
-          <a
-            key={phone.tel}
-            href={whatsAppUrlFor(phone)}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-secondary inline-flex items-center justify-center"
-          >
-            WhatsApp · {phone.display.replace("+91 ", "")}
-          </a>
-        ))}
-      </div>
+      <WhatsAppContactMenu variant="inline" triggerLabel={action.label ?? "WhatsApp us"} />
     );
   }
 

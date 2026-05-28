@@ -10,11 +10,30 @@ export type ContactPhone = {
   tel: string;
   /** Digits only, for wa.me (no + or spaces) */
   whatsapp: string;
+  /** Short label in pickers (e.g. counsellor name or desk name) */
+  label?: string;
+  /**
+   * Optional photo (e.g. WhatsApp profile export) under public/.
+   * Falls back to initials if missing or broken.
+   */
+  avatarSrc?: string;
 };
 
 export const CONTACT_PHONES: readonly ContactPhone[] = [
-  { display: "+91 8592026134", tel: "+918592026134", whatsapp: "918592026134" },
-  { display: "+91 8592026124", tel: "+918592026124", whatsapp: "918592026124" },
+  {
+    display: "+91 8592026134",
+    tel: "+918592026134",
+    whatsapp: "918592026134",
+    label: "Counsellor · Line 1",
+    avatarSrc: "/images/contact/whatsapp-6134.jpg",
+  },
+  {
+    display: "+91 8592026124",
+    tel: "+918592026124",
+    whatsapp: "918592026124",
+    label: "Counsellor · Line 2",
+    avatarSrc: "/images/contact/whatsapp-6124.jpg",
+  },
 ];
 
 export function whatsAppUrlFor(phone: ContactPhone): string {
