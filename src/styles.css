@@ -1750,6 +1750,25 @@
     gap: 0.5rem;
   }
 
+  .contact-phone-links__identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .contact-phone-links__name {
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--navy);
+  }
+
+  .contact-phone-links__meta {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: color-mix(in srgb, var(--color-bg-dark) 58%, transparent);
+  }
+
   .contact-phone-links__number {
     font-weight: 600;
     line-height: 1.35;
@@ -1787,8 +1806,13 @@
     border-color: rgba(255, 255, 255, 0.4);
   }
 
+  .contact-phone-links--footer .contact-phone-links__name {
+    color: rgba(255, 255, 255, 0.96);
+  }
+
+  .contact-phone-links--footer .contact-phone-links__meta,
   .contact-phone-links--footer .contact-phone-links__number {
-    color: rgba(255, 255, 255, 0.92);
+    color: rgba(255, 255, 255, 0.72);
     font-size: 0.875rem;
   }
 
@@ -1803,9 +1827,15 @@
     color: var(--accent-sky);
   }
 
-  .contact-phone-links--contact .contact-phone-links__number {
+  .contact-phone-links--contact .contact-phone-links__name {
     color: var(--navy);
     font-size: 0.9375rem;
+  }
+
+  .contact-phone-links--contact .contact-phone-links__meta,
+  .contact-phone-links--contact .contact-phone-links__number {
+    color: color-mix(in srgb, var(--navy) 62%, transparent);
+    font-size: 0.875rem;
   }
 
   .contact-phone-links__action--mobile {
@@ -1829,9 +1859,15 @@
     background: #ffffff;
   }
 
-  .contact-phone-links--mobile .contact-phone-links__number {
+  .contact-phone-links--mobile .contact-phone-links__name {
     color: var(--navy);
     font-size: 0.9375rem;
+  }
+
+  .contact-phone-links--mobile .contact-phone-links__meta,
+  .contact-phone-links--mobile .contact-phone-links__number {
+    color: color-mix(in srgb, var(--navy) 62%, transparent);
+    font-size: 0.875rem;
   }
 
   .contact-phone-links__action--whatsapp.contact-phone-links__action--footer {
@@ -2180,6 +2216,165 @@
   .contact-phone-avatar--sm {
     width: 2rem;
     height: 2rem;
+  }
+
+  .contact-phone-avatar--lg {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+
+  .contact-phone-avatar--lg .contact-phone-avatar__fallback {
+    font-size: 1.375rem;
+  }
+
+  .leadership-directors-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .leadership-directors-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+    }
+  }
+
+  .leadership-director-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid #e4e8f0;
+    background: var(--color-bg-white);
+    box-shadow: 0 8px 28px rgb(4 1 117 / 0.06);
+  }
+
+  .leadership-director-card__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  /* Family visa — destination comparison cards (aligned rows) */
+  .family-dest-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 768px) {
+    .family-dest-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  .family-dest-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+
+  @supports (grid-template-rows: subgrid) {
+    @media (min-width: 768px) {
+      .family-dest-grid {
+        grid-template-rows: repeat(var(--family-dest-rows, 8), auto);
+      }
+
+      .family-dest-card {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span var(--family-dest-rows, 8);
+        gap: 0.65rem;
+      }
+    }
+  }
+
+  .family-dest-card__country {
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .family-dest-card__visa {
+    margin: 0;
+    min-height: 2.75rem;
+  }
+
+  .family-dest-card__metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-height: 0;
+  }
+
+  @supports not (grid-template-rows: subgrid) {
+    .family-dest-card__metric--timeline {
+      min-height: 4.25rem;
+    }
+
+    .family-dest-card__metric--costs {
+      min-height: 4rem;
+    }
+
+    .family-dest-grid[data-req-rows="4"] .family-dest-card__metric--timeline {
+      min-height: 4.75rem;
+    }
+
+    .family-dest-grid[data-req-rows="4"] .family-dest-card__metric--costs {
+      min-height: 4.5rem;
+    }
+  }
+
+  .family-dest-card__metric-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-sky);
+    line-height: 1.2;
+  }
+
+  .family-dest-card__metric-value {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-bg-dark) 68%, transparent);
+  }
+
+  .family-dest-card__req {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    min-height: 2.85rem;
+  }
+
+  .family-dest-card__req--pad {
+    visibility: hidden;
+    pointer-events: none;
+    min-height: 2.85rem;
+  }
+
+  .family-dest-card__req-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    color: var(--accent-sky);
+  }
+
+  .family-dest-card__req-text {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: color-mix(in srgb, var(--color-bg-dark) 65%, transparent);
   }
 
   .contact-phone-avatar__img,

@@ -16,7 +16,9 @@ import { OtherServicesTableSection } from "./OtherServicesTableSection";
 import { StudyAbroadCountriesSection } from "./StudyAbroadCountriesSection";
 import { WhyOrbixClosingSection } from "./WhyOrbixClosingSection";
 import { consultationClosingCta } from "@/lib/closing-cta-presets";
+import { COMPANY_NAME_SHORT, CONTACT_PHONES } from "@/lib/contact-info";
 import { ClosingCtaPanel, type ClosingCtaPanelProps } from "./ClosingCtaPanel";
+import { ContactPhoneAvatar } from "./ContactPhoneAvatar";
 import {
   ArrowRight, Star, Heart, Users, Briefcase, Plane,
   MapPin, GraduationCap, CheckCircle2
@@ -211,40 +213,33 @@ export function ChoosingFuture() {
 }
 
 /* ---------- SECTION 13: LEADERSHIP ---------- */
-function LeadershipInitialsAvatar({ initials }: { initials: string }) {
-  return (
-    <div
-      className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-brand-dark text-[28px] font-semibold leading-none text-white"
-      role="img"
-      aria-label={`${initials} — photo placeholder`}
-    >
-      {initials}
-    </div>
-  );
-}
-
 export function LeadershipTeaser() {
   return (
     <section className="py-20 bg-brand-subtle">
-      <div className="container-px mx-auto max-w-2xl flex flex-col items-center text-center gap-5">
-        <SectionEyebrow>OUR LEADERSHIP</SectionEyebrow>
-        <h2 className="font-display text-4xl md:text-5xl text-[var(--navy)] leading-tight">
-          Our Leadership
-        </h2>
-
-        {/* TODO: Replace with real photo before launch - coordinate with client */}
-        <LeadershipInitialsAvatar initials="AK" />
-
-        <div className="flex flex-col items-center gap-1">
-          <h3 className="font-display text-xl text-[var(--navy)]">Anup Kannan</h3>
-          <p className="text-sm text-muted-foreground">Managing Director</p>
-          {/* TODO: Confirm credentials copy with client before launch */}
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-md mt-2">
-            Certified immigration consultant with expertise in Canadian and Australian migration pathways.
+      <div className="container-px mx-auto max-w-4xl flex flex-col items-center text-center gap-8">
+        <div>
+          <SectionEyebrow>OUR LEADERSHIP</SectionEyebrow>
+          <h2 className="font-display text-4xl md:text-5xl text-[var(--navy)] leading-tight mt-2">
+            Meet Our Directors
+          </h2>
+          <p className="text-muted-foreground leading-relaxed max-w-xl mx-auto mt-4">
+            Alen and Dona lead {COMPANY_NAME_SHORT}&apos;s counsellor team in Vyttila — guiding students and
+            families on study abroad, PR, and reunification pathways with clear, honest advice.
           </p>
         </div>
 
-        {/* TODO: Create /team page or remove this button */}
+        <ul className="leadership-directors-grid w-full">
+          {CONTACT_PHONES.map((director) => (
+            <li key={director.tel} className="leadership-director-card">
+              <ContactPhoneAvatar phone={director} size="lg" showBadge={false} />
+              <div className="leadership-director-card__copy">
+                <h3 className="font-display text-xl text-[var(--navy)]">{director.name}</h3>
+                <p className="text-sm font-semibold text-[var(--accent-sky)]">{director.role}</p>
+                <p className="text-sm text-muted-foreground mt-1">{director.display}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

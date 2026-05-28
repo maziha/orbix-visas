@@ -69,10 +69,10 @@ export function WhatsAppContactMenu({
               >
                 <ContactPhoneAvatar phone={phone} size="md" />
                 <span className="whatsapp-contact-menu__copy">
-                  <span className="whatsapp-contact-menu__label">
-                    {phone.label ?? "WhatsApp"}
+                  <span className="whatsapp-contact-menu__label">{phone.name}</span>
+                  <span className="whatsapp-contact-menu__number">
+                    {phone.role} · {displayShort(phone)}
                   </span>
-                  <span className="whatsapp-contact-menu__number">{displayShort(phone)}</span>
                 </span>
                 <WhatsAppIcon className="whatsapp-contact-menu__arrow h-4 w-4 shrink-0" aria-hidden />
               </a>

@@ -6,14 +6,15 @@ export const COMPANY_NAME_SHORT = "OrbiX";
 export const CONTACT_EMAIL = "orbixoverseascareers@gmail.com";
 
 export type ContactPhone = {
+  /** Director / contact name */
+  name: string;
+  role: string;
   display: string;
   tel: string;
   /** Digits only, for wa.me (no + or spaces) */
   whatsapp: string;
-  /** Short label in pickers (e.g. counsellor name or desk name) */
-  label?: string;
   /**
-   * Optional photo (e.g. WhatsApp profile export) under public/.
+   * Photo under public/ (e.g. WhatsApp profile export).
    * Falls back to initials if missing or broken.
    */
   avatarSrc?: string;
@@ -21,20 +22,31 @@ export type ContactPhone = {
 
 export const CONTACT_PHONES: readonly ContactPhone[] = [
   {
+    name: "Alen Padua",
+    role: "Director",
     display: "+91 8592026134",
     tel: "+918592026134",
     whatsapp: "918592026134",
-    label: "Counsellor · Line 1",
     avatarSrc: "/images/contact/whatsapp-6134.jpg",
   },
   {
+    name: "Dona Davis",
+    role: "Director",
     display: "+91 8592026124",
     tel: "+918592026124",
     whatsapp: "918592026124",
-    label: "Counsellor · Line 2",
     avatarSrc: "/images/contact/whatsapp-6124.jpg",
   },
-];
+] as const;
+
+export function contactInitials(name: string) {
+  return name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 export function whatsAppUrlFor(phone: ContactPhone): string {
   return `https://wa.me/${phone.whatsapp}`;

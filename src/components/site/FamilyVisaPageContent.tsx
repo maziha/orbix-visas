@@ -3,6 +3,7 @@ import type { FamilyVisaContent } from "@/lib/family-visa-content";
 import { FAMILY_VISA_COST_DISCLAIMER } from "@/lib/family-visa-content";
 import { familyVisaClosingCta } from "@/lib/closing-cta-presets";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
+import { FamilyDestinationCards } from "./FamilyDestinationCards";
 import { PageHero } from "./PageHero";
 
 export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent }) {
@@ -73,30 +74,7 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
             High-level summary for common destinations — immigration rules change. Orbix confirms
             current requirements for your sponsor&apos;s status at consultation.
           </p>
-          <div className="grid md:grid-cols-3 gap-6">
-            {content.destinations.map((d) => (
-              <div key={d.country} className="card-base bg-brand-white rounded-xl p-7 flex flex-col h-full">
-                <h3 className="font-display text-xl text-[var(--navy)]">{d.country}</h3>
-                <p className="text-sm font-medium text-[var(--accent-sky)] mt-1">{d.visaLabel}</p>
-                <p className="text-sm text-muted-foreground mt-3">
-                  <span className="font-semibold text-[var(--navy)]">Timeline: </span>
-                  {d.timeline}
-                </p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  <span className="font-semibold text-[var(--navy)]">Costs: </span>
-                  {d.costNote}
-                </p>
-                <ul className="mt-4 space-y-2 flex-1">
-                  {d.requirements.map((r) => (
-                    <li key={r} className="flex gap-2 text-xs text-muted-foreground leading-relaxed">
-                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-[var(--accent-sky)] mt-0.5" />
-                      <span>{r}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <FamilyDestinationCards destinations={content.destinations} />
           <p className="text-xs text-muted-foreground mt-6 leading-relaxed">{FAMILY_VISA_COST_DISCLAIMER}</p>
         </div>
       </section>

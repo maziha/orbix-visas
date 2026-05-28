@@ -25,7 +25,12 @@ export function ContactPhoneLinks({
 
   return (
     <div className={`contact-phone-links contact-phone-links--${variant} ${className}`.trim()}>
-      <span className="contact-phone-links__number">{phone.display}</span>
+      <span className="contact-phone-links__identity">
+        <span className="contact-phone-links__name">{phone.name}</span>
+        <span className="contact-phone-links__meta">
+          {phone.role} · {phone.display}
+        </span>
+      </span>
       <span className="contact-phone-links__actions">
         <a href={`tel:${phone.tel}`} className={actionClass}>
           <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
