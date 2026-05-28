@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -63,11 +63,8 @@ function NavSection({
         <div className="mobile-nav-section__panel-inner">
           <div id={panelId} className="mobile-nav-section__panel" role="region" aria-label={title}>
             <ul className="mobile-nav-section__list">
-              {links.map((link, index) => (
-                <li
-                  key={`${link.to}${link.hash ?? ""}-${link.label}`}
-                  style={{ "--nav-link-i": index } as CSSProperties}
-                >
+              {links.map((link) => (
+                <li key={`${link.to}${link.hash ?? ""}-${link.label}`}>
                   <Link
                     to={link.to}
                     hash={link.hash}
@@ -118,7 +115,7 @@ const servicesNavLinks: MobileNavLinkItem[] = serviceNavLinks.map((item) => ({
   label: item.name,
 }));
 
-const MENU_EXIT_MS = 520;
+const MENU_EXIT_MS = 680;
 
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { openConsultation } = useModal();

@@ -1,13 +1,26 @@
 import type { ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
 
-/** Soft enter on route change — keyed by pathname so each page glides in once. */
+/**
+ * Subtle crossfade on route change only — skips first paint to avoid homepage jerk.
+ */
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isFirstRoute = useRef(true);
+  const [entering, setEntering] = useState(false);
 
-  return (
-    <div key={pathname} className="page-content-enter">
-      {children}
-    </div>
-  );
+  useEffect(() => {
+    if (isFirstRoute.current) {
+      isFirstRoute.current = false;
+      return;
+    }
+
+    setEntering(true);
+    const timer = window.setTimeout(() => setEntering(false), 320);
+    return () => clearTimeout(timer);
+  }, [pathname]);
+
+  return <div className={cn(entering && "page-shell--enter")}>{children}</div>;
 }

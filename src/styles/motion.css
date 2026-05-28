@@ -1,17 +1,40 @@
 /*
- * Orbix motion — smooth, travel-inspired transitions.
- * "Flight" easing for panels; "runway" for fades; "stamp" for playful pops.
+ * Orbix motion — keyframe enter/exit for Radix (mounts with data-state=open;
+ * CSS transitions alone do not run). Subtle, smooth, no harsh jumps.
  */
 
 :root {
-  --ease-flight: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-runway: cubic-bezier(0.33, 1, 0.68, 1);
-  --ease-stamp: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --duration-instant: 140ms;
-  --duration-fast: 240ms;
-  --duration-normal: 400ms;
-  --duration-slow: 520ms;
-  --duration-slower: 640ms;
+  --ease-gentle: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-soft: cubic-bezier(0.4, 0, 1, 1);
+
+  --duration-fade: 300ms;
+  --duration-modal: 420ms;
+  --duration-panel: 450ms;
+  --duration-ui: 260ms;
+
+  --ease-apple: var(--ease-gentle);
+  --ease-flight: var(--ease-gentle);
+  --ease-runway: var(--ease-out-soft);
+  --ease-stamp: var(--ease-out-soft);
+  --ease-snappy: var(--ease-gentle);
+  --duration-fast: var(--duration-ui);
+  --duration-normal: var(--duration-panel);
+  --duration-slow: var(--duration-panel);
+  --duration-long: var(--duration-panel);
+  --duration-medium: var(--duration-modal);
+  --duration-short: var(--duration-ui);
+  --duration-instant: 160ms;
+  --duration-micro: 160ms;
+  --duration-slower: 560ms;
+  --duration-xl: 560ms;
+
+  --transition-ui: opacity var(--duration-ui) var(--ease-gentle),
+    background-color var(--duration-ui) var(--ease-gentle),
+    border-color var(--duration-ui) var(--ease-gentle),
+    box-shadow var(--duration-ui) var(--ease-gentle),
+    color var(--duration-ui) var(--ease-gentle),
+    transform var(--duration-ui) var(--ease-out-soft);
 }
 
 @keyframes orbixFadeIn {
@@ -32,232 +55,138 @@
   }
 }
 
-@keyframes orbixSlideUpIn {
+@keyframes orbixMenuItemEnter {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translate3d(0, 6px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-@keyframes orbixSlideDownIn {
+@keyframes orbixPageFade {
   from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.98);
+    opacity: 0.96;
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes orbixSlideFromRight {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes orbixNavLinkIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes orbixDialogIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes orbixDialogOut {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(10px) scale(0.98);
-  }
-}
-
-@keyframes orbixPopoverIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes orbixPopoverOut {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(6px) scale(0.97);
-  }
-}
-
-@keyframes orbixPageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
 @keyframes orbixFlightArcDrift {
   0% {
     stroke-dashoffset: 120;
-    opacity: 0.35;
+    opacity: 0.25;
   }
   100% {
     stroke-dashoffset: 0;
-    opacity: 0.7;
+    opacity: 0.5;
   }
 }
 
 @keyframes orbixStampPulse {
   0%,
   100% {
-    opacity: 0.05;
-    transform: scale(1) rotate(-12deg);
+    opacity: 0.03;
   }
   50% {
-    opacity: 0.09;
-    transform: scale(1.03) rotate(-10deg);
+    opacity: 0.06;
   }
 }
 
-/* Route / page content */
-.page-content-enter {
-  animation: orbixPageEnter var(--duration-slow) var(--ease-flight) both;
-}
-
-.page-content-enter::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background:
-    radial-gradient(ellipse 80% 50% at 100% 0%, color-mix(in srgb, var(--accent-sky) 8%, transparent), transparent 55%),
-    radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--navy) 4%, transparent), transparent 40%);
-  opacity: 0;
-  animation: orbixFadeIn var(--duration-slower) var(--ease-runway) 0.1s both;
-}
-
-/* Dialog */
-.site-dialog-overlay[data-state="open"] {
-  animation: orbixFadeIn var(--duration-normal) var(--ease-runway) both !important;
-}
-
-.site-dialog-overlay[data-state="closed"] {
-  animation: orbixFadeOut var(--duration-fast) var(--ease-runway) both !important;
-}
-
-.site-dialog-content[data-state="open"] {
-  animation: orbixDialogIn var(--duration-slow) var(--ease-flight) both !important;
-}
-
-.site-dialog-content[data-state="closed"] {
-  animation: orbixDialogOut var(--duration-normal) var(--ease-flight) both !important;
-}
-
-/* WhatsApp / popovers */
-.orbix-popover-content[data-state="open"] {
-  animation: orbixPopoverIn var(--duration-normal) var(--ease-flight) both !important;
-}
-
-.orbix-popover-content[data-state="closed"] {
-  animation: orbixPopoverOut var(--duration-fast) var(--ease-runway) both !important;
-}
-
+/* ─── Contact picker rows (after popover enter) ─── */
 .orbix-popover-content[data-state="open"] .contact-line-menu__item {
-  animation: orbixSlideUpIn var(--duration-normal) var(--ease-flight) both;
+  animation: orbixMenuItemEnter var(--duration-modal) var(--ease-out-soft) both;
 }
 
 .orbix-popover-content[data-state="open"] .contact-line-menu__list > li:nth-child(1) .contact-line-menu__item {
-  animation-delay: 50ms;
+  animation-delay: 80ms;
 }
 
 .orbix-popover-content[data-state="open"] .contact-line-menu__list > li:nth-child(2) .contact-line-menu__item {
-  animation-delay: 110ms;
+  animation-delay: 140ms;
 }
 
-/* Accordion (Radix) */
+/* ─── Floating action buttons (WhatsApp / phone FABs) ─── */
+.floating-action-btn {
+  transition:
+    transform var(--duration-ui) var(--ease-out-soft),
+    box-shadow var(--duration-ui) var(--ease-gentle),
+    background-color var(--duration-ui) var(--ease-gentle);
+}
+
+.floating-action-btn:hover {
+  transform: scale(1.06);
+}
+
+.floating-action-btn:active {
+  transform: scale(0.94);
+  transition-duration: 120ms;
+}
+
+.floating-action-btn[aria-expanded="true"] {
+  transform: scale(1.02);
+}
+
+/* ─── Page route change ─── */
+.page-shell--enter {
+  animation: orbixPageFade var(--duration-fade) var(--ease-gentle) both;
+}
+
+/* ─── Accordion ─── */
 [data-state="open"].orbix-accordion-content {
-  animation: accordion-down var(--duration-normal) var(--ease-flight) forwards;
+  animation: accordion-down var(--duration-panel) var(--ease-gentle) forwards;
 }
 
 [data-state="closed"].orbix-accordion-content {
-  animation: accordion-up var(--duration-normal) var(--ease-flight) forwards;
+  animation: accordion-up var(--duration-panel) var(--ease-gentle) forwards;
 }
 
 .orbix-accordion-trigger > svg {
-  transition: transform var(--duration-normal) var(--ease-flight);
+  transition: transform var(--duration-panel) var(--ease-gentle);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-content-enter,
-  .page-content-enter::before,
-  .site-dialog-overlay[data-state="open"],
-  .site-dialog-overlay[data-state="closed"],
-  .site-dialog-content[data-state="open"],
-  .site-dialog-content[data-state="closed"],
-  .orbix-popover-content[data-state="open"],
-  .orbix-popover-content[data-state="closed"],
+  .site-dialog-overlay,
+  .site-dialog-content,
+  .orbix-popover-content {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .page-shell--enter,
   .orbix-popover-content[data-state="open"] .contact-line-menu__item,
   [data-state="open"].orbix-accordion-content,
-  [data-state="closed"].orbix-accordion-content,
-  .mobile-nav-section--open .mobile-nav-link,
-  .nav-dropdown-wrap:hover .nav-dropdown-link,
-  .nav-dropdown-wrap:focus-within .nav-dropdown-link {
+  [data-state="closed"].orbix-accordion-content {
     animation: none !important;
   }
 
-  .page-content-enter {
-    opacity: 1;
+  .floating-action-btn {
+    transition: none;
+  }
+
+  .floating-action-btn:hover,
+  .floating-action-btn:active,
+  .floating-action-btn[aria-expanded="true"] {
     transform: none;
   }
 
-  .site-dialog-content[data-state="open"],
-  .site-dialog-content[data-state="closed"] {
-    transform: none;
+  .page-shell--enter {
+    opacity: 1;
   }
 
   .mobile-nav-panel,
   .mobile-nav-backdrop,
   .mobile-nav-section__panel-wrap,
+  .mobile-nav-section__panel-inner,
   .nav-dropdown-panel__inner {
     transition: none !important;
   }
 
   .mobile-nav-root--active .mobile-nav-panel {
-    transform: translateX(0);
+    transform: none;
   }
 
   .mobile-nav-panel__flight-arc,

@@ -118,26 +118,24 @@ export function HeroRoutingCards() {
         })}
       </div>
 
-      <div
-        className="hero-route-carousel__dots lg:hidden"
-        role="tablist"
-        aria-label="Pathway slides"
-      >
-        {heroRoutingCards.map((card, index) => (
-          <button
-            key={card.label}
-            type="button"
-            role="tab"
-            aria-selected={activeIndex === index}
-            aria-label={`${card.label} (${index + 1} of ${cardCount})`}
-            className={cn(
-              "hero-route-carousel__dot",
-              activeIndex === index && "hero-route-carousel__dot--active",
-            )}
-            onClick={() => goToSlide(index)}
-          />
-        ))}
-      </div>
+      {isMobileCarousel ? (
+        <div className="hero-route-carousel__dots" role="tablist" aria-label="Pathway slides">
+          {heroRoutingCards.map((card, index) => (
+            <button
+              key={card.label}
+              type="button"
+              role="tab"
+              aria-selected={activeIndex === index}
+              aria-label={`${card.label} (${index + 1} of ${cardCount})`}
+              className={cn(
+                "hero-route-carousel__dot",
+                activeIndex === index && "hero-route-carousel__dot--active",
+              )}
+              onClick={() => goToSlide(index)}
+            />
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

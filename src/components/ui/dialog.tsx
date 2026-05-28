@@ -21,7 +21,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "site-dialog-overlay fixed inset-0 z-50 bg-black/55 backdrop-blur-[3px]",
+      "site-dialog-overlay fixed inset-0 z-50 bg-black/55 backdrop-blur-[3px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-300",
       className,
     )}
     {...props}
@@ -35,20 +35,22 @@ const DialogContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        "site-dialog-content fixed inset-0 z-50 m-auto grid h-fit w-[calc(100%-2.5rem)] max-w-lg gap-4 border bg-background shadow-lg sm:w-[min(calc(100%-3rem),32rem)]",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      <DialogPrimitive.Close className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-sm opacity-70 ring-offset-background cursor-pointer transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
+    <div className="site-dialog-stage fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          "site-dialog-content pointer-events-auto relative grid h-fit max-h-[min(90dvh,44rem)] w-[calc(100%-0px)] max-w-lg gap-4 overflow-y-auto border bg-background shadow-lg sm:max-w-[min(32rem,calc(100%-1rem))] duration-500 ease-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-3 data-[state=closed]:slide-out-to-bottom-2",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+        <DialogPrimitive.Close className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-sm opacity-70 ring-offset-background cursor-pointer transition-opacity duration-200 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </div>
   </DialogPortal>
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
