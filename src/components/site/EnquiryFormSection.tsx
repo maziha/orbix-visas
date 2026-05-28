@@ -1,11 +1,12 @@
 import { Clock, MapPin, ShieldCheck } from "lucide-react";
+import { COMPANY_ADDRESS_SHORT } from "@/lib/contact-info";
 import { QuickEnquiryForm } from "./QuickEnquiryForm";
 import { SectionEyebrow } from "./SectionEyebrow";
 
 const TRUST_POINTS = [
   { icon: Clock, text: "We reply within 24 hours" },
   { icon: ShieldCheck, text: "Free first consultation" },
-  { icon: MapPin, text: "Counsellors based in Kochi" },
+  { icon: MapPin, text: `Office in ${COMPANY_ADDRESS_SHORT}` },
 ] as const;
 
 export function EnquiryFormSection() {

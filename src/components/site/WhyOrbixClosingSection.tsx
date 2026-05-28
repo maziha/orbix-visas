@@ -6,7 +6,7 @@ const STATS = [
   { display: "7", label: "Study destinations" },
   { display: "2", label: "PR migration pathways" },
   { display: "Free", label: "First consultation" },
-  { display: "Kochi", label: "Based in Kerala" },
+  { display: "Vyttila", label: "Head office — Ernakulam" },
 ] as const;
 
 const WHY_CHOOSE_POINTS = [

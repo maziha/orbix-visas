@@ -83,6 +83,8 @@
   /* Brand accents (not for section fills) — #3FB8F7 */
   --accent-sky: #3fb8f7;
   --accent-sky-light: color-mix(in srgb, var(--accent-sky) 40%, var(--color-bg-white));
+  --whatsapp: #25d366;
+  --whatsapp-hover: #20bd5a;
   --navy: var(--color-bg-dark);
   --navy-light: #1a1f8f;
   --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
@@ -327,7 +329,7 @@
     animation: cardRevealIn 150ms var(--ease-snappy) 200ms both;
   }
 
-  /* Destination cards — reveal stat on hover without hiding content */
+  /* Destination cards — stat fades in reserved slot (no layout shift) */
   .card-hover-destination {
     border: 1px solid var(--border);
     transition:
@@ -338,83 +340,65 @@
     border-color: color-mix(in srgb, var(--accent-sky) 55%, var(--border));
     box-shadow: 0 10px 28px rgb(4 1 117 / 0.08);
   }
+  .destination-card-stat-slot {
+    flex-shrink: 0;
+    min-height: 3.5rem;
+    margin-top: 1rem;
+  }
   .card-hover-destination .destination-card-stat {
-    max-height: 0;
     margin: 0;
-    padding: 0;
-    overflow: hidden;
-    opacity: 0;
+    padding: 0.75rem 0.875rem;
     border-left: 4px solid transparent;
+    border-radius: 0 6px 6px 0;
     font-size: 0.8125rem;
     font-weight: 600;
     line-height: 1.45;
     color: var(--color-bg-dark);
+    background-color: transparent;
+    opacity: 0;
     transition:
-      max-height 250ms var(--ease-snappy),
       opacity 200ms var(--ease-snappy),
-      margin 250ms var(--ease-snappy),
-      padding 250ms var(--ease-snappy),
-      border-color 200ms var(--ease-snappy);
+      border-color 200ms var(--ease-snappy),
+      background-color 200ms var(--ease-snappy);
   }
   .card-hover-destination:hover .destination-card-stat {
-    max-height: 6rem;
-    margin-top: 1rem;
-    padding: 0.75rem 0.875rem;
     opacity: 1;
     border-left-color: var(--accent-sky);
     background-color: var(--color-bg-subtle);
   }
 
-  /* Service cards — typical timeline reveal */
+  /* Touch / coarse pointer: always show stat; highlight card when in viewport */
+  @media (hover: none) {
+    .card-hover-destination .destination-card-stat {
+      opacity: 1;
+      border-left-color: var(--accent-sky);
+      background-color: var(--color-bg-subtle);
+    }
+    .card-hover-destination.destination-card--in-view {
+      border-color: color-mix(in srgb, var(--accent-sky) 55%, var(--border));
+      box-shadow: 0 10px 28px rgb(4 1 117 / 0.08);
+    }
+  }
+
+  /* Service cards — subtle hover, content stays visible */
   .card-hover-service {
-    position: relative;
-    overflow: hidden;
     border: 1px solid var(--border);
+    transition:
+      border-color 200ms var(--ease-snappy),
+      box-shadow 200ms var(--ease-snappy);
   }
-  .card-hover-service .service-card-desc,
-  .card-hover-service .service-card-action {
-    transition: opacity 150ms var(--ease-snappy);
-  }
-  .card-hover-service:hover .service-card-desc,
-  .card-hover-service:hover .service-card-action {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .card-hover-service .card-reveal-timeline {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 0.75rem 1rem;
-    background-color: var(--color-bg-white);
-    color: var(--accent-sky);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    line-height: 1.4;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(6px);
-    pointer-events: none;
-  }
-  .card-hover-service .card-reveal-timeline::before {
-    content: attr(data-timeline);
-  }
-  .card-hover-service:hover .card-reveal-timeline {
-    animation: cardRevealIn 150ms var(--ease-snappy) both;
+  .card-hover-service:hover {
+    border-color: color-mix(in srgb, var(--accent-sky) 55%, var(--border));
+    box-shadow: 0 10px 28px rgb(4 1 117 / 0.08);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .card-hover-migration:hover .card-reveal-footer,
-    .card-hover-service:hover .card-reveal-timeline {
+    .card-hover-migration:hover .card-reveal-footer {
       animation: none;
       opacity: 1;
       transform: none;
     }
     .card-hover-destination .destination-card-stat {
-      max-height: none;
-      margin-top: 1rem;
-      padding: 0.75rem 0.875rem;
       opacity: 1;
       border-left-color: var(--accent-sky);
       background-color: var(--color-bg-subtle);
@@ -511,6 +495,24 @@
     font-size: 1.0625rem;
     line-height: 1.65;
     color: color-mix(in srgb, var(--color-bg-white) 72%, transparent);
+  }
+
+  .closing-cta-panel__footer {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-bg-white) 60%, transparent);
+  }
+
+  .closing-cta-panel__footer-link {
+    color: var(--accent-sky);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 150ms var(--ease-snappy);
+  }
+
+  .closing-cta-panel__footer-link:hover {
+    text-decoration: underline;
   }
 
   .closing-cta-panel__actions {
@@ -849,22 +851,35 @@
     }
   }
 
-  .hero-watermark {
-    width: 60vw;
-    max-width: 52rem;
-    opacity: 0.04;
-    object-fit: contain;
+  .hero-route-carousel {
+    max-width: 56rem;
   }
 
   .hero-route-cards {
     display: flex;
-    flex-direction: column;
     gap: 0.75rem;
     max-width: 56rem;
   }
 
+  .hero-route-cards--track {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-inline: 0.125rem;
+    margin-inline: -0.125rem;
+  }
+
+  .hero-route-cards--track::-webkit-scrollbar {
+    display: none;
+  }
+
   @media (min-width: 1024px) {
-    .hero-route-cards {
+    .hero-route-cards--track {
+      overflow: visible;
+      scroll-snap-type: none;
       flex-direction: row;
       gap: 1rem;
     }
@@ -874,9 +889,10 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    flex: 1;
+    flex: 0 0 min(86%, 18.5rem);
+    scroll-snap-align: center;
     min-height: 0;
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.25rem;
     border-radius: 8px;
     cursor: pointer;
     text-decoration: none;
@@ -887,9 +903,39 @@
       background-color 200ms var(--ease-snappy);
   }
 
+  @media (min-width: 1024px) {
+    .hero-route-card {
+      flex: 1;
+      padding: 1.25rem 1.5rem;
+    }
+  }
+
   .hero-route-card:hover {
     border-color: var(--accent-sky);
     background-color: rgb(255 255 255 / 0.12);
+  }
+
+  .hero-route-carousel__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+  .hero-route-carousel__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background-color: rgb(255 255 255 / 0.35);
+    transition: background-color 150ms var(--ease-snappy), transform 150ms var(--ease-snappy);
+  }
+
+  .hero-route-carousel__dot--active {
+    background-color: var(--accent-sky);
+    transform: scale(1.15);
   }
 
   .hero-route-card__icon {
@@ -1147,6 +1193,15 @@
   }
   .pulse-gold { animation: pulseRing 2s infinite; }
 
+  @keyframes pulseWhatsApp {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--whatsapp) 55%, transparent); }
+    70% { box-shadow: 0 0 0 18px color-mix(in srgb, var(--whatsapp) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--whatsapp) 0%, transparent); }
+  }
+  .pulse-whatsapp {
+    animation: pulseWhatsApp 2s infinite;
+  }
+
   /* Site header — fixed so transparent state shows hero behind, not page background */
   .site-header {
     position: fixed;
@@ -1172,6 +1227,17 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(4, 1, 117, 0.08);
+  }
+
+  /* Inner pages: always opaque white — no overlay / scroll transition */
+  .site-header--inner {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid #e4e8f0;
+    box-shadow: 0 1px 3px rgb(4 1 117 / 0.06);
+    transition: none;
   }
 
   .site-header__logo-link {
@@ -1312,6 +1378,165 @@
     color: var(--accent-sky);
   }
 
+  .nav-phone__link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .nav-phone__link:hover {
+    color: var(--accent-sky);
+  }
+
+  .nav-phone__sep {
+    opacity: 0.65;
+  }
+
+  @media (min-width: 1024px) and (max-width: 1180px) {
+    .nav-phone {
+      display: none;
+    }
+  }
+
+  .contact-phone-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contact-phone-links__number {
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .contact-phone-links__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .contact-phone-links__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    padding: 0.35rem 0.65rem;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .contact-phone-links__action--footer {
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .contact-phone-links__action--footer:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .contact-phone-links--footer .contact-phone-links__number {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.875rem;
+  }
+
+  .contact-phone-links__action--contact {
+    color: var(--navy);
+    border: 1px solid #d8dde8;
+    background: #ffffff;
+  }
+
+  .contact-phone-links__action--contact:hover {
+    border-color: rgb(4 1 117 / 0.25);
+    color: var(--accent-sky);
+  }
+
+  .contact-phone-links--contact .contact-phone-links__number {
+    color: var(--navy);
+    font-size: 0.9375rem;
+  }
+
+  .contact-phone-links__action--mobile {
+    flex: 1;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--navy);
+    border: 1px solid #d8dde8;
+    background: #ffffff;
+  }
+
+  .contact-phone-links__action--mobile:hover {
+    background: #f4f6fb;
+  }
+
+  .contact-phone-links--mobile {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #d8dde8;
+    background: #ffffff;
+  }
+
+  .contact-phone-links--mobile .contact-phone-links__number {
+    color: var(--navy);
+    font-size: 0.9375rem;
+  }
+
+  .contact-phone-links__action--whatsapp.contact-phone-links__action--footer {
+    border-color: var(--whatsapp);
+    background: rgb(37 211 102 / 0.15);
+  }
+
+  .contact-phone-links__action--whatsapp.contact-phone-links__action--footer:hover {
+    background: rgb(37 211 102 / 0.28);
+  }
+
+  .contact-phone-links__action--whatsapp.contact-phone-links__action--contact,
+  .contact-phone-links__action--whatsapp.contact-phone-links__action--mobile {
+    color: #128c7e;
+    border-color: rgb(37 211 102 / 0.45);
+    background: rgb(37 211 102 / 0.08);
+  }
+
+  .closing-cta-panel__dual-whatsapp {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .closing-cta-panel__dual-whatsapp {
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+    }
+  }
+
+  .closing-cta-panel__actions:has(.closing-cta-panel__dual-whatsapp) {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 28rem;
+  }
+
+  @media (min-width: 640px) {
+    .closing-cta-panel__actions:has(.closing-cta-panel__dual-whatsapp) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      max-width: none;
+      width: auto;
+    }
+  }
+
   .nav-cta {
     display: inline-flex;
     align-items: center;
@@ -1357,13 +1582,13 @@
     color: #040175;
   }
 
-  /* Mobile slide-in nav */
+  /* Mobile slide-in nav — light panel for readability */
   .mobile-nav-backdrop {
     position: fixed;
     inset: 0;
     z-index: 50;
-    background: rgba(4, 1, 117, 0.35);
-    backdrop-filter: blur(2px);
+    background: rgba(26, 26, 46, 0.25);
+    backdrop-filter: blur(3px);
   }
 
   .mobile-nav-panel {
@@ -1374,8 +1599,9 @@
     display: flex;
     flex-direction: column;
     width: min(100%, 20rem);
-    background: #040175;
-    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+    border-left: 1px solid #e4e8f0;
+    box-shadow: -8px 0 32px rgba(4, 1, 117, 0.12);
     animation: mobileNavSlideIn 280ms ease-out;
   }
 
@@ -1391,31 +1617,32 @@
   .mobile-nav-panel__close {
     display: inline-flex;
     padding: 0.5rem;
-    color: #ffffff;
+    color: var(--navy);
     background: none;
     border: none;
     cursor: pointer;
     border-radius: 9999px;
-    transition: background-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease;
   }
 
   .mobile-nav-panel__close:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: #f4f6fb;
+    color: #1a1f8f;
   }
 
   .mobile-nav-link {
     display: block;
     padding: 0.625rem 0.75rem;
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.92);
+    color: #1a1a2e;
     text-decoration: none;
     border-radius: 6px;
-    transition: background-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease;
   }
 
   .mobile-nav-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: #f4f6fb;
+    color: var(--navy);
   }
 
   .mobile-nav-section__title {
@@ -1426,15 +1653,33 @@
     padding-block: 1rem;
     font-family: var(--font-display);
     font-size: 1.125rem;
-    color: #ffffff;
+    color: var(--navy);
     background: none;
     border: none;
     cursor: pointer;
     text-align: left;
   }
 
+  .mobile-nav-top-link {
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .mobile-nav-top-link:hover {
+    color: var(--accent-sky);
+  }
+
+  .mobile-nav-section__chevron {
+    color: rgb(4 1 117 / 0.55);
+  }
+
   .mobile-nav-section {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid #e4e8f0;
+  }
+
+  .mobile-nav-footer {
+    border-top: 1px solid #e4e8f0;
+    background: #f4f6fb;
   }
 
   .mobile-nav-footer-link {
@@ -1445,18 +1690,74 @@
     padding: 0.75rem 1rem;
     font-size: 15px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--navy);
     text-decoration: none;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    transition: background-color 150ms ease;
+    border: 1px solid #d8dde8;
+    background: #ffffff;
+    transition: background-color 150ms ease, border-color 150ms ease;
   }
 
   .mobile-nav-footer-link:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: #f4f6fb;
+    border-color: rgb(4 1 117 / 0.25);
+  }
+
+  .floating-whatsapp {
+    background-color: var(--whatsapp);
+    color: #ffffff;
+    box-shadow: 0 10px 28px rgb(37 211 102 / 0.35);
+  }
+
+  .floating-whatsapp:hover {
+    background-color: var(--whatsapp-hover);
+    color: #ffffff;
+  }
+
+  .floating-whatsapp:focus-visible {
+    outline: 2px solid var(--whatsapp);
+    outline-offset: 2px;
   }
 
   .site-footer a:hover {
     color: var(--accent-sky);
+  }
+
+  .migration-tabs-list {
+    background: #ffffff;
+    border: 1px solid #e4e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgb(4 1 117 / 0.06);
+  }
+
+  .migration-tabs-trigger {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--navy);
+    border-radius: 0.5rem;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .migration-tabs-trigger[data-state="active"] {
+    background: var(--navy);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgb(4 1 117 / 0.2);
+  }
+
+  .migration-tabs-trigger:focus-visible {
+    outline: 2px solid var(--accent-sky);
+    outline-offset: 2px;
+  }
+
+  .scroll-to-top:focus-visible {
+    outline: 2px solid var(--accent-sky);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-to-top {
+      transition: none;
+    }
   }
 }

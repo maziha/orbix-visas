@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { FamilyVisaPageContent } from "@/components/site/FamilyVisaPageContent";
 import { FAMILY_VISA_CONTENT, isFamilyVisaSlug } from "@/lib/family-visa-content";
 import { FAMILY_VISA_DESCRIPTIONS } from "@/lib/page-descriptions";
+import { COMPANY_NAME } from "@/lib/contact-info";
 import { FAMILY_VISA_TITLES } from "@/lib/page-titles";
 import { buildPageHead } from "@/lib/site-meta";
 
@@ -14,10 +15,10 @@ export const Route = createFileRoute("/services/$visa")({
     const visa = params.visa;
     const title =
       FAMILY_VISA_TITLES[visa] ??
-      `${loaderData?.name ?? "Family Visa"} | Orbix Overseas Careers`;
+      `${loaderData?.name ?? "Family Visa"} | ${COMPANY_NAME}`;
     const description =
       FAMILY_VISA_DESCRIPTIONS[visa] ??
-      `${loaderData?.name ?? "Family visa"} guidance in Kochi, Kerala — consultation with Orbix Overseas Careers.`;
+      `${loaderData?.name ?? "Family visa"} guidance in Kochi, Kerala — consultation with ${COMPANY_NAME}.`;
 
     return buildPageHead({
       title,

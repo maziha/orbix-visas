@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import type { MigrationProgramContent } from "@/lib/migration-program-content";
+import { migrationProgramClosingCta } from "@/lib/closing-cta-presets";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { CountryFlag } from "./CountryFlag";
 import { useModal } from "./modal-store";
@@ -133,7 +134,7 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
         </div>
       </section>
 
-      <BrandPromise />
+      <BrandPromise {...migrationProgramClosingCta(content)} />
     </>
   );
 }

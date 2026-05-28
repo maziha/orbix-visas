@@ -1,4 +1,5 @@
 import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
+import { CountryFlag } from "@/components/site/CountryFlag";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { MigrationProgramSections, BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
 import { headForPage } from "@/lib/site-meta";
@@ -18,10 +19,19 @@ function Layout() {
         <div className="container-px mx-auto max-w-7xl">
           <SectionEyebrow tone="dark">MIGRATION</SectionEyebrow>
           <h1 className="font-display text-4xl md:text-6xl mt-0">Your New Chapter Begins Here</h1>
-          <div className="flex flex-wrap gap-3 mt-6">
-            <Link to="/migration/$program" params={{program:"australia-pr"}} className="btn-secondary">Australia PR</Link>
-            <Link to="/migration/$program" params={{program:"canada-pr"}} className="btn-secondary">Canada PR</Link>
-          </div>
+          <p className="mt-4 max-w-2xl text-lg text-white/80 leading-relaxed">
+            Compare Canada and Australia permanent residency pathways below — use the tabs to switch
+            countries without scrolling.
+          </p>
+          <Link
+            to="/migration"
+            hash="migration-pathways"
+            className="btn-secondary mt-6 inline-flex items-center gap-2"
+          >
+            <CountryFlag code="CA" size="sm" title="Canada" className="ring-1 ring-white/30" />
+            <CountryFlag code="AU" size="sm" title="Australia" className="-ml-1 ring-1 ring-white/30" />
+            View pathways
+          </Link>
         </div>
       </section>
       <MigrationProgramSections />

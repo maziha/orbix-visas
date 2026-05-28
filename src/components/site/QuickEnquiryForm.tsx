@@ -1,7 +1,8 @@
 import { useId, useState } from "react";
 import { CheckCircle2, GraduationCap, Heart, Plane } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { WHATSAPP_URL } from "@/lib/contact-info";
+import { useSubmitEnquiry } from "@/hooks/use-submit-enquiry";
+import { CONTACT_PHONES, whatsAppUrlFor } from "@/lib/contact-info";
 
 type Goal = "migrate" | "study" | "family";
 
@@ -85,6 +86,7 @@ function getConfirmationMessage(goal: Goal, form: FormState): string {
 
 export function QuickEnquiryForm() {
   const groupId = useId();
+  const { send, isSubmitting, error } = useSubmitEnquiry();
   const [goal, setGoal] = useState<Goal | null>(null);
   const [submittedGoal, setSubmittedGoal] = useState<Goal | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -96,9 +98,21 @@ export function QuickEnquiryForm() {
     visaType: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!goal) return;
+
+    const ok = await send({
+      source: "quick-enquiry",
+      name: form.name,
+      phone: form.whatsapp,
+      goal,
+      migrateCountry: goal === "migrate" ? form.migrateCountry || undefined : undefined,
+      studyCountry: goal === "study" ? form.studyCountry || undefined : undefined,
+      visaType: goal === "family" ? form.visaType || undefined : undefined,
+    });
+
+    if (!ok) return;
     setSubmittedGoal(goal);
     setSubmitted(true);
   };
@@ -116,15 +130,21 @@ export function QuickEnquiryForm() {
               {getConfirmationMessage(submittedGoal, form)}
             </p>
             <p className="text-sm text-[#1A1A2E]/75">
-              Need a faster reply?{" "}
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="font-semibold text-[var(--accent-sky)] hover:underline"
-              >
-                Chat on WhatsApp
-              </a>
+              Need a faster reply? WhatsApp us on{" "}
+              {CONTACT_PHONES.map((phone, index) => (
+                <span key={phone.tel}>
+                  {index > 0 ? " or " : null}
+                  <a
+                    href={whatsAppUrlFor(phone)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-[var(--accent-sky)] hover:underline"
+                  >
+                    {phone.display.replace("+91 ", "")}
+                  </a>
+                </span>
+              ))}
+              .
             </p>
           </div>
         </div>
@@ -281,8 +301,17 @@ export function QuickEnquiryForm() {
             )}
           </div>
 
-          <button type="submit" className="btn-primary mt-6 w-full sm:w-auto sm:min-w-[220px]">
-            Get Free Assessment
+          {error ? (
+            <p className="mt-4 text-sm text-red-600" role="alert">
+              {error}
+            </p>
+          ) : null}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="btn-primary mt-6 w-full sm:w-auto sm:min-w-[220px]"
+          >
+            {isSubmitting ? "Sending…" : "Get Free Assessment"}
           </button>
         </div>
       )}

@@ -4,6 +4,7 @@ import type { CountrySlug } from "@/lib/countries";
 import { STUDY_COUNTRY_CONTENT } from "@/lib/study-country-content";
 import { STUDY_COUNTRY_DESCRIPTIONS } from "@/lib/page-descriptions";
 import { STUDY_COUNTRY_TITLES } from "@/lib/page-titles";
+import { COMPANY_NAME } from "@/lib/contact-info";
 import { buildPageHead } from "@/lib/site-meta";
 
 export const Route = createFileRoute("/study-abroad/$country")({
@@ -16,10 +17,10 @@ export const Route = createFileRoute("/study-abroad/$country")({
     const country = params.country;
     const title =
       STUDY_COUNTRY_TITLES[country] ??
-      `Study in ${loaderData?.name ?? "Abroad"} | Orbix Overseas Careers`;
+      `Study in ${loaderData?.name ?? "Abroad"} | ${COMPANY_NAME}`;
     const description =
       STUDY_COUNTRY_DESCRIPTIONS[country] ??
-      `Study in ${loaderData?.name ?? "abroad"} consultant in Kochi, Kerala — consultation with Orbix Overseas Careers.`;
+      `Study in ${loaderData?.name ?? "abroad"} consultant in Kochi, Kerala — consultation with ${COMPANY_NAME}.`;
 
     return buildPageHead({
       title,

@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
-import { getOgImageUrl } from "@/lib/site-meta";
+import { getOgImageUrl, SITE_NAME } from "@/lib/site-meta";
 
 function NotFoundComponent() {
   return (
@@ -73,9 +73,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "author", content: "Orbix Overseas Careers" },
+      { name: "author", content: SITE_NAME },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "Orbix Overseas Careers" },
+      { property: "og:site_name", content: SITE_NAME },
       { property: "og:image", content: getOgImageUrl() },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },

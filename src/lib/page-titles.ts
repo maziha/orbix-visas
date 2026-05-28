@@ -1,35 +1,35 @@
-/** Document title tags — pattern: [keyword] | Orbix Overseas Careers (home uses bespoke format). */
+import { COMPANY_NAME, COMPANY_NAME_SHORT } from "@/lib/contact-info";
 
-export const HOME_TITLE =
-  "Orbix Overseas Careers | Canada PR, Australia PR & Study Abroad — Kochi";
+/** Document title tags — pattern: [keyword] | {COMPANY_NAME} (home uses bespoke format). */
+
+export const HOME_TITLE = `${COMPANY_NAME} | Canada PR, Australia PR & Study Abroad — Kochi`;
 
 export const PAGE_TITLES = {
-  about: "About Orbix Overseas Careers | Immigration Consultants, Kochi",
-  contact: "Contact Orbix Overseas Careers | Book a Free Consultation, Kochi",
-  services: "Visa Services Kerala | Spouse, Parent & Family Visa | Orbix",
-  migration: "Migration & PR Consultants Kerala | Orbix Overseas Careers",
-  studyAbroad:
-    "Study Abroad Consultant Kochi | UK, Canada, Germany & More | Orbix",
-  testimonials: "Consultation | Orbix Overseas Careers",
+  about: `About ${COMPANY_NAME} | Immigration Consultants, Kochi`,
+  contact: `Contact ${COMPANY_NAME} | Book a Free Consultation, Kochi`,
+  services: `Visa Services Kerala | Spouse, Parent & Family Visa | ${COMPANY_NAME_SHORT}`,
+  migration: `Migration & PR Consultants Kerala | ${COMPANY_NAME}`,
+  studyAbroad: `Study Abroad Consultant Kochi | UK, Canada, Germany & More | ${COMPANY_NAME_SHORT}`,
+  testimonials: `Consultation | ${COMPANY_NAME}`,
 } as const;
 
 export const MIGRATION_PROGRAM_TITLES: Record<string, string> = {
-  "canada-pr": "Canada PR Consultant in Kerala | Orbix Overseas Careers",
-  "australia-pr": "Australia PR Consultant in Kerala | Orbix Overseas Careers",
+  "canada-pr": `Canada PR Consultant in Kerala | ${COMPANY_NAME}`,
+  "australia-pr": `Australia PR Consultant in Kerala | ${COMPANY_NAME}`,
 };
 
 export const FAMILY_VISA_TITLES: Record<string, string> = {
-  "spouse-visa": "Spouse Visa Consultant Kochi | Orbix Overseas Careers",
-  "parent-visa": "Parent Visa Consultant Kerala | Orbix Overseas Careers",
-  "student-dependent-visa": "Student Dependent Visa Kochi | Orbix Overseas Careers",
+  "spouse-visa": `Spouse Visa Consultant Kochi | ${COMPANY_NAME}`,
+  "parent-visa": `Parent Visa Consultant Kerala | ${COMPANY_NAME}`,
+  "student-dependent-visa": `Student Dependent Visa Kochi | ${COMPANY_NAME}`,
 };
 
 export const STUDY_COUNTRY_TITLES: Record<string, string> = {
-  canada: "Study in Canada | Orbix Overseas Careers",
-  australia: "Study in Australia | Orbix Overseas Careers",
-  "new-zealand": "Study in New Zealand | Orbix Overseas Careers",
-  uk: "Study in the UK | Orbix Overseas Careers",
-  france: "Study in France | Orbix Overseas Careers",
-  germany: "Study in Germany | Orbix Overseas Careers",
-  poland: "Study in Poland | Orbix Overseas Careers",
+  canada: `Study in Canada | ${COMPANY_NAME}`,
+  australia: `Study in Australia | ${COMPANY_NAME}`,
+  "new-zealand": `Study in New Zealand | ${COMPANY_NAME}`,
+  uk: `Study in the UK | ${COMPANY_NAME}`,
+  france: `Study in France | ${COMPANY_NAME}`,
+  germany: `Study in Germany | ${COMPANY_NAME}`,
+  poland: `Study in Poland | ${COMPANY_NAME}`,
 };

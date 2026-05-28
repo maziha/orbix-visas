@@ -1,15 +1,11 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import type { FamilyVisaContent } from "@/lib/family-visa-content";
 import { FAMILY_VISA_COST_DISCLAIMER } from "@/lib/family-visa-content";
-import { CONTACT_PHONE } from "@/lib/contact-info";
+import { familyVisaClosingCta } from "@/lib/closing-cta-presets";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { PageHero } from "./PageHero";
-import { useModal } from "./modal-store";
 
 export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent }) {
-  const { setOpen } = useModal();
-  const telHref = `tel:${CONTACT_PHONE.replace(/\s/g, "")}`;
 
   return (
     <>
@@ -177,37 +173,7 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
         </div>
       </section>
 
-      <section className="py-16 bg-brand-dark text-white">
-        <div className="container-px mx-auto max-w-3xl text-center">
-          <h2 className="font-display text-3xl md:text-4xl">Ready to check your eligibility?</h2>
-          <p className="text-white/75 mt-4 text-lg leading-relaxed">
-            Share your sponsor&apos;s status and relationship details — we will tell you what documents
-            to gather and whether your file is ready to lodge.
-          </p>
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-8">
-            <button
-              type="button"
-              onClick={() => setOpen("consultation")}
-              className="btn-primary inline-flex items-center justify-center gap-2"
-            >
-              {content.primaryCtaLabel}
-              <ArrowRight className="h-4 w-4 shrink-0" />
-            </button>
-            <a href={telHref} className="btn-secondary inline-flex items-center justify-center gap-2">
-              <Phone className="h-4 w-4 shrink-0" />
-              {content.secondaryCtaLabel}
-            </a>
-          </div>
-          <p className="text-white/60 text-sm mt-6">
-            Comparing visa types?{" "}
-            <Link to="/services" hash="family-visa" className="text-[var(--accent-sky)] hover:underline">
-              View all family visa guides
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      <BrandPromise />
+      <BrandPromise {...familyVisaClosingCta(content)} />
     </>
   );
 }

@@ -1,7 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { BRAND_LOGOS } from "@/lib/brand-logos";
-import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/contact-info";
+import { ContactPhoneLinksList } from "@/components/site/ContactPhoneLinks";
+import {
+  COMPANY_ADDRESS,
+  COMPANY_NAME,
+  CONTACT_EMAIL,
+  GSTIN,
+} from "@/lib/contact-info";
 
 /*
  * Social links: add real profile URLs before going live.
@@ -50,7 +56,7 @@ export function Footer() {
         <div>
           <img
             src={BRAND_LOGOS.onNavy}
-            alt="Orbix Overseas Careers"
+            alt={COMPANY_NAME}
             className="h-10 sm:h-12 lg:h-14 w-auto mb-4 object-contain"
           />
           <p className="text-white/70 text-xs sm:text-sm">Your trusted partner for global opportunities.</p>
@@ -95,22 +101,32 @@ export function Footer() {
         <div>
           <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">Contact</h4>
           <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-white/80">
-            <li className="flex items-start gap-2"><Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--accent-sky)]" /> {CONTACT_PHONE}</li>
+            <li>
+              <ContactPhoneLinksList variant="footer" />
+            </li>
             <li className="flex items-start gap-2">
               <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--accent-sky)]" />
-              {/* TODO: Confirm final domain email address with client before going live */}
-              <a href={`mailto:${CONTACT_EMAIL}`} className="break-all">
+              <a href={`mailto:${CONTACT_EMAIL}`} className="break-all hover:text-[var(--accent-sky)]">
                 {CONTACT_EMAIL}
               </a>
             </li>
-            <li className="flex items-start gap-2"><MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--accent-sky)]" /> Head Office, Kochi, Kerala, India</li>
-            <li><Link to="/contact" className="text-[var(--accent-sky)] hover:underline">View All Offices →</Link></li>
+            <li className="flex items-start gap-2">
+              <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 shrink-0 text-[var(--accent-sky)]" />
+              <span className="leading-relaxed">{COMPANY_ADDRESS}</span>
+            </li>
+            <li>
+              <Link to="/contact" className="text-[var(--accent-sky)] hover:underline">
+                Contact page →
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="container-px mx-auto max-w-7xl py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-3 text-[11px] sm:text-xs text-white/60 text-center md:text-left">
-          <span>© {new Date().getFullYear()} Orbix Overseas Careers. All rights reserved.</span>
+          <span>
+            © {new Date().getFullYear()} {COMPANY_NAME}. GSTIN {GSTIN}. All rights reserved.
+          </span>
           {/* Legal links: add Privacy Policy and Terms URLs before going live */}
         </div>
       </div>

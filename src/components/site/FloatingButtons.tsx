@@ -1,4 +1,5 @@
 import { Phone } from "lucide-react";
+import { CONTACT_PHONE_TEL, WHATSAPP_URL } from "@/lib/contact-info";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -12,18 +13,18 @@ export function FloatingButtons() {
   return (
     <>
       <a
-        href="https://wa.me/918592026134"
+        href={WHATSAPP_URL}
         target="_blank"
         rel="noreferrer"
         aria-label="WhatsApp"
-        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-30 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-brand-dark text-white flex items-center justify-center shadow-xl pulse-gold ring-2 ring-[color-mix(in_srgb,var(--accent-sky)_40%,transparent)]"
+        className="floating-whatsapp pulse-whatsapp fixed bottom-4 left-4 z-30 flex h-12 w-12 items-center justify-center rounded-full sm:bottom-6 sm:left-6 sm:h-14 sm:w-14"
       >
         <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
       </a>
       <a
-        href="tel:+918592026134"
+        href={`tel:${CONTACT_PHONE_TEL}`}
         aria-label="Call Now"
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-brand-dark text-white flex items-center justify-center shadow-xl pulse-gold ring-2 ring-[color-mix(in_srgb,var(--accent-sky)_40%,transparent)]"
+        className="fixed bottom-4 right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-brand-dark text-white shadow-xl pulse-gold ring-2 ring-[color-mix(in_srgb,var(--accent-sky)_40%,transparent)] sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
       >
         <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
       </a>

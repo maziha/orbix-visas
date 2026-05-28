@@ -3,6 +3,7 @@ import { MigrationProgramPageContent } from "@/components/site/MigrationProgramP
 import { MIGRATION_PROGRAM_CONTENT } from "@/lib/migration-program-content";
 import { MIGRATION_PROGRAM_DESCRIPTIONS } from "@/lib/page-descriptions";
 import { MIGRATION_PROGRAM_TITLES } from "@/lib/page-titles";
+import { COMPANY_NAME } from "@/lib/contact-info";
 import { buildPageHead, headForPage, type PageHeadResult } from "@/lib/site-meta";
 
 function headForMigrationProgram(program: string, fallbackName?: string): PageHeadResult {
@@ -11,10 +12,10 @@ function headForMigrationProgram(program: string, fallbackName?: string): PageHe
 
   const title =
     MIGRATION_PROGRAM_TITLES[program] ??
-    `${fallbackName ?? "Migration"} | Orbix Overseas Careers`;
+    `${fallbackName ?? "Migration"} | ${COMPANY_NAME}`;
   const description =
     MIGRATION_PROGRAM_DESCRIPTIONS[program] ??
-    `${fallbackName ?? "Migration"} consultants in Kochi, Kerala — consultation with Orbix Overseas Careers.`;
+    `${fallbackName ?? "Migration"} consultants in Kochi, Kerala — consultation with ${COMPANY_NAME}.`;
 
   return buildPageHead({
     title,

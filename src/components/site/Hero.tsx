@@ -1,6 +1,4 @@
-import { Link } from "@tanstack/react-router";
-import { BRAND_LOGOS } from "@/lib/brand-logos";
-import { heroRoutingCards } from "./hero-routing-cards";
+import { HeroRoutingCards } from "./HeroRoutingCards";
 
 /** Full-bleed static hero — confident travel / migration tone */
 const HERO_BACKGROUND_IMAGE =
@@ -22,12 +20,6 @@ export function Hero() {
           fetchPriority="high"
         />
         <div className="absolute inset-0 bg-[#040175]/60" aria-hidden />
-        <img
-          src={BRAND_LOGOS.onNavy}
-          alt=""
-          className="hero-watermark pointer-events-none absolute top-1/2 right-[-8%] hidden md:block -translate-y-1/2 select-none"
-          aria-hidden
-        />
       </div>
 
       <div className="relative container-px mx-auto max-w-7xl w-full py-12 sm:py-16 lg:py-20">
@@ -40,27 +32,7 @@ export function Hero() {
             <p className="mt-4 text-[20px] leading-relaxed text-white/75">{HERO_SUPPORTING_LINE}</p>
           </div>
 
-          <div className="hero-route-cards mt-8 sm:mt-10">
-            {heroRoutingCards.map((card) => {
-              const Icon = card.icon;
-              return (
-                <Link
-                  key={card.label}
-                  to={card.to}
-                  hash={card.hash}
-                  className="hero-route-card"
-                >
-                  <Icon className="hero-route-card__icon" strokeWidth={1.75} aria-hidden />
-                  <span className="hero-route-card__title">{card.label}</span>
-                  <span className="hero-route-card__subtitle">{card.description}</span>
-                  {card.freeAssessmentBadge && (
-                    <span className="hero-route-card__badge">Free Assessment</span>
-                  )}
-                  <span className="hero-route-card__explore">{card.exploreLabel}</span>
-                </Link>
-              );
-            })}
-          </div>
+          <HeroRoutingCards />
         </div>
       </div>
     </section>

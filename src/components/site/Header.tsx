@@ -4,7 +4,7 @@ import { ChevronDown, Menu } from "lucide-react";
 import { useModal } from "./modal-store";
 import { MobileMenu } from "./MobileMenu";
 import { forceUnlockBodyScroll, lockBodyScroll } from "@/lib/body-scroll-lock";
-import { CONTACT_PHONE, CONTACT_PHONE_TEL } from "@/lib/contact-info";
+import { COMPANY_NAME, CONTACT_PHONES } from "@/lib/contact-info";
 import { getHeaderLogo } from "@/lib/brand-logos";
 import {
   migrationLinks,
@@ -124,11 +124,15 @@ export function Header() {
   }, [pathname]);
 
   useEffect(() => {
+    if (!isHome) {
+      setScrolled(true);
+      return;
+    }
     const onScroll = () => setScrolled(window.scrollY >= 80);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
 
   useLayoutEffect(() => {
     if (!mobileOpen) return;
@@ -141,16 +145,17 @@ export function Header() {
 
   const atTop = !scrolled;
   const onHero = isHome && atTop;
+  const headerClass = isHome
+    ? `site-header ${atTop ? "site-header--overlay" : "site-header--solid"}${onHero ? " site-header--on-hero" : ""}`
+    : "site-header site-header--solid site-header--inner";
 
   return (
-    <header
-      className={`site-header ${atTop ? "site-header--overlay" : "site-header--solid"}${onHero ? " site-header--on-hero" : ""}`}
-    >
+    <header className={headerClass}>
       <div className="container-px mx-auto flex h-16 max-w-7xl items-center justify-between lg:h-20">
         <Link to="/" className="site-header__logo-link flex shrink-0 items-center">
           <img
-            src={getHeaderLogo(scrolled, onHero)}
-            alt="Orbix Overseas Careers"
+            src={getHeaderLogo(isHome ? scrolled : true, onHero)}
+            alt={COMPANY_NAME}
             className="site-header__logo h-10 w-auto lg:h-12"
           />
         </Link>
@@ -162,13 +167,28 @@ export function Header() {
           <Link to="/about" className="site-nav__link px-3 py-2 text-sm font-medium">
             About
           </Link>
+          <Link to="/contact" className="site-nav__link px-3 py-2 text-sm font-medium">
+            Contact
+          </Link>
         </nav>
 
         <div className="hidden items-center gap-4 lg:ml-auto lg:flex">
-          <a href={`tel:${CONTACT_PHONE_TEL}`} className="nav-phone">
+          <div className="nav-phone">
             <NavPhoneIcon />
-            {CONTACT_PHONE}
-          </a>
+            {CONTACT_PHONES.map((phone, index) => (
+              <span key={phone.tel}>
+                {index > 0 ? (
+                  <span className="nav-phone__sep" aria-hidden>
+                    {" "}
+                    ·{" "}
+                  </span>
+                ) : null}
+                <a href={`tel:${phone.tel}`} className="nav-phone__link">
+                  {phone.display}
+                </a>
+              </span>
+            ))}
+          </div>
           <button type="button" onClick={() => setOpen("consultation")} className="nav-cta">
             Book a Consultation
           </button>

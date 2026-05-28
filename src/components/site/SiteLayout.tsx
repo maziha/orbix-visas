@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { FloatingButtons } from "./FloatingButtons";
+import { ScrollToTop } from "./ScrollToTop";
 import { ConsultationModal /* , ReviewModal */ } from "./Modals";
 import { ModalProvider } from "./modal-store";
 
@@ -12,6 +13,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <main className="pt-16 lg:pt-20">{children}</main>
       <Footer />
       <FloatingButtons />
+      <ScrollToTop />
       <ConsultationModal />
       {/* <ReviewModal /> — enable when collecting client reviews */}
     </ModalProvider>

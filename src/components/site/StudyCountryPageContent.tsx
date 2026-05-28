@@ -1,8 +1,8 @@
-import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import type { StudyCountryContent } from "@/lib/study-country-content";
 import { STUDY_FEE_DISCLAIMER } from "@/lib/study-country-content";
 import { STUDY_PAGE_CONTENT } from "@/lib/study-country-page-content";
+import { studyCountryClosingCta } from "@/lib/closing-cta-presets";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { CountryFlag } from "./CountryFlag";
 import { useModal } from "./modal-store";
@@ -158,31 +158,7 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
         </div>
       </section>
 
-      <section className="py-16 bg-brand-dark text-white">
-        <div className="container-px mx-auto max-w-3xl text-center">
-          <h2 className="font-display text-3xl md:text-4xl">{page.finalCtaLabel}</h2>
-          <p className="text-white/75 mt-4 text-lg leading-relaxed">
-            Share your marks, English score, and budget — we will suggest realistic options in{" "}
-            {content.name} before you pay any application fees.
-          </p>
-          <button
-            type="button"
-            onClick={() => setOpen("consultation")}
-            className="btn-primary mt-8 inline-flex items-center gap-2"
-          >
-            Book free consultation
-            <ArrowRight className="h-4 w-4 shrink-0" />
-          </button>
-          <p className="text-white/60 text-sm mt-6">
-            Comparing countries?{" "}
-            <Link to="/study-abroad" className="text-[var(--accent-sky)] hover:underline">
-              View all 7 study destinations
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      <BrandPromise />
+      <BrandPromise {...studyCountryClosingCta(content, page)} />
     </>
   );
 }

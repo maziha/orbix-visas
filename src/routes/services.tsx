@@ -46,59 +46,37 @@ function Layout() {
                 <div
                   key={s.id}
                   id={s.id}
-                  className={
-                    s.hoverTimeline
-                      ? "scroll-mt-28 card-hover-service card-base bg-brand-white rounded-xl p-6 pb-14 flex flex-col h-full"
-                      : "scroll-mt-28 card-base bg-brand-white rounded-xl p-6 flex flex-col h-full"
-                  }
-                  data-timeline={s.hoverTimeline}
+                  className="scroll-mt-28 card-hover-service card-base bg-brand-white rounded-xl p-6 flex flex-col h-full"
                 >
-                  <Icon className="h-8 w-8 text-[var(--accent-sky)] mb-3" />
+                  <Icon className="h-8 w-8 text-[var(--accent-sky)] mb-3" aria-hidden />
                   <h3 className="font-display text-xl text-[var(--navy)] mb-2">{s.name}</h3>
-                  {guide ? (
-                    <>
-                      <p className="service-card-desc text-sm text-[var(--accent-sky)] font-medium leading-snug">
-                        {guide.previewLine}
-                      </p>
-                      <p className="service-card-desc text-sm text-muted-foreground mt-2 flex-1">{s.desc}</p>
-                      {s.typicalProcessing && (
-                        <>
-                          {/* DATA: Confirm this with client before publishing */}
-                          <p className="text-xs text-[var(--navy)] font-medium mt-4 leading-snug">
-                            {s.typicalProcessing}
-                          </p>
-                          {s.keyDocuments && (
-                            <p className="text-xs text-muted-foreground mt-1 leading-snug">{s.keyDocuments}</p>
-                          )}
-                        </>
-                      )}
-                      <Link
-                        to="/services/$visa"
-                        params={{ visa: s.id }}
-                        className="service-card-action btn-secondary mt-6 self-start"
-                      >
-                        Explore guide →
-                      </Link>
-                      {s.hoverTimeline && (
-                        <p
-                          className="card-reveal-timeline"
-                          data-timeline={s.hoverTimeline}
-                          aria-hidden="true"
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <p className="service-card-desc text-sm text-muted-foreground flex-1">{s.desc}</p>
-                      {s.hoverTimeline && (
-                        <p
-                          className="card-reveal-timeline"
-                          data-timeline={s.hoverTimeline}
-                          aria-hidden="true"
-                        />
-                      )}
-                    </>
+                  {(guide?.previewLine ?? s.previewLine) && (
+                    <p className="text-sm text-[var(--accent-sky)] font-medium leading-snug">
+                      {guide?.previewLine ?? s.previewLine}
+                    </p>
                   )}
+                  <p
+                    className={`text-sm text-muted-foreground leading-relaxed flex-1 ${guide?.previewLine ?? s.previewLine ? "mt-2" : ""}`}
+                  >
+                    {s.desc}
+                  </p>
+                  {s.typicalProcessing && (
+                    <p className="text-xs font-medium text-[var(--navy)] mt-4 leading-snug">
+                      {s.typicalProcessing}
+                    </p>
+                  )}
+                  {s.keyDocuments && (
+                    <p className="text-xs text-muted-foreground mt-1 leading-snug">{s.keyDocuments}</p>
+                  )}
+                  {guide ? (
+                    <Link
+                      to="/services/$visa"
+                      params={{ visa: s.id }}
+                      className="btn-secondary mt-6 self-start"
+                    >
+                      Explore guide →
+                    </Link>
+                  ) : null}
                 </div>
               );
             })}
@@ -114,7 +92,7 @@ function Layout() {
                   id={s.id}
                   className="scroll-mt-28 card-base bg-brand-white rounded-xl p-6"
                 >
-                  <Icon className="h-8 w-8 text-[var(--accent-sky)] mb-3" />
+                  <Icon className="h-8 w-8 text-[var(--accent-sky)] mb-3" aria-hidden />
                   <h3 className="font-display text-lg text-[var(--navy)] mb-2">{s.name}</h3>
                   <p className="text-sm text-muted-foreground">{s.desc}</p>
                 </div>

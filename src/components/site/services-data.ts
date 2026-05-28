@@ -16,8 +16,8 @@ export type ServiceItem = {
   name: string;
   desc: string;
   icon: LucideIcon;
-  /** Shown on card hover, e.g. "Typical timeline: 8–16 weeks" (data-timeline) */
-  hoverTimeline?: string;
+  /** Sky accent line on visa cards — eligibility snapshot */
+  previewLine?: string;
   /** Visible on card — DATA: Confirm with client before publishing */
   typicalProcessing?: string;
   keyDocuments?: string;
@@ -29,7 +29,6 @@ export const visaServices: ServiceItem[] = [
     name: "Spouse Visa",
     icon: Heart,
     desc: "Reunite with your loved one abroad through expert-guided spouse visa processing.",
-    hoverTimeline: "Typical processing: 8–16 weeks",
     typicalProcessing: "Typical processing: 8–16 weeks",
     keyDocuments:
       "Key documents: marriage certificate, sponsor's residence proof, financial statements",
@@ -39,7 +38,6 @@ export const visaServices: ServiceItem[] = [
     name: "Parent Visa",
     icon: Users,
     desc: "Bring your parents to join you in your new country with our parent visa services.",
-    hoverTimeline: "Typical processing: 12–24 weeks",
     typicalProcessing: "Typical processing: 12–24 weeks",
     keyDocuments: "Key documents: birth certificate, sponsor's income proof",
   },
@@ -47,22 +45,31 @@ export const visaServices: ServiceItem[] = [
     id: "job-seekers-visa",
     name: "Job Seekers Visa",
     icon: Briefcase,
-    desc: "Explore global opportunities with a job seekers visa.",
-    hoverTimeline: "Typical timeline: 4–12 weeks",
+    previewLine: "Germany Chancenkarte · 6+ points · blocked account · no job offer to enter",
+    desc: "A job seeker permit lets you enter a country to look for skilled work without a prior employer contract. Germany’s Opportunity Card (Chancenkarte) is the main route Indians use: up to 12 months in Germany, part-time work while searching, then a work permit once you are hired.",
+    typicalProcessing:
+      "Typical timeline: 4–12 weeks embassy processing after biometrics (varies by VFS city in India)",
+    keyDocuments:
+      "Key documents: recognised degree or vocational qualification, language proof (A1 German or B2 English), blocked account (~€1,091/month), health insurance, police clearance",
   },
   {
     id: "visit-visa",
     name: "Visit Visa",
     icon: Plane,
-    desc: "Travel the world hassle-free with our streamlined visit visa processing.",
-    hoverTimeline: "Typical timeline: 2–4 weeks",
+    previewLine: "Canada · UK · Schengen · Australia · tourism, business & family visits",
+    desc: "Visitor visas are short-stay permits for tourism, business, or seeing family abroad. You must show a genuine trip purpose, enough funds, and strong ties to India. We help you prepare forms, cover letters, and supporting papers so the file is complete before biometrics.",
+    typicalProcessing:
+      "Typical timeline: ~3–4 weeks UK visitor (after biometrics); ~4 weeks Canada TRV; Schengen often 15 calendar days (may extend in peak season)",
+    keyDocuments:
+      "Key documents: valid passport, bank statements, travel itinerary, employment or business ties, invitation letter if visiting family or a host",
   },
   {
     id: "student-dependent-visa",
     name: "Student Dependent Visa",
     icon: GraduationCap,
     desc: "Take your family with you while you study abroad.",
-    hoverTimeline: "Typical timeline: 4–12 weeks",
+    typicalProcessing: "Typical timeline: 4–12 weeks",
+    keyDocuments: "Key documents: relationship proof, funds, main student's visa copy",
   },
 ];
 

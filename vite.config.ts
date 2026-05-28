@@ -7,11 +7,19 @@ import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(({ mode }) => {
   const envDefine: Record<string, string> = {};
+  const serverEnv = loadEnv(mode, process.cwd(), "");
 
   for (const [key, value] of Object.entries(
     loadEnv(mode, process.cwd(), "VITE_"),
   )) {
     envDefine[`import.meta.env.${key}`] = JSON.stringify(value);
+  }
+
+  for (const key of ["RESEND_API_KEY", "ENQUIRY_TO_EMAIL", "RESEND_FROM_EMAIL"] as const) {
+    const value = serverEnv[key];
+    if (value) {
+      process.env[key] = value;
+    }
   }
 
   return {

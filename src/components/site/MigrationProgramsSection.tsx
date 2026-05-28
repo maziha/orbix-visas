@@ -91,8 +91,8 @@ export function MigrationProgramsSection() {
                         {program.firstStep}
                       </p>
                       <Link
-                        to="/migration"
-                        hash={program.id}
+                        to="/migration/$program"
+                        params={{ program: program.programPage }}
                         className="mt-4 inline-flex items-center gap-1 font-semibold text-[var(--accent-sky)] hover:underline"
                       >
                         Learn more about {program.name} →

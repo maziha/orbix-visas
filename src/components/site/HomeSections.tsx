@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useModal } from "./modal-store";
-import { migrationProgramAnchorDetails, migrationProgramGroups } from "./migration-programs";
 import { MigrationProgramsSection } from "./MigrationProgramsSection";
+import { MigrationProgramSections } from "./MigrationProgramSections";
 import { SectionHeading } from "./SectionHeading";
 import { SectionEyebrow } from "./SectionEyebrow";
 
@@ -15,7 +15,8 @@ import { FamilyVisaHighlightSection } from "./FamilyVisaHighlightSection";
 import { OtherServicesTableSection } from "./OtherServicesTableSection";
 import { StudyAbroadCountriesSection } from "./StudyAbroadCountriesSection";
 import { WhyOrbixClosingSection } from "./WhyOrbixClosingSection";
-import { ClosingCtaPanel } from "./ClosingCtaPanel";
+import { consultationClosingCta } from "@/lib/closing-cta-presets";
+import { ClosingCtaPanel, type ClosingCtaPanelProps } from "./ClosingCtaPanel";
 import {
   ArrowRight, Star, Heart, Users, Briefcase, Plane,
   MapPin, GraduationCap, CheckCircle2
@@ -78,66 +79,11 @@ export function Eligibility() {
 }
 
 /* ---------- SECTION 6: MIGRATION PROGRAMS ---------- */
-function MigrationProgramGroupLabel({ label }: { label: string }) {
-  return <h3 className="program-group-label">{label}</h3>;
-}
-
 export function MigrationPrograms() {
   return <MigrationProgramsSection />;
 }
 
-/** Anchored program sections for /migration */
-export function MigrationProgramSections() {
-  return (
-    <section className="py-20 bg-brand-subtle">
-      <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow="MIGRATION"
-          title="Migrate & Get Permanent Residency"
-          align="left"
-          className="max-w-none"
-        />
-        <div className="mt-12 space-y-16">
-        {migrationProgramGroups.map((group) => (
-          <div key={group.label}>
-            <MigrationProgramGroupLabel label={group.label} />
-            <div className="mt-8 space-y-6">
-              {group.programs.map((p) => (
-                <article
-                  key={p.id}
-                  id={p.id}
-                  className="scroll-mt-28 content-card-accent bg-brand-white rounded-xl border border-border p-8 md:p-10"
-                >
-                  <CountryFlag code={p.countryCode} size="lg" title={p.name} className="mb-3" />
-                  <h2 className="font-display text-2xl md:text-3xl text-[var(--navy)] mb-3">{p.name}</h2>
-                  <p className="text-muted-foreground leading-relaxed max-w-3xl">{p.desc}</p>
-                  {migrationProgramAnchorDetails[p.id] && (
-                    <div className="mt-5 space-y-3 max-w-3xl text-muted-foreground leading-relaxed">
-                      <p>{migrationProgramAnchorDetails[p.id].overview}</p>
-                      <p>
-                        <span className="font-semibold text-[var(--navy)]">Who it&apos;s for: </span>
-                        {migrationProgramAnchorDetails[p.id].whoItsFor}
-                      </p>
-                    </div>
-                  )}
-                  <Link
-                    to="/migration/$program"
-                    params={{ program: p.programPage }}
-                    className="btn-secondary inline-flex items-center gap-2 mt-6"
-                  >
-                    Full {p.programPage === "canada-pr" ? "Canada" : "Australia"} PR guide
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </div>
-        ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+export { MigrationProgramSections };
 
 /* ---------- SECTION 7: MIGRATION SPLIT ---------- */
 export function MigrationSplit() {
@@ -205,33 +151,13 @@ const testimonials = [
 ---------- */
 
 export function ConsultationCta({
-  title = "Ready to Take the Next Step?",
-  subtitle = "Speak with our counsellors for a no-obligation session. We will help you understand your options for study abroad or migration and build a clear plan forward.",
+  title,
+  subtitle,
 }: {
   title?: string;
   subtitle?: string;
 }) {
-  const { setOpen } = useModal();
-  return (
-    <section className="py-20 bg-brand-subtle">
-      <div className="container-px mx-auto max-w-3xl text-center">
-        <h2 className="font-display text-3xl md:text-5xl text-[var(--navy)] leading-tight">{title}</h2>
-        <p className="text-muted-foreground mt-4 text-lg leading-relaxed max-w-2xl mx-auto">{subtitle}</p>
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-8">
-          <button
-            type="button"
-            onClick={() => setOpen("consultation")}
-            className="btn-primary inline-flex items-center justify-center gap-2"
-          >
-            Book a Consultation <ArrowRight className="h-4 w-4" />
-          </button>
-          <Link to="/contact" className="btn-secondary inline-flex items-center justify-center gap-2">
-            Contact Us
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
+  return <BrandPromise {...consultationClosingCta(title, subtitle)} />;
 }
 
 /** @deprecated Use ConsultationCta — kept as alias until testimonials content exists */
@@ -321,11 +247,11 @@ export function LeadershipTeaser() {
 }
 
 /* ---------- CLOSING CTA (inner pages) ---------- */
-export function BrandPromise() {
+export function BrandPromise(props: ClosingCtaPanelProps = {}) {
   return (
     <section className="bg-brand-white py-12 md:py-16">
       <div className="container-px mx-auto max-w-7xl">
-        <ClosingCtaPanel />
+        <ClosingCtaPanel {...props} />
       </div>
     </section>
   );
