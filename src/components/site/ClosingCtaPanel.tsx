@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "framer-motion";
 import { Phone } from "lucide-react";
+import { MotionPressable, Reveal } from "@/components/motion";
+import { scaleIn, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { CONTACT_PHONE_TEL } from "@/lib/contact-info";
 import type { ConsultationPreset } from "@/lib/enquiry-options";
 import { useModal } from "./modal-store";
@@ -65,22 +68,51 @@ export function ClosingCtaPanel({
   consultationPreset,
 }: ClosingCtaPanelProps) {
   const { openConsultation } = useModal();
+  const reduced = useReducedMotion();
 
-  return (
-    <div className={`closing-cta-panel bg-brand-dark text-center ${className}`.trim()}>
+  const inner = (
+    <>
       <h2 className="closing-cta-panel__title font-display">{title}</h2>
       <p className="closing-cta-panel__text mx-auto max-w-2xl">{description}</p>
       <div className="closing-cta-panel__actions">
-        <button
+        <MotionPressable
           type="button"
+          pulse
           onClick={() => openConsultation(consultationPreset)}
           className="btn-primary"
         >
           {primaryLabel}
-        </button>
+        </MotionPressable>
         <ClosingCtaSecondary action={secondary} />
       </div>
       {footer ? <div className="closing-cta-panel__footer">{footer}</div> : null}
-    </div>
+    </>
+  );
+
+  return (
+    <Reveal>
+      <div className={`closing-cta-panel bg-brand-dark text-center ${className}`.trim()}>
+        {reduced ? (
+          inner
+        ) : (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={scaleIn}
+            transition={springGentle}
+          >
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <motion.div variants={staggerItem}>{inner}</motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </div>
+    </Reveal>
   );
 }

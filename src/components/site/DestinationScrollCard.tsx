@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Country } from "@/lib/countries";
 import type { DestinationCardConfig } from "@/lib/destination-cards";
+import { springGentle } from "@/lib/motion/presets";
 import { CountryFlag } from "./CountryFlag";
 
 function MapleLeafWatermark() {
@@ -30,11 +32,20 @@ export function DestinationScrollCard({
   country: Country;
   config: DestinationCardConfig;
 }) {
+  const reduced = useReducedMotion();
+
   return (
-    <article className="destination-scroll-card">
-      <div
+    <motion.article
+      className="destination-scroll-card"
+      whileHover={reduced ? undefined : { y: -8, scale: 1.02 }}
+      whileTap={reduced ? undefined : { scale: 0.98 }}
+      transition={springGentle}
+    >
+      <motion.div
         className="destination-scroll-card__hero"
         style={{ background: heroGradient(config.accentColor) }}
+        whileHover={reduced ? undefined : { scale: 1.03 }}
+        transition={springGentle}
       >
         {config.watermark === "maple" && <MapleLeafWatermark />}
         <CountryFlag
@@ -43,7 +54,7 @@ export function DestinationScrollCard({
           title={country.name}
           className="destination-scroll-card__thumb relative z-[1] rounded-lg border-white/40 shadow-lg"
         />
-      </div>
+      </motion.div>
       <div className="destination-scroll-card__body">
         <h3 className="destination-scroll-card__name">{country.name}</h3>
         <p className="destination-scroll-card__metric">{config.metric}</p>
@@ -66,6 +77,6 @@ export function DestinationScrollCard({
           )}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }

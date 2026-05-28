@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
+import { MotionPressable } from "@/components/motion";
+import { popIn, springBouncy, springGentle } from "@/lib/motion/presets";
 import { useSubmitEnquiry } from "@/hooks/use-submit-enquiry";
 import { CONTACT_PHONES } from "@/lib/contact-info";
 import { CONTACT_SERVICE_OPTIONS, contactServiceLabel } from "@/lib/enquiry-options";
@@ -8,6 +11,7 @@ import { SentenceInlineInput, SentenceInlinePick } from "./SentenceField";
 export function ContactSentenceForm() {
   const { send, isSubmitting, error } = useSubmitEnquiry();
   const [submitted, setSubmitted] = useState(false);
+  const reduced = useReducedMotion();
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -34,24 +38,42 @@ export function ContactSentenceForm() {
     if (ok) setSubmitted(true);
   };
 
-  if (submitted) {
-    return (
-      <div className="contact-form-confirmation">
-        <CheckCircle2 className="contact-form-confirmation__icon h-12 w-12" aria-hidden />
-        <h3 className="contact-form-confirmation__title">Message received</h3>
-        <p className="contact-form-confirmation__text">
-          We will contact you at the number you provided within 24 business hours. For urgent
-          queries, call or WhatsApp us on either line:{" "}
-          {CONTACT_PHONES.map((p) => p.display).join(" or ")}.
-        </p>
-      </div>
-    );
-  }
-
   const canSubmit = form.fullName.trim() && form.phone.trim() && form.service;
 
   return (
-    <form onSubmit={handleSubmit} className="sentence-enquiry-form space-y-5">
+    <AnimatePresence mode="wait">
+      {submitted ? (
+        <motion.div
+          key="success"
+          className="contact-form-confirmation"
+          initial={reduced ? false : "hidden"}
+          animate="visible"
+          variants={popIn}
+          transition={springGentle}
+        >
+          <motion.div
+            initial={reduced ? false : { scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ ...springBouncy, delay: 0.1 }}
+          >
+            <CheckCircle2 className="contact-form-confirmation__icon h-12 w-12" aria-hidden />
+          </motion.div>
+          <h3 className="contact-form-confirmation__title">Message received</h3>
+          <p className="contact-form-confirmation__text">
+            We will contact you at the number you provided within 24 business hours. For urgent
+            queries, call or WhatsApp us on either line:{" "}
+            {CONTACT_PHONES.map((p) => p.display).join(" or ")}.
+          </p>
+        </motion.div>
+      ) : (
+    <motion.form
+      key="form"
+      onSubmit={handleSubmit}
+      className="sentence-enquiry-form space-y-5"
+      initial={reduced ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <p className="sentence-line text-[var(--navy)] leading-relaxed">
         Hi, I&apos;m{" "}
         <SentenceInlineInput
@@ -117,9 +139,16 @@ export function ContactSentenceForm() {
         </p>
       ) : null}
 
-      <button type="submit" disabled={isSubmitting || !canSubmit} className="contact-form-submit">
+      <MotionPressable
+        type="submit"
+        disabled={isSubmitting || !canSubmit}
+        className="contact-form-submit"
+        pulse={canSubmit ? true : false}
+      >
         {isSubmitting ? "Sending…" : "Send Message"}
-      </button>
-    </form>
+      </MotionPressable>
+    </motion.form>
+      )}
+    </AnimatePresence>
   );
 }

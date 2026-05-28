@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { MotionPressable, Reveal } from "@/components/motion";
 import { COUNTRIES } from "@/lib/countries";
 import { DESTINATION_CARD_CONFIG } from "@/lib/destination-cards";
 import { DestinationScrollCard } from "./DestinationScrollCard";
@@ -48,10 +49,12 @@ export function DestinationsSection() {
   return (
     <section className="destinations-section bg-brand-subtle py-20">
       <div className="container-px mx-auto max-w-7xl">
-        <SectionHeading eyebrow="EXPLORE DESTINATIONS" title="Explore Destinations" />
+        <Reveal>
+          <SectionHeading eyebrow="EXPLORE DESTINATIONS" title="Explore Destinations" />
+        </Reveal>
 
         <div className="destinations-carousel mt-12">
-          <button
+          <MotionPressable
             type="button"
             className="destination-scroll-arrow shrink-0"
             onClick={() => scrollStrip("prev")}
@@ -59,7 +62,7 @@ export function DestinationsSection() {
             aria-label="Scroll destinations left"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden />
-          </button>
+          </MotionPressable>
 
           <div className="destinations-carousel__viewport min-w-0 flex-1">
             <div ref={stripRef} className="destination-scroll-strip">
@@ -73,7 +76,7 @@ export function DestinationsSection() {
             </div>
           </div>
 
-          <button
+          <MotionPressable
             type="button"
             className="destination-scroll-arrow shrink-0"
             onClick={() => scrollStrip("next")}
@@ -81,7 +84,7 @@ export function DestinationsSection() {
             aria-label="Scroll destinations right"
           >
             <ChevronRight className="h-5 w-5" aria-hidden />
-          </button>
+          </MotionPressable>
         </div>
       </div>
     </section>

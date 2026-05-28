@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { OrbixDialogContent } from "@/components/motion";
 import { useModal } from "./modal-store";
 import { SmartEnquiryForm } from "./enquiry/SmartEnquiryForm";
 import { SentenceInlineInput, SentenceInlinePick } from "./enquiry/SentenceField";
@@ -12,7 +13,11 @@ export function ConsultationModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={(o) => !o && closeModal()}>
-      <DialogContent className="site-dialog-content--enquiry max-w-xl">
+      <OrbixDialogContent
+        open={isOpen}
+        onClose={closeModal}
+        className="site-dialog-content--enquiry max-w-xl sm:max-w-2xl"
+      >
         <DialogHeader className="site-dialog-header">
           <DialogTitle className="font-display text-xl sm:text-2xl text-[var(--navy)] pr-8">
             {headline}
@@ -23,13 +28,13 @@ export function ConsultationModal() {
         </DialogHeader>
         <div className="site-dialog-body">
           <SmartEnquiryForm
-          source="consultation"
-          preset={consultationPreset}
-          presetKey={consultationPresetKey}
-          requireEmail
+            source="consultation"
+            preset={consultationPreset}
+            presetKey={consultationPresetKey}
+            requireEmail
           />
         </div>
-      </DialogContent>
+      </OrbixDialogContent>
     </Dialog>
   );
 }

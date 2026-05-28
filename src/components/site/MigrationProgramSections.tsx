@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HoverLift, MotionTabsContent, Reveal } from "@/components/motion";
 import { CountryFlag } from "./CountryFlag";
 import { SectionHeading } from "./SectionHeading";
 import {
@@ -60,11 +62,13 @@ function CountryPathwayHub({ group }: { group: MigrationProgramGroup }) {
   );
 }
 
-function MigrationProgramCard({ program }: { program: MigrationProgram }) {
+function MigrationProgramCard({ program, index }: { program: MigrationProgram; index: number }) {
   const details = migrationProgramAnchorDetails[program.id];
 
   return (
-    <article
+    <HoverLift
+      as="article"
+      index={index}
       id={program.id}
       className="scroll-mt-28 migration-pathway-card content-card-accent bg-brand-white rounded-xl border border-border p-8 md:p-10"
     >
@@ -101,13 +105,16 @@ function MigrationProgramCard({ program }: { program: MigrationProgram }) {
           <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
         </Link>
       </div>
-    </article>
+    </HoverLift>
   );
 }
 
 export function MigrationProgramSections() {
+  const defaultTab = groupTabValue(migrationProgramGroups[0].label);
+  const [activeTab, setActiveTab] = useState(defaultTab);
+
   return (
-    <section id="migration-pathways" className="migration-pathways-section scroll-mt-28 py-20 bg-brand-subtle">
+    <Reveal as="section" id="migration-pathways" className="migration-pathways-section scroll-mt-28 py-20 bg-brand-subtle">
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="MIGRATION"
@@ -117,7 +124,7 @@ export function MigrationProgramSections() {
           className="max-w-none"
         />
 
-        <Tabs defaultValue={groupTabValue(migrationProgramGroups[0].label)} className="mt-10">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-10">
           <TabsList className="migration-tabs-list h-auto w-full gap-1 p-1 sm:w-auto">
             {migrationProgramGroups.map((group) => (
               <TabsTrigger
@@ -136,22 +143,27 @@ export function MigrationProgramSections() {
             ))}
           </TabsList>
 
-          {migrationProgramGroups.map((group) => (
-            <TabsContent
-              key={group.label}
-              value={groupTabValue(group.label)}
-              className="mt-8 focus-visible:outline-none"
-            >
-              <CountryPathwayHub group={group} />
-              <div className="mt-8 space-y-6">
-                {group.programs.map((program) => (
-                  <MigrationProgramCard key={program.id} program={program} />
-                ))}
-              </div>
-            </TabsContent>
-          ))}
+          {migrationProgramGroups.map((group) => {
+            const tabValue = groupTabValue(group.label);
+            return (
+              <TabsContent
+                key={group.label}
+                value={tabValue}
+                className="mt-8 focus-visible:outline-none"
+              >
+                <MotionTabsContent value={tabValue} activeValue={activeTab}>
+                  <CountryPathwayHub group={group} />
+                  <div className="mt-8 space-y-6">
+                    {group.programs.map((program, index) => (
+                      <MigrationProgramCard key={program.id} program={program} index={index} />
+                    ))}
+                  </div>
+                </MotionTabsContent>
+              </TabsContent>
+            );
+          })}
         </Tabs>
       </div>
-    </section>
+    </Reveal>
   );
 }

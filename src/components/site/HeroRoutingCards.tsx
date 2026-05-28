@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { heroRoutingCards } from "./hero-routing-cards";
+import { pathwayCard, springGentle } from "@/lib/motion/presets";
 
 const AUTOPLAY_MS = 2000;
 const RESUME_AFTER_INTERACTION_MS = 6000;
@@ -12,6 +14,7 @@ export function HeroRoutingCards() {
   const [isMobileCarousel, setIsMobileCarousel] = useState(false);
   const pauseUntilRef = useRef(0);
   const cardCount = heroRoutingCards.length;
+  const reduced = useReducedMotion();
 
   const scrollToIndex = useCallback((index: number, behavior: ScrollBehavior = "smooth") => {
     const track = trackRef.current;
@@ -19,7 +22,6 @@ export function HeroRoutingCards() {
     const card = track.children[index] as HTMLElement | undefined;
     if (!card) return;
 
-    // Scroll the track only — scrollIntoView can jump the page to the hero on autoplay.
     const maxScroll = track.scrollWidth - track.clientWidth;
     const targetLeft = card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2;
     track.scrollTo({
@@ -99,21 +101,50 @@ export function HeroRoutingCards() {
         onScroll={handleScroll}
         aria-label="Choose your pathway"
       >
-        {heroRoutingCards.map((card) => {
+        {heroRoutingCards.map((card, index) => {
           const Icon = card.icon;
-          return (
+          const inner = (
             <Link
-              key={card.label}
               to={card.to}
               hash={card.hash}
-              className="hero-route-card"
+              className="hero-route-card__link"
               onFocus={pauseAutoplay}
             >
               <Icon className="hero-route-card__icon" strokeWidth={1.75} aria-hidden />
               <span className="hero-route-card__title">{card.label}</span>
               <span className="hero-route-card__subtitle">{card.description}</span>
-              <span className="hero-route-card__explore">{card.exploreLabel}</span>
+              <span className="hero-route-card__cta">
+                <span className="hero-route-card__cta-corner" aria-hidden />
+                <span className="hero-route-card__cta-track">
+                  <span className="hero-route-card__cta-line hero-route-card__cta-line--lead" aria-hidden />
+                  <span className="hero-route-card__explore">{card.exploreLabel}</span>
+                  <span className="hero-route-card__cta-line hero-route-card__cta-line--tail" aria-hidden />
+                </span>
+              </span>
             </Link>
+          );
+
+          if (reduced) {
+            return (
+              <div key={card.label} className="hero-route-card">
+                {inner}
+              </div>
+            );
+          }
+
+          return (
+            <motion.div
+              key={card.label}
+              className="hero-route-card"
+              custom={index}
+              variants={pathwayCard}
+              initial="hidden"
+              animate="visible"
+              whileHover={{ y: -4 }}
+              transition={springGentle}
+            >
+              {inner}
+            </motion.div>
           );
         })}
       </div>

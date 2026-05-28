@@ -1,5 +1,7 @@
-import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
-import { CountryFlag } from "@/components/site/CountryFlag";
+import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "framer-motion";
+import { AmbientTravelBg, Reveal } from "@/components/motion";
+import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { MigrationProgramSections, BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
 import { headForPage } from "@/lib/site-meta";
@@ -11,31 +13,56 @@ export const Route = createFileRoute("/migration")({
 
 function Layout() {
   const matches = useMatches();
-  const isChild = matches.some(m => m.routeId.startsWith("/migration/"));
+  const isChild = matches.some((m) => m.routeId.startsWith("/migration/"));
+  const reduced = useReducedMotion();
+
   if (isChild) return <SiteLayout><Outlet /></SiteLayout>;
+
   return (
     <SiteLayout>
-      <section className="py-20 bg-brand-dark text-white">
-        <div className="container-px mx-auto max-w-7xl">
-          <SectionEyebrow tone="dark">MIGRATION</SectionEyebrow>
-          <h1 className="font-display text-4xl md:text-6xl mt-0">Your New Chapter Begins Here</h1>
-          <p className="mt-4 max-w-2xl text-lg text-white/80 leading-relaxed">
-            Compare Canada and Australia permanent residency pathways below — use the tabs to switch
-            countries without scrolling.
-          </p>
-          {/* <Link
-            to="/migration"
-            hash="migration-pathways"
-            className="btn-secondary mt-6 inline-flex items-center gap-2"
-          >
-            <CountryFlag code="CA" size="sm" title="Canada" className="ring-1 ring-white/30" />
-            <CountryFlag code="AU" size="sm" title="Australia" className="-ml-1 ring-1 ring-white/30" />
-            View pathways
-          </Link> */}
+      <section className="relative py-20 bg-brand-dark text-white overflow-hidden">
+        <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
+        <div className="container-px mx-auto max-w-7xl relative">
+          {reduced ? (
+            <>
+              <SectionEyebrow tone="dark">MIGRATION</SectionEyebrow>
+              <h1 className="font-display text-4xl md:text-6xl mt-0">Your New Chapter Begins Here</h1>
+              <p className="mt-4 max-w-2xl text-lg text-white/80 leading-relaxed">
+                Compare Canada and Australia permanent residency pathways below — use the tabs to switch
+                countries without scrolling.
+              </p>
+            </>
+          ) : (
+            <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
+              <motion.div variants={staggerItem}>
+                <SectionEyebrow tone="dark" static>
+                  MIGRATION
+                </SectionEyebrow>
+              </motion.div>
+              <motion.h1
+                className="font-display text-4xl md:text-6xl mt-0"
+                variants={blurFade}
+                transition={springGentle}
+              >
+                Your New Chapter Begins Here
+              </motion.h1>
+              <motion.p
+                className="mt-4 max-w-2xl text-lg text-white/80 leading-relaxed"
+                variants={staggerItem}
+              >
+                Compare Canada and Australia permanent residency pathways below — use the tabs to switch
+                countries without scrolling.
+              </motion.p>
+            </motion.div>
+          )}
         </div>
       </section>
-      <MigrationProgramSections />
-      <BrandPromise />
+      <Reveal>
+        <MigrationProgramSections />
+      </Reveal>
+      <Reveal delay={0.1}>
+        <BrandPromise />
+      </Reveal>
     </SiteLayout>
   );
 }

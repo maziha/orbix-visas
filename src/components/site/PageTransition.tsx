@@ -1,26 +1,29 @@
 import type { ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useRouterState } from "@tanstack/react-router";
-import { cn } from "@/lib/utils";
+import { pageTransitionDramatic } from "@/lib/motion/presets";
 
-/**
- * Subtle crossfade on route change only — skips first paint to avoid homepage jerk.
- */
+/** Route change — cinematic glide between pages */
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isFirstRoute = useRef(true);
-  const [entering, setEntering] = useState(false);
+  const reduced = useReducedMotion();
 
-  useEffect(() => {
-    if (isFirstRoute.current) {
-      isFirstRoute.current = false;
-      return;
-    }
+  if (reduced) {
+    return <>{children}</>;
+  }
 
-    setEntering(true);
-    const timer = window.setTimeout(() => setEntering(false), 320);
-    return () => clearTimeout(timer);
-  }, [pathname]);
-
-  return <div className={cn(entering && "page-shell--enter")}>{children}</div>;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        className="min-h-0"
+        variants={pageTransitionDramatic}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
 }

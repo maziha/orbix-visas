@@ -1,6 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Menu } from "lucide-react";
+import { MotionPressable } from "@/components/motion";
+import { springGentle } from "@/lib/motion/presets";
 import { useModal } from "./modal-store";
 import { MobileMenu } from "./MobileMenu";
 import { forceUnlockBodyScroll, lockBodyScroll } from "@/lib/body-scroll-lock";
@@ -11,6 +14,8 @@ import {
   serviceNavLinks,
   studyCountryLinks,
 } from "@/lib/nav-links";
+
+const MotionRouterLink = motion.create(Link);
 
 function NavPhoneIcon() {
   return (
@@ -30,6 +35,42 @@ function NavPhoneIcon() {
   );
 }
 
+function DropdownLink({
+  item,
+  index,
+}: {
+  item: { name: string; to: string; hash?: string };
+  index: number;
+}) {
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return (
+      <Link
+        to={item.to}
+        {...(item.hash ? { hash: item.hash } : {})}
+        className="nav-dropdown-link"
+        style={{ "--link-i": index } as CSSProperties}
+      >
+        {item.name}
+      </Link>
+    );
+  }
+
+  return (
+    <MotionRouterLink
+      to={item.to}
+      {...(item.hash ? { hash: item.hash } : {})}
+      className="nav-dropdown-link"
+      style={{ "--link-i": index } as CSSProperties}
+      whileHover={{ x: 6, backgroundColor: "color-mix(in srgb, var(--accent-sky) 12%, #f4f6fb)" }}
+      transition={springGentle}
+    >
+      {item.name}
+    </MotionRouterLink>
+  );
+}
+
 function NavDropdown({
   label,
   items,
@@ -40,22 +81,22 @@ function NavDropdown({
   return (
     <div className="nav-dropdown-wrap">
       <button type="button" className="site-nav__trigger" aria-haspopup="true">
-        {label} <ChevronDown className="site-nav__chevron h-3.5 w-3.5 shrink-0" aria-hidden />
+        {label}{" "}
+        <motion.span whileHover={{ rotate: 180 }} transition={springGentle}>
+          <ChevronDown className="site-nav__chevron h-3.5 w-3.5 shrink-0" aria-hidden />
+        </motion.span>
       </button>
       <div className="nav-dropdown-panel">
-        <div className="nav-dropdown-panel__inner">
+        <motion.div
+          className="nav-dropdown-panel__inner"
+          initial={{ opacity: 0, y: -6 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={springGentle}
+        >
           {items.map((item, index) => (
-            <Link
-              key={item.name}
-              to={item.to}
-              {...(item.hash ? { hash: item.hash } : {})}
-              className="nav-dropdown-link"
-              style={{ "--link-i": index } as CSSProperties}
-            >
-              {item.name}
-            </Link>
+            <DropdownLink key={item.name} item={item} index={index} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -68,37 +109,29 @@ function ServicesDropdown() {
   return (
     <div className="nav-dropdown-wrap">
       <button type="button" className="site-nav__trigger" aria-haspopup="true">
-        Services <ChevronDown className="site-nav__chevron h-3.5 w-3.5 shrink-0" aria-hidden />
+        Services{" "}
+        <motion.span whileHover={{ rotate: 180 }} transition={springGentle}>
+          <ChevronDown className="site-nav__chevron h-3.5 w-3.5 shrink-0" aria-hidden />
+        </motion.span>
       </button>
       <div className="nav-dropdown-panel">
-        <div className="nav-dropdown-panel__inner nav-dropdown-panel__inner--services">
+        <motion.div
+          className="nav-dropdown-panel__inner nav-dropdown-panel__inner--services"
+          initial={{ opacity: 0, y: -6 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={springGentle}
+        >
           <div className="nav-dropdown-column">
             {visa.map((item, index) => (
-              <Link
-                key={item.name}
-                to={item.to}
-                {...(item.hash ? { hash: item.hash } : {})}
-                className="nav-dropdown-link"
-                style={{ "--link-i": index } as CSSProperties}
-              >
-                {item.name}
-              </Link>
+              <DropdownLink key={item.name} item={item} index={index} />
             ))}
           </div>
           <div className="nav-dropdown-column">
             {other.map((item, index) => (
-              <Link
-                key={item.name}
-                to={item.to}
-                {...(item.hash ? { hash: item.hash } : {})}
-                className="nav-dropdown-link"
-                style={{ "--link-i": visa.length + index } as CSSProperties}
-              >
-                {item.name}
-              </Link>
+              <DropdownLink key={item.name} item={item} index={visa.length + index} />
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -111,6 +144,7 @@ export function Header() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isHome = pathname === "/";
   const isFirstPathname = useRef(true);
+  const reduced = useReducedMotion();
 
   const closeMobileMenu = useCallback(() => {
     setMobileOpen(false);
@@ -155,24 +189,34 @@ export function Header() {
   return (
     <header className={headerClass}>
       <div className="container-px mx-auto flex h-16 max-w-7xl items-center justify-between lg:h-20">
-        <Link to="/" className="site-header__logo-link flex shrink-0 items-center">
-          <img
-            src={getHeaderLogo(isHome ? scrolled : true, onHero)}
-            alt={COMPANY_NAME}
-            className="site-header__logo h-10 w-auto lg:h-12"
-          />
-        </Link>
+        <motion.div whileHover={reduced ? undefined : { scale: 1.03 }} whileTap={reduced ? undefined : { scale: 0.97 }}>
+          <Link to="/" className="site-header__logo-link flex shrink-0 items-center">
+            <img
+              src={getHeaderLogo(isHome ? scrolled : true, onHero)}
+              alt={COMPANY_NAME}
+              className="site-header__logo h-10 w-auto lg:h-12"
+            />
+          </Link>
+        </motion.div>
 
         <nav className="site-nav hidden items-center lg:ml-8 lg:flex" aria-label="Main">
           <NavDropdown label="Study Abroad" items={studyCountryLinks} />
           <NavDropdown label="Migration" items={migrationLinks} />
           <ServicesDropdown />
-          <Link to="/about" className="site-nav__link px-3 py-2 text-sm font-medium">
+          <MotionRouterLink
+            to="/about"
+            className="site-nav__link px-3 py-2 text-sm font-medium"
+            whileHover={{ y: -2, color: "var(--accent-sky)" }}
+          >
             About
-          </Link>
-          <Link to="/contact" className="site-nav__link px-3 py-2 text-sm font-medium">
+          </MotionRouterLink>
+          <MotionRouterLink
+            to="/contact"
+            className="site-nav__link px-3 py-2 text-sm font-medium"
+            whileHover={{ y: -2, color: "var(--accent-sky)" }}
+          >
             Contact
-          </Link>
+          </MotionRouterLink>
         </nav>
 
         <div className="hidden items-center gap-4 lg:ml-auto lg:flex">
@@ -186,26 +230,37 @@ export function Header() {
                     ·{" "}
                   </span>
                 ) : null}
-                <a href={`tel:${phone.tel}`} className="nav-phone__link">
+                <motion.a
+                  href={`tel:${phone.tel}`}
+                  className="nav-phone__link"
+                  whileHover={{ scale: 1.04 }}
+                >
                   {phone.display}
-                </a>
+                </motion.a>
               </span>
             ))}
           </div>
-          <button type="button" onClick={() => openConsultation()} className="nav-cta">
+          <MotionPressable
+            type="button"
+            pulse
+            onClick={() => openConsultation()}
+            className="nav-cta"
+          >
             Book a Consultation
-          </button>
+          </MotionPressable>
         </div>
 
-        <button
+        <motion.button
           type="button"
           className="site-header__menu-btn lg:hidden"
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
           aria-expanded={mobileOpen}
+          whileTap={{ scale: 0.92 }}
+          whileHover={{ scale: 1.06 }}
         >
           <Menu className="h-6 w-6" aria-hidden />
-        </button>
+        </motion.button>
       </div>
 
       <MobileMenu open={mobileOpen} onClose={closeMobileMenu} />
