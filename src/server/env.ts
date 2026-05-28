@@ -11,7 +11,6 @@ function trim(value: string | undefined) {
   return value?.trim() || undefined;
 }
 
-/** Static property access so Vite can inline values into the SSR bundle at build time. */
 export function getServerEnv(key: ServerEnvKey): string | undefined {
   switch (key) {
     case "RESEND_API_KEY":

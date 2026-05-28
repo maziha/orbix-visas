@@ -1,3 +1,7 @@
 [build]
   command = "npm run build"
   publish = "dist/client"
+
+[build.environment]
+  # Public contact email / from-address also appear in source; omit if set as env vars.
+  SECRETS_SCAN_OMIT_KEYS = "ENQUIRY_TO_EMAIL,RESEND_FROM_EMAIL"
