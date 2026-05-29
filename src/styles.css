@@ -1901,6 +1901,92 @@
     }
   }
 
+  .nav-mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem 0.4rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--accent-sky) 28%, #e4e8f0);
+    background: color-mix(in srgb, var(--accent-sky) 6%, #ffffff);
+    color: var(--navy);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgb(4 1 117 / 0.04);
+    transition:
+      border-color var(--duration-fast) var(--ease-flight),
+      background-color var(--duration-fast) var(--ease-flight),
+      color var(--duration-fast) var(--ease-flight),
+      box-shadow var(--duration-fast) var(--ease-flight);
+  }
+
+  .nav-mail__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.625rem;
+    height: 1.625rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent-sky) 18%, #ffffff);
+    color: var(--accent-sky);
+    flex-shrink: 0;
+    transition: background-color var(--duration-fast) var(--ease-flight);
+  }
+
+  .nav-mail:hover {
+    border-color: color-mix(in srgb, var(--accent-sky) 55%, #e4e8f0);
+    background: color-mix(in srgb, var(--accent-sky) 12%, #ffffff);
+    color: #1a1f8f;
+    box-shadow: 0 4px 14px rgb(4 1 117 / 0.08);
+  }
+
+  .nav-mail:hover .nav-mail__icon {
+    background: color-mix(in srgb, var(--accent-sky) 32%, #ffffff);
+    color: #1a1f8f;
+  }
+
+  .nav-mail:focus-visible {
+    outline: 2px solid var(--accent-sky);
+    outline-offset: 2px;
+  }
+
+  .site-header--on-hero .nav-mail {
+    color: #ffffff;
+    border-color: rgb(255 255 255 / 0.32);
+    background: rgb(255 255 255 / 0.08);
+    box-shadow: none;
+  }
+
+  .site-header--on-hero .nav-mail__icon {
+    background: rgb(255 255 255 / 0.14);
+    color: #ffffff;
+  }
+
+  .site-header--on-hero .nav-mail:hover {
+    border-color: var(--accent-sky);
+    background: rgb(255 255 255 / 0.14);
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+  }
+
+  .site-header--on-hero .nav-mail:hover .nav-mail__icon {
+    background: color-mix(in srgb, var(--accent-sky) 85%, #ffffff);
+    color: var(--navy);
+  }
+
+  @media (min-width: 1024px) and (max-width: 1180px) {
+    .nav-mail__label {
+      display: none;
+    }
+
+    .nav-mail {
+      padding: 0.4rem;
+    }
+  }
+
   .contact-phone-links {
     display: flex;
     flex-direction: column;
