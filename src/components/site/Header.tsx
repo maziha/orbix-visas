@@ -1,8 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronDown, Mail, Menu } from "lucide-react";
-import { MotionPressable } from "@/components/motion";
+import { ChevronDown, CalendarDays, Mail, Menu } from "lucide-react";
 import { springGentle } from "@/lib/motion/presets";
 import { useModal } from "./modal-store";
 import { MobileMenu } from "./MobileMenu";
@@ -214,14 +213,19 @@ export function Header() {
             </span>
             <span className="nav-mail__label">Email us</span>
           </motion.a>
-          <MotionPressable
+          <motion.button
             type="button"
-            pulse
+            className="nav-mail"
             onClick={() => openConsultation()}
-            className="nav-cta"
+            aria-label="Book a consultation"
+            whileHover={reduced ? undefined : { y: -1 }}
+            whileTap={reduced ? undefined : { scale: 0.98 }}
           >
-            Book a Consultation
-          </MotionPressable>
+            <span className="nav-mail__icon" aria-hidden>
+              <CalendarDays className="h-3.5 w-3.5" strokeWidth={2} />
+            </span>
+            <span className="nav-mail__label">Book consultation</span>
+          </motion.button>
         </div>
 
         <motion.button

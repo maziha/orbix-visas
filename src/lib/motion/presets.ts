@@ -142,19 +142,25 @@ export const pageTransitionDramatic: Variants = {
   },
 };
 
-/** Mobile menu — fast tween only (no spring; pairs with CSS that has no panel/backdrop transition) */
+/** Mobile menu — clip-path reveal (fixed shell; avoids white edge from translateX) */
 const mobileEase = [0.32, 0.72, 0, 1] as const;
 
 export const mobileBackdrop: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.14, ease: mobileEase } },
-  exit: { opacity: 0, transition: { duration: 0.12, ease: mobileEase } },
+  exit: { opacity: 0, transition: { duration: 0.17, ease: mobileEase } },
 };
 
 export const mobilePanel: Variants = {
-  hidden: { x: "100%" },
-  visible: { x: 0, transition: { duration: 0.2, ease: mobileEase } },
-  exit: { x: "100%", transition: { duration: 0.17, ease: [0.4, 0, 1, 1] } },
+  hidden: { clipPath: "inset(0 0 0 100%)" },
+  visible: {
+    clipPath: "inset(0 0 0 0%)",
+    transition: { duration: 0.22, ease: mobileEase },
+  },
+  exit: {
+    clipPath: "inset(0 0 0 100%)",
+    transition: { duration: 0.2, ease: [0.4, 0, 1, 1] },
+  },
 };
 
 export const dropdownInner: Variants = {

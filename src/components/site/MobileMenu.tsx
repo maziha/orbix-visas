@@ -111,7 +111,12 @@ const servicesNavLinks: MobileNavLinkItem[] = serviceNavLinks.map((item) => ({
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { openConsultation } = useModal();
   const [openSection, setOpenSection] = useState<ExploreSectionId | null>(null);
+  const [mounted, setMounted] = useState(false);
   const reduced = useReducedMotion();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) setOpenSection(null);
@@ -131,6 +136,8 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
   };
 
   const navigate = () => onClose();
+
+  if (!mounted) return null;
 
   const dialogProps = {
     role: "dialog" as const,
@@ -153,7 +160,11 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
               onClick={onClose}
               aria-label="Close menu"
             />
-            <div className="mobile-nav-panel">{menuPanelContent()}</div>
+            <div className="mobile-nav-panel-shell lg:hidden">
+              <div className="mobile-nav-panel" {...dialogProps}>
+                {menuPanelContent()}
+              </div>
+            </div>
           </div>
         ) : (
           <>
@@ -169,15 +180,16 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
               exit="hidden"
             />
             <motion.div
-              key="mobile-nav-panel"
-              className="mobile-nav-panel lg:hidden"
+              key="mobile-nav-panel-shell"
+              className="mobile-nav-panel-shell lg:hidden"
               variants={mobilePanel}
               initial="hidden"
               animate="visible"
               exit="hidden"
+              style={{ willChange: "clip-path" }}
               {...dialogProps}
             >
-              {menuPanelContent()}
+              <div className="mobile-nav-panel">{menuPanelContent()}</div>
             </motion.div>
           </>
         ))}
