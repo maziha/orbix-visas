@@ -119,6 +119,18 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
   },
 ];
 
+export const migrationProgramIds = new Set(
+  migrationProgramGroups.flatMap((group) => group.programs.map((program) => program.id)),
+);
+
+export function migrationTabForProgramId(programId: string): "canada" | "australia" {
+  return programId.startsWith("australia-") ? "australia" : "canada";
+}
+
+export function isMigrationProgramId(id: string): boolean {
+  return migrationProgramIds.has(id);
+}
+
 /** Extended copy for anchored sections on /migration */
 export const migrationProgramAnchorDetails: Record<
   string,

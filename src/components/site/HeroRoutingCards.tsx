@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import { HERO_MOBILE_DEFAULT_SLIDE_INDEX, heroRoutingCards } from "./hero-routing-cards";
 import { pathwayCard, springGentle } from "@/lib/motion/presets";
 
-const AUTOPLAY_MS = 2000;
+/** Time each pathway slide stays active before advancing (mobile carousel) */
+const CAROUSEL_INTERVAL_MS = 2000;
 const RESUME_AFTER_INTERACTION_MS = 6000;
 
 export function HeroRoutingCards() {
@@ -61,7 +62,7 @@ export function HeroRoutingCards() {
         track.scrollLeft = 0;
       }
       scrollToIndex(HERO_MOBILE_DEFAULT_SLIDE_INDEX, behavior);
-      pauseUntilRef.current = Date.now() + RESUME_AFTER_INTERACTION_MS;
+      pauseUntilRef.current = Date.now() + CAROUSEL_INTERVAL_MS;
     },
     [scrollToIndex],
   );
@@ -105,7 +106,7 @@ export function HeroRoutingCards() {
       });
     };
 
-    const interval = window.setInterval(tick, AUTOPLAY_MS);
+    const interval = window.setInterval(tick, CAROUSEL_INTERVAL_MS);
     return () => window.clearInterval(interval);
   }, [isMobileCarousel, cardCount, scrollToIndex]);
 
@@ -134,6 +135,8 @@ export function HeroRoutingCards() {
         aria-label="Choose your pathway"
       >
         {heroRoutingCards.map((card, index) => {
+          const isActive = isMobileCarousel && activeIndex === index;
+          const cardClassName = cn("hero-route-card", isActive && "hero-route-card--active");
           const Icon = card.icon;
           const inner = (
             <Link
@@ -158,7 +161,7 @@ export function HeroRoutingCards() {
 
           if (reduced) {
             return (
-              <div key={card.label} className="hero-route-card">
+              <div key={card.label} className={cardClassName}>
                 {inner}
               </div>
             );
@@ -167,12 +170,16 @@ export function HeroRoutingCards() {
           return (
             <motion.div
               key={card.label}
-              className="hero-route-card"
+              className={cardClassName}
               custom={index}
               variants={pathwayCard}
-              initial="hidden"
-              animate="visible"
-              whileHover={{ y: -4 }}
+              initial={isMobileCarousel ? false : "hidden"}
+              animate={
+                isMobileCarousel
+                  ? { opacity: isActive ? 1 : 0.72, y: 0, scale: 1 }
+                  : "visible"
+              }
+              whileHover={isMobileCarousel ? undefined : { y: -4 }}
               transition={springGentle}
             >
               {inner}

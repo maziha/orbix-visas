@@ -162,6 +162,7 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
                 <MotionRouterLink
                   to="/migration"
                   hash={card.startHash}
+                  hashScrollIntoView={false}
                   className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent-sky)] hover:underline"
                   whileHover={reduced ? undefined : { x: 4 }}
                 >

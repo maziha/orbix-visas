@@ -1,18 +1,34 @@
-import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { HoverLift, MotionTabsContent, Reveal } from "@/components/motion";
+import { HoverLift, Reveal } from "@/components/motion";
+import {
+  isMigrationHash,
+  normalizeHash,
+  prepareMigrationHashNavigation,
+  readMigrationHashFromLocation,
+  scheduleMigrationHashScroll,
+  tabValueForMigrationHash,
+} from "@/lib/migration-hash-scroll";
 import { CountryFlag } from "./CountryFlag";
 import { SectionHeading } from "./SectionHeading";
 import {
+  isMigrationProgramId,
   migrationProgramAnchorDetails,
   migrationProgramGroups,
+  migrationTabForProgramId,
   type MigrationProgram,
   type MigrationProgramGroup,
 } from "./migration-programs";
 
 const groupTabValue = (label: string) => label.toLowerCase();
+
+function initialTab(): string {
+  const hash = readMigrationHashFromLocation();
+  if (isMigrationHash(hash)) return tabValueForMigrationHash(hash);
+  return groupTabValue(migrationProgramGroups[0].label);
+}
 
 function countryGuideSlug(group: MigrationProgramGroup) {
   return group.label === "CANADA" ? "canada-pr" : "australia-pr";
@@ -22,7 +38,13 @@ function countryDisplayName(group: MigrationProgramGroup) {
   return group.label === "CANADA" ? "Canada" : "Australia";
 }
 
-function CountryPathwayHub({ group }: { group: MigrationProgramGroup }) {
+function CountryPathwayHub({
+  group,
+  onJumpToProgram,
+}: {
+  group: MigrationProgramGroup;
+  onJumpToProgram: (programId: string) => void;
+}) {
   const country = countryDisplayName(group);
   const code = group.programs[0]?.countryCode ?? "CA";
 
@@ -52,9 +74,14 @@ function CountryPathwayHub({ group }: { group: MigrationProgramGroup }) {
         <span className="migration-pathway-jump__label">On this page</span>
         <div className="migration-pathway-jump__chips">
           {group.programs.map((program) => (
-            <a key={program.id} href={`#${program.id}`} className="migration-pathway-jump__chip">
+            <button
+              key={program.id}
+              type="button"
+              className="migration-pathway-jump__chip"
+              onClick={() => onJumpToProgram(program.id)}
+            >
               {program.jumpLabel}
-            </a>
+            </button>
           ))}
         </div>
       </nav>
@@ -68,6 +95,7 @@ function MigrationProgramCard({ program, index }: { program: MigrationProgram; i
   return (
     <HoverLift
       as="article"
+      instant
       index={index}
       id={program.id}
       className="scroll-mt-28 migration-pathway-card content-card-accent bg-brand-white rounded-xl border border-border p-8 md:p-10"
@@ -110,8 +138,111 @@ function MigrationProgramCard({ program, index }: { program: MigrationProgram; i
 }
 
 export function MigrationProgramSections({ revealOnMount = false }: { revealOnMount?: boolean }) {
-  const defaultTab = groupTabValue(migrationProgramGroups[0].label);
-  const [activeTab, setActiveTab] = useState(defaultTab);
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const routerHash = useRouterState({ select: (state) => state.location.hash });
+  const cancelScrollRef = useRef<(() => void) | null>(null);
+  const pendingScrollIdRef = useRef<string | null>(null);
+  const handledHashRef = useRef<string | null>(null);
+
+  const runScroll = useCallback((programId: string, startDelayMs = 0) => {
+    if (!isMigrationProgramId(programId)) return;
+    cancelScrollRef.current?.();
+    cancelScrollRef.current = scheduleMigrationHashScroll(programId, { startDelayMs });
+  }, []);
+
+  const updateHashInUrl = useCallback((programId: string) => {
+    const nextUrl = `${window.location.pathname}${window.location.search}#${programId}`;
+    window.history.replaceState(window.history.state, "", nextUrl);
+  }, []);
+
+  const jumpToProgram = useCallback(
+    (programId: string) => {
+      if (!isMigrationProgramId(programId)) return;
+
+      handledHashRef.current = programId;
+      const nextTab = migrationTabForProgramId(programId);
+
+      setActiveTab((current) => {
+        if (current !== nextTab) {
+          pendingScrollIdRef.current = programId;
+          return nextTab;
+        }
+        runScroll(programId, 0);
+        return current;
+      });
+
+      updateHashInUrl(programId);
+    },
+    [runScroll, updateHashInUrl],
+  );
+
+  useLayoutEffect(() => {
+    const programId = pendingScrollIdRef.current;
+    if (!programId) return;
+    pendingScrollIdRef.current = null;
+    runScroll(programId, 32);
+  }, [activeTab, runScroll]);
+
+  const applyMigrationHash = useCallback((rawHash: string, startDelayMs = 120) => {
+    const programId = normalizeHash(rawHash);
+    if (!isMigrationHash(programId)) return;
+
+    const nextTab = tabValueForMigrationHash(programId);
+    setActiveTab((current) => {
+      if (current !== nextTab) {
+        pendingScrollIdRef.current = programId;
+        return nextTab;
+      }
+      runScroll(programId, startDelayMs);
+      return current;
+    });
+  }, [runScroll]);
+
+  const handleTabChange = useCallback((value: string) => {
+    cancelScrollRef.current?.();
+    pendingScrollIdRef.current = null;
+    handledHashRef.current = null;
+    setActiveTab(value);
+
+    if (window.location.hash) {
+      const base = `${window.location.pathname}${window.location.search}`;
+      window.history.replaceState(window.history.state, "", base);
+    }
+  }, []);
+
+  useEffect(() => {
+    prepareMigrationHashNavigation();
+  }, []);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const id = readMigrationHashFromLocation();
+      if (handledHashRef.current === id) {
+        handledHashRef.current = null;
+        return;
+      }
+      applyMigrationHash(id, 80);
+    };
+
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, [applyMigrationHash]);
+
+  const routerHashKey = normalizeHash(routerHash) || readMigrationHashFromLocation();
+
+  useEffect(() => {
+    if (!isMigrationHash(routerHashKey)) return;
+
+    if (handledHashRef.current === routerHashKey) {
+      handledHashRef.current = null;
+      return;
+    }
+
+    applyMigrationHash(routerHashKey, 200);
+    // Only re-run when the URL hash changes — not when the user switches tabs
+  }, [routerHashKey, applyMigrationHash]);
+
+  useEffect(() => () => cancelScrollRef.current?.(), []);
 
   return (
     <Reveal
@@ -129,7 +260,7 @@ export function MigrationProgramSections({ revealOnMount = false }: { revealOnMo
           className="max-w-none"
         />
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-10">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="mt-10">
           <TabsList className="migration-tabs-list h-auto w-full gap-1 p-1 sm:w-auto">
             {migrationProgramGroups.map((group) => (
               <TabsTrigger
@@ -154,16 +285,15 @@ export function MigrationProgramSections({ revealOnMount = false }: { revealOnMo
               <TabsContent
                 key={group.label}
                 value={tabValue}
-                className="mt-8 focus-visible:outline-none"
+                forceMount
+                className="mt-8 focus-visible:outline-none data-[state=inactive]:hidden"
               >
-                <MotionTabsContent value={tabValue} activeValue={activeTab}>
-                  <CountryPathwayHub group={group} />
-                  <div className="mt-8 space-y-6">
-                    {group.programs.map((program, index) => (
-                      <MigrationProgramCard key={program.id} program={program} index={index} />
-                    ))}
-                  </div>
-                </MotionTabsContent>
+                <CountryPathwayHub group={group} onJumpToProgram={jumpToProgram} />
+                <div className="mt-8 space-y-6">
+                  {group.programs.map((program, index) => (
+                    <MigrationProgramCard key={program.id} program={program} index={index} />
+                  ))}
+                </div>
               </TabsContent>
             );
           })}

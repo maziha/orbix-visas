@@ -20,7 +20,7 @@ export function Hero() {
   const reduced = useReducedMotion();
 
   return (
-    <section className="hero-section relative flex items-center overflow-hidden min-h-[100dvh] -mt-16 lg:-mt-20 pt-16 lg:pt-20">
+    <section className="hero-section relative flex items-center overflow-x-clip min-h-[100dvh] -mt-16 lg:-mt-20 pt-16 lg:pt-20">
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <motion.img
           src={HERO_BACKGROUND_IMAGE}

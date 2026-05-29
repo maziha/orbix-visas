@@ -9,6 +9,8 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
+    /** Migration (and other) hash targets use custom smooth scroll — not instant scrollIntoView */
+    defaultHashScrollIntoView: false,
     defaultPreloadStaleTime: 0,
   });
 

@@ -1,4 +1,6 @@
 import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { prepareMigrationHashNavigation } from "@/lib/migration-hash-scroll";
 import { motion, useReducedMotion } from "framer-motion";
 import { AmbientTravelBg, Reveal } from "@/components/motion";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
@@ -15,6 +17,11 @@ function Layout() {
   const matches = useMatches();
   const isChild = matches.some((m) => m.routeId.startsWith("/migration/"));
   const reduced = useReducedMotion();
+
+  useEffect(() => {
+    if (isChild) return;
+    prepareMigrationHashNavigation();
+  }, [isChild]);
 
   if (isChild) return <SiteLayout><Outlet /></SiteLayout>;
 
