@@ -1,6 +1,6 @@
-import logoBlueOnWhite from "@/assets/logo_blue_white_background.png";
-import logoWhiteOnNavy from "@/assets/logo_white_navy_background.png";
-import logoWhiteOnSkyBlue from "@/assets/logo_white_skyblue_background.png";
+import logoBlueOnWhite from "@/assets/logo_blue_white_background.webp";
+import logoWhiteOnNavy from "@/assets/logo_white_navy_background.webp";
+import logoWhiteOnSkyBlue from "@/assets/logo_white_skyblue_background.webp";
 
 /**
  * Brand logo variants — filename indicates intended background.

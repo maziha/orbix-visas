@@ -1,10 +1,15 @@
+import { lazy, Suspense, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { HeroRoutingCards } from "./HeroRoutingCards";
-import { HeroTravelSky } from "@/components/motion";
-import { fadeUp, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
+import { springGentle, staggerContainer } from "@/lib/motion/presets";
 
-const HERO_BACKGROUND_IMAGE =
-  "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80&auto=format&fit=crop";
+const HeroTravelSky = lazy(() =>
+  import("@/components/motion").then((m) => ({ default: m.HeroTravelSky })),
+);
+
+const HERO_BACKGROUND_DEFAULT = "/images/hero-background-1280.webp";
+const HERO_SRCSET =
+  "/images/hero-background-640.webp 640w, /images/hero-background-1280.webp 1280w, /images/hero-background.webp 1920w";
 
 const HERO_DISPLAY_HEADLINE = "Your Path to Canada or Australia Starts Here.";
 const HERO_SEO_H1 = "Immigration & Study Abroad Consultants in Kochi, Kerala";
@@ -18,55 +23,53 @@ const HERO_SERVICES = [
 
 export function Hero() {
   const reduced = useReducedMotion();
+  const [motionReady, setMotionReady] = useState(false);
+
+  useEffect(() => {
+    setMotionReady(true);
+  }, []);
 
   return (
     <section className="hero-section relative flex items-center overflow-x-clip min-h-[100dvh] -mt-16 lg:-mt-20 pt-16 lg:pt-20">
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <motion.img
-          src={HERO_BACKGROUND_IMAGE}
+        <img
+          src={HERO_BACKGROUND_DEFAULT}
+          srcSet={HERO_SRCSET}
+          sizes="100vw"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          width={1280}
+          height={853}
+          className={`absolute inset-0 h-full w-full object-cover${reduced ? "" : " hero-bg-ken-burns"}`}
           fetchPriority="high"
-          animate={reduced ? undefined : { scale: [1, 1.07, 1] }}
-          transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+          decoding="async"
         />
         <div className="absolute inset-0 bg-[#040175]/60" aria-hidden />
       </div>
 
-      <HeroTravelSky />
+      <Suspense fallback={null}>
+        <HeroTravelSky />
+      </Suspense>
 
       <div className="relative z-[2] container-px mx-auto max-w-7xl w-full py-12 sm:py-16 lg:py-20">
         <div className="max-w-3xl text-white lg:max-w-none">
-          {reduced ? (
-            <div className="max-w-3xl">
-              <p className="font-display text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold leading-[1.12] text-white">
-                {HERO_DISPLAY_HEADLINE}
-              </p>
-              <h1 className="hero-seo-h1 mt-3 sm:mt-4">{HERO_SEO_H1}</h1>
-              <HeroPillsStatic />
-            </div>
-          ) : (
-            <motion.div
-              className="max-w-3xl"
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-            >
-              <motion.p
-                className="font-display text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold leading-[1.12] text-white"
-                variants={fadeUp}
-                transition={springGentle}
+          <div className="max-w-3xl">
+            <p className="font-display text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold leading-[1.12] text-white">
+              {HERO_DISPLAY_HEADLINE}
+            </p>
+            <h1 className="hero-seo-h1 mt-3 sm:mt-4">{HERO_SEO_H1}</h1>
+            {!reduced && motionReady ? (
+              <motion.div
+                className="hero-services mt-5 sm:mt-6"
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
               >
-                {HERO_DISPLAY_HEADLINE}
-              </motion.p>
-              <motion.h1 className="hero-seo-h1 mt-3 sm:mt-4" variants={staggerItem}>
-                {HERO_SEO_H1}
-              </motion.h1>
-              <motion.div className="hero-services mt-5 sm:mt-6" variants={staggerItem}>
                 <HeroPillsAnimated />
               </motion.div>
-            </motion.div>
-          )}
+            ) : (
+              <HeroPillsStatic />
+            )}
+          </div>
 
           <HeroRoutingCards />
         </div>

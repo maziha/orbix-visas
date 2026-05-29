@@ -29,7 +29,7 @@ export function WhatsAppContactMenu({
 
   const triggerClass =
     variant === "floating"
-      ? "floating-whatsapp pulse-whatsapp flex h-12 w-12 items-center justify-center rounded-full sm:h-14 sm:w-14"
+      ? "floating-whatsapp pulse-whatsapp flex min-h-11 min-w-11 h-12 w-12 items-center justify-center rounded-full sm:min-h-[3.25rem] sm:min-w-[3.25rem] sm:h-14 sm:w-14"
       : "whatsapp-menu-trigger btn-secondary";
 
   const ariaLabel =

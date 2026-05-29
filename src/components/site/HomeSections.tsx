@@ -95,7 +95,7 @@ export function MigrationSplit() {
       <div className="container-px mx-auto max-w-7xl grid lg:grid-cols-2 gap-12 items-center">
         <div className="order-2 lg:order-1">
           <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-xl">
-            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80" alt="" className="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80" alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" width={1200} height={900} />
           </div>
         </div>
         <div className="order-1 lg:order-2">
@@ -204,7 +204,7 @@ export function ChoosingFuture() {
           </div>
         </div>
         <div className="aspect-square max-w-md mx-auto rounded-2xl overflow-hidden shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1531973576160-7125cd663d86?w=900&q=80" alt="" className="w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1531973576160-7125cd663d86?w=900&q=80" alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" width={900} height={675} />
         </div>
       </div>
     </section>

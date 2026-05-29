@@ -2,6 +2,8 @@
 @source "../src";
 @import "tw-animate-css";
 @import "./styles/motion.css";
+@import "@fontsource-variable/fraunces/wght.css";
+@import "@fontsource-variable/plus-jakarta-sans/wght.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -1193,7 +1195,8 @@
   .hero-route-carousel__dots {
     display: none;
     justify-content: center;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.25rem;
     margin-top: 0.875rem;
   }
 
@@ -1205,17 +1208,28 @@
   }
 
   .hero-route-carousel__dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     border: none;
     padding: 0;
     cursor: pointer;
+    background: transparent;
+    border-radius: 9999px;
+  }
+
+  .hero-route-carousel__dot::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
     background-color: rgb(255 255 255 / 0.35);
     transition: background-color 150ms var(--ease-snappy), transform 150ms var(--ease-snappy);
   }
 
-  .hero-route-carousel__dot--active {
+  .hero-route-carousel__dot--active::after {
     background-color: var(--accent-sky);
     transform: scale(1.15);
   }

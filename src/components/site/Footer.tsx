@@ -42,6 +42,10 @@ export function Footer() {
             <img
               src={BRAND_LOGOS.onNavy}
               alt={COMPANY_NAME}
+              width={140}
+              height={56}
+              loading="lazy"
+              decoding="async"
               className="h-10 sm:h-12 lg:h-14 w-auto mb-4 object-contain"
             />
             <p className="text-white/70 text-xs sm:text-sm">
@@ -50,9 +54,9 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem>
-            <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
+            <h3 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
               Study Abroad
-            </h4>
+            </h3>
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
               {studyAbroadLinks.map(({ label, to }) => (
                 <li key={to}>
@@ -63,9 +67,9 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem>
-            <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
+            <h3 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
               Migration
-            </h4>
+            </h3>
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
               {migrationLinks.map(({ label, to }) => (
                 <li key={to}>
@@ -76,9 +80,9 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem>
-            <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
+            <h3 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
               Services
-            </h4>
+            </h3>
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
               {serviceLinks.map(({ label, hash }) => (
                 <li key={hash}>
@@ -91,9 +95,9 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem>
-            <h4 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
+            <h3 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
               Contact
-            </h4>
+            </h3>
             <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-white/80">
               <li>
                 <ContactPhoneLinksList variant="footer" />
@@ -123,7 +127,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <Reveal delay={0.1}>
           <div className="container-px mx-auto max-w-7xl py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-3 text-[11px] sm:text-xs text-white/60 text-center md:text-left">
-            <span>
+            <span suppressHydrationWarning>
               © {new Date().getFullYear()} {COMPANY_NAME}. GSTIN {GSTIN}. All rights reserved.
             </span>
           </div>

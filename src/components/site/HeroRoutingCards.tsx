@@ -12,12 +12,15 @@ const RESUME_AFTER_INTERACTION_MS = 6000;
 export function HeroRoutingCards() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(HERO_MOBILE_DEFAULT_SLIDE_INDEX);
-  const [isMobileCarousel, setIsMobileCarousel] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches,
-  );
+  const [isMobileCarousel, setIsMobileCarousel] = useState(false);
+  const [motionReady, setMotionReady] = useState(false);
   const pauseUntilRef = useRef(0);
   const cardCount = heroRoutingCards.length;
   const reduced = useReducedMotion();
+
+  useEffect(() => {
+    setMotionReady(true);
+  }, []);
 
   const scrollToIndex = useCallback((index: number, behavior: ScrollBehavior = "smooth") => {
     const track = trackRef.current;
@@ -159,7 +162,7 @@ export function HeroRoutingCards() {
             </Link>
           );
 
-          if (reduced) {
+          if (reduced || !motionReady) {
             return (
               <div key={card.label} className={cardClassName}>
                 {inner}

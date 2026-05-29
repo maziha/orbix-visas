@@ -8,12 +8,15 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "audit:lighthouse": "npm run build && vite preview --port 4173 --host 127.0.0.1 & sleep 3 && npx lighthouse http://127.0.0.1:4173/ --chrome-flags='--headless --no-sandbox' --only-categories=performance,accessibility,best-practices,seo --view && kill $(lsof -t -i:4173)",
     "lint": "eslint .",
     "format": "prettier --write .",
     "generate:og-image": "node scripts/generate-og-image.mjs"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
+    "@fontsource-variable/fraunces": "^5.2.9",
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",

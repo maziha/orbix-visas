@@ -175,6 +175,8 @@ export function Header() {
             <img
               src={getHeaderLogo(isHome ? scrolled : true, onHero)}
               alt={COMPANY_NAME}
+              width={140}
+              height={48}
               className="site-header__logo h-10 w-auto lg:h-12"
             />
           </Link>
@@ -204,7 +206,6 @@ export function Header() {
           <motion.a
             href={`mailto:${CONTACT_EMAIL}`}
             className="nav-mail"
-            aria-label={`Email us at ${CONTACT_EMAIL}`}
             whileHover={reduced ? undefined : { y: -1 }}
             whileTap={reduced ? undefined : { scale: 0.98 }}
           >
@@ -217,7 +218,6 @@ export function Header() {
             type="button"
             className="nav-mail"
             onClick={() => openConsultation()}
-            aria-label="Book a consultation"
             whileHover={reduced ? undefined : { y: -1 }}
             whileTap={reduced ? undefined : { scale: 0.98 }}
           >

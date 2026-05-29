@@ -1,9 +1,23 @@
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-/** Site-wide soft orbs — always-on travel atmosphere (pointer-events: none) */
+/** Site-wide soft orbs — deferred until idle so they stay off the critical path. */
 export function GlobalAmbientLayer() {
   const reduced = useReducedMotion();
-  if (reduced) return null;
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    if (reduced) return;
+    const enable = () => setActive(true);
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(enable, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = window.setTimeout(enable, 1200);
+    return () => window.clearTimeout(t);
+  }, [reduced]);
+
+  if (reduced || !active) return null;
 
   return (
     <div

@@ -35,30 +35,29 @@ export function WhyOrbixClosingSection() {
           </header>
         </Reveal>
 
-        <RevealStagger className="why-orbix-closing__stats mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 md:gap-8">
+        <dl className="why-orbix-closing__stats mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 md:gap-8">
           {STATS.map((stat, i) => (
-            <RevealItem key={stat.label}>
-              <motion.div
-                className="why-orbix-closing__stat text-center"
-                variants={reduced ? undefined : popIn}
-                initial={reduced ? false : "hidden"}
-                whileInView={reduced ? undefined : "visible"}
-                viewport={{ once: true }}
-                transition={{ ...springGentle, delay: i * 0.08 }}
-                whileHover={reduced ? undefined : { scale: 1.06, y: -4 }}
+            <motion.div
+              key={stat.label}
+              className="why-orbix-closing__stat text-center"
+              variants={reduced ? undefined : popIn}
+              initial={reduced ? false : "hidden"}
+              whileInView={reduced ? undefined : "visible"}
+              viewport={{ once: true }}
+              transition={{ ...springGentle, delay: i * 0.08 }}
+              whileHover={reduced ? undefined : { scale: 1.06, y: -4 }}
+            >
+              <dt
+                className={`why-orbix-closing__stat-value font-display font-bold text-[var(--navy)] leading-none ${
+                  stat.display.length > 2 ? "why-orbix-closing__stat-value--text" : ""
+                }`}
               >
-                <dt
-                  className={`why-orbix-closing__stat-value font-display font-bold text-[var(--navy)] leading-none ${
-                    stat.display.length > 2 ? "why-orbix-closing__stat-value--text" : ""
-                  }`}
-                >
-                  {stat.display}
-                </dt>
-                <dd className="mt-2 text-sm text-muted-foreground leading-snug">{stat.label}</dd>
-              </motion.div>
-            </RevealItem>
+                {stat.display}
+              </dt>
+              <dd className="mt-2 text-sm text-muted-foreground leading-snug">{stat.label}</dd>
+            </motion.div>
           ))}
-        </RevealStagger>
+        </dl>
 
         <RevealStagger className="why-orbix-closing__points mt-12 mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
           {WHY_CHOOSE_POINTS.map((point) => (

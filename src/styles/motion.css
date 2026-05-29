@@ -191,3 +191,20 @@
     animation: none !important;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-bg-ken-burns {
+    animation: hero-ken-burns 24s ease-in-out infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes hero-ken-burns {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
