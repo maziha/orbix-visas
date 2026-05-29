@@ -11,6 +11,9 @@ export type HeroRoutingCard = {
   freeAssessmentBadge?: boolean;
 };
 
+/** Mobile hero carousel always starts here after refresh / navigation to home */
+export const HERO_MOBILE_DEFAULT_SLIDE_INDEX = 0;
+
 export const heroRoutingCards: HeroRoutingCard[] = [
   {
     label: "Migrate & Get PR",

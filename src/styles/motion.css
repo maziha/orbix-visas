@@ -185,10 +185,6 @@
     transition: none !important;
   }
 
-  .mobile-nav-root--active .mobile-nav-panel {
-    transform: none;
-  }
-
   .mobile-nav-panel__flight-arc,
   .mobile-nav-panel__stamp {
     animation: none !important;

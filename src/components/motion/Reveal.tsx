@@ -3,22 +3,26 @@ import { motion, useReducedMotion } from "framer-motion";
 import { fadeUp, springGentle } from "@/lib/motion/presets";
 import { cn } from "@/lib/utils";
 
+type RevealWhen = "inView" | "mount";
+
 type RevealProps = {
   children: ReactNode;
   className?: string;
-  /** Delay before animation starts (seconds) */
   delay?: number;
-  /** How much of element must be visible (0–1) */
+  /** How much of element must be visible (0–1) — inView only */
   amount?: number;
   as?: "div" | "section" | "article";
+  /** mount = animate on load; inView = when scrolled into view */
+  when?: RevealWhen;
 };
 
 export function Reveal({
   children,
   className,
   delay = 0,
-  amount = 0.2,
+  amount = 0.08,
   as = "div",
+  when = "inView",
 }: RevealProps) {
   const reduced = useReducedMotion();
   const Component = motion[as];
@@ -28,14 +32,30 @@ export function Reveal({
     return <Tag className={className}>{children}</Tag>;
   }
 
+  const transition = { ...springGentle, delay };
+
+  if (when === "mount") {
+    return (
+      <Component
+        className={cn(className)}
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        transition={transition}
+      >
+        {children}
+      </Component>
+    );
+  }
+
   return (
     <Component
       className={cn(className)}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount }}
+      viewport={{ once: true, amount, margin: "0px 0px -40px 0px" }}
       variants={fadeUp}
-      transition={{ ...springGentle, delay }}
+      transition={transition}
     >
       {children}
     </Component>
@@ -47,13 +67,15 @@ type RevealStaggerProps = {
   className?: string;
   amount?: number;
   as?: "div" | "ul" | "ol";
+  when?: RevealWhen;
 };
 
 export function RevealStagger({
   children,
   className,
-  amount = 0.15,
+  amount = 0.08,
   as = "div",
+  when = "inView",
 }: RevealStaggerProps) {
   const reduced = useReducedMotion();
   const Tag = as;
@@ -63,19 +85,34 @@ export function RevealStagger({
     return <Tag className={className}>{children}</Tag>;
   }
 
+  const staggerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.06, delayChildren: 0.04 },
+    },
+  };
+
+  if (when === "mount") {
+    return (
+      <Component
+        className={cn(className)}
+        initial="hidden"
+        animate="visible"
+        variants={staggerVariants}
+      >
+        {children}
+      </Component>
+    );
+  }
+
   return (
     <Component
       className={cn(className)}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { staggerChildren: 0.09, delayChildren: 0.05 },
-        },
-      }}
+      viewport={{ once: true, amount, margin: "0px 0px -40px 0px" }}
+      variants={staggerVariants}
     >
       {children}
     </Component>

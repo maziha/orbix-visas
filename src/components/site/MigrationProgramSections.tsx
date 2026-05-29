@@ -109,12 +109,17 @@ function MigrationProgramCard({ program, index }: { program: MigrationProgram; i
   );
 }
 
-export function MigrationProgramSections() {
+export function MigrationProgramSections({ revealOnMount = false }: { revealOnMount?: boolean }) {
   const defaultTab = groupTabValue(migrationProgramGroups[0].label);
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   return (
-    <Reveal as="section" id="migration-pathways" className="migration-pathways-section scroll-mt-28 py-20 bg-brand-subtle">
+    <Reveal
+      as="section"
+      when={revealOnMount ? "mount" : "inView"}
+      id="migration-pathways"
+      className="migration-pathways-section scroll-mt-28 py-20 bg-brand-subtle"
+    >
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="MIGRATION"

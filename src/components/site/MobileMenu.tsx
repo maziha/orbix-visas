@@ -5,14 +5,9 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { forceUnlockBodyScroll, lockBodyScroll } from "@/lib/body-scroll-lock";
-import {
-  flightPathDraw,
-  mobileBackdrop,
-  mobilePanel,
-  springGentle,
-  staggerContainer,
-  staggerItem,
-} from "@/lib/motion/presets";
+import { BRAND_LOGOS } from "@/lib/brand-logos";
+import { COMPANY_NAME } from "@/lib/contact-info";
+import { mobileBackdrop, mobilePanel } from "@/lib/motion/presets";
 import { MotionPressable } from "@/components/motion";
 import { useModal } from "./modal-store";
 import {
@@ -97,28 +92,6 @@ function NavSection({
   );
 }
 
-function TopNavLink({
-  to,
-  label,
-  onNavigate,
-  index,
-}: {
-  to: string;
-  label: string;
-  onNavigate: () => void;
-  index: number;
-}) {
-  const reduced = useReducedMotion();
-
-  return (
-    <motion.div variants={reduced ? undefined : staggerItem} custom={index}>
-      <Link to={to} onClick={onNavigate} className="mobile-nav-top-link">
-        {label}
-      </Link>
-    </motion.div>
-  );
-}
-
 const studyAbroadLinks: MobileNavLinkItem[] = [
   { to: "/study-abroad", label: "All destinations" },
   ...studyCountryLinks.map((item) => ({ to: item.to, label: item.name })),
@@ -159,149 +132,155 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
 
   const navigate = () => onClose();
 
+  const dialogProps = {
+    role: "dialog" as const,
+    "aria-modal": true,
+    "aria-label": "Navigation menu",
+  };
+
   return createPortal(
     <AnimatePresence>
-      {open && (
-        <motion.div
-          key="mobile-nav"
-          className="mobile-nav-root mobile-nav-root--active lg:hidden"
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Navigation menu"
-          initial={{ pointerEvents: "auto" }}
-        >
-          <motion.button
-            type="button"
-            className="mobile-nav-backdrop"
-            onClick={onClose}
-            aria-label="Close menu"
-            variants={mobileBackdrop}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            style={{ backdropFilter: reduced ? undefined : "blur(12px)" }}
-          />
-
-          <motion.div
-            className="mobile-nav-panel"
-            style={{ transform: undefined }}
-            variants={reduced ? undefined : mobilePanel}
-            initial={reduced ? false : "hidden"}
-            animate="visible"
-            exit="hidden"
+      {open &&
+        (reduced ? (
+          <div
+            key="mobile-nav"
+            className="mobile-nav-root mobile-nav-root--active lg:hidden"
+            {...dialogProps}
           >
-            <div className="mobile-nav-panel__decor" aria-hidden>
-              <svg className="mobile-nav-panel__flight-arc" viewBox="0 0 200 120" fill="none">
-                <motion.path
-                  d="M8 95 Q 60 20, 120 48 T 192 28"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeDasharray="6 5"
-                  variants={flightPathDraw}
-                  initial="hidden"
-                  animate="visible"
-                />
-              </svg>
-              <motion.span
-                className="mobile-nav-panel__stamp mobile-nav-panel__stamp--a"
-                animate={{ y: [0, -8, 0], opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.span
-                className="mobile-nav-panel__stamp mobile-nav-panel__stamp--b"
-                animate={{ y: [0, -6, 0], opacity: [0.2, 0.5, 0.2] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              />
-            </div>
-
-            <div className="mobile-nav-panel__header">
-              <motion.p
-                className="mobile-nav-panel__title font-display"
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={springGentle}
-              >
-                Menu
-              </motion.p>
-              <motion.button
-                type="button"
-                onClick={onClose}
-                className="mobile-nav-panel__close"
-                aria-label="Close menu"
-                whileHover={{ scale: 1.08, rotate: 90 }}
-                whileTap={{ scale: 0.92 }}
-                transition={springGentle}
-              >
-                <X className="h-6 w-6" aria-hidden />
-              </motion.button>
-            </div>
-
-            <nav className="mobile-nav-panel__nav">
-              <motion.div
-                className="mobile-nav-group"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                <p className="mobile-nav-group__label">Pages</p>
-                <div className="mobile-nav-group__links">
-                  <TopNavLink to="/" label="Home" onNavigate={navigate} index={0} />
-                  <TopNavLink to="/about" label="About" onNavigate={navigate} index={1} />
-                  <TopNavLink to="/contact" label="Contact" onNavigate={navigate} index={2} />
-                </div>
-              </motion.div>
-
-              <div className="mobile-nav-group">
-                <p className="mobile-nav-group__label">Explore</p>
-                <div className="mobile-nav-sections">
-                  <NavSection
-                    sectionId="study"
-                    title="Study Abroad"
-                    links={studyAbroadLinks}
-                    open={openSection === "study"}
-                    onToggle={toggleSection}
-                    onNavigate={navigate}
-                  />
-                  <NavSection
-                    sectionId="migration"
-                    title="Migration"
-                    links={migrationNavLinks}
-                    open={openSection === "migration"}
-                    onToggle={toggleSection}
-                    onNavigate={navigate}
-                  />
-                  <NavSection
-                    sectionId="services"
-                    title="Services"
-                    links={servicesNavLinks}
-                    open={openSection === "services"}
-                    onToggle={toggleSection}
-                    onNavigate={navigate}
-                  />
-                </div>
-              </div>
-            </nav>
-
-            <div className="mobile-nav-footer shrink-0 space-y-3 px-5 py-6">
-              <MotionPressable
-                type="button"
-                pulse
-                onClick={() => {
-                  onClose();
-                  openConsultation();
-                }}
-                className="nav-cta w-full"
-              >
-                Book a Consultation
-              </MotionPressable>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
+            <button
+              type="button"
+              className="mobile-nav-backdrop"
+              onClick={onClose}
+              aria-label="Close menu"
+            />
+            <div className="mobile-nav-panel">{menuPanelContent()}</div>
+          </div>
+        ) : (
+          <>
+            <motion.button
+              key="mobile-nav-backdrop"
+              type="button"
+              className="mobile-nav-backdrop lg:hidden"
+              onClick={onClose}
+              aria-label="Close menu"
+              variants={mobileBackdrop}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+            />
+            <motion.div
+              key="mobile-nav-panel"
+              className="mobile-nav-panel lg:hidden"
+              variants={mobilePanel}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              {...dialogProps}
+            >
+              {menuPanelContent()}
+            </motion.div>
+          </>
+        ))}
     </AnimatePresence>,
     document.body,
   );
+
+  function menuPanelContent() {
+    return (
+      <>
+        <div className="mobile-nav-panel__decor" aria-hidden>
+          <svg className="mobile-nav-panel__flight-arc" viewBox="0 0 200 120" fill="none">
+            <path
+              d="M8 95 Q 60 20, 120 48 T 192 28"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeDasharray="6 5"
+            />
+          </svg>
+          <span className="mobile-nav-panel__stamp mobile-nav-panel__stamp--a" />
+          <span className="mobile-nav-panel__stamp mobile-nav-panel__stamp--b" />
+        </div>
+
+        <div className="mobile-nav-panel__header">
+          <Link to="/" onClick={navigate} className="mobile-nav-panel__logo-link">
+            <img
+              src={BRAND_LOGOS.onWhite}
+              alt={COMPANY_NAME}
+              className="mobile-nav-panel__logo"
+            />
+          </Link>
+          <button
+            type="button"
+            onClick={onClose}
+            className="mobile-nav-panel__close"
+            aria-label="Close menu"
+          >
+            <X className="h-6 w-6" aria-hidden />
+          </button>
+        </div>
+
+        <nav className="mobile-nav-panel__nav">
+          <div className="mobile-nav-group">
+            <p className="mobile-nav-group__label">Pages</p>
+            <div className="mobile-nav-group__links">
+              <Link to="/" onClick={navigate} className="mobile-nav-top-link">
+                Home
+              </Link>
+              <Link to="/about" onClick={navigate} className="mobile-nav-top-link">
+                About
+              </Link>
+              <Link to="/contact" onClick={navigate} className="mobile-nav-top-link">
+                Contact
+              </Link>
+            </div>
+          </div>
+
+          <div className="mobile-nav-group">
+            <p className="mobile-nav-group__label">Explore</p>
+            <div className="mobile-nav-sections">
+              <NavSection
+                sectionId="study"
+                title="Study Abroad"
+                links={studyAbroadLinks}
+                open={openSection === "study"}
+                onToggle={toggleSection}
+                onNavigate={navigate}
+              />
+              <NavSection
+                sectionId="migration"
+                title="Migration"
+                links={migrationNavLinks}
+                open={openSection === "migration"}
+                onToggle={toggleSection}
+                onNavigate={navigate}
+              />
+              <NavSection
+                sectionId="services"
+                title="Services"
+                links={servicesNavLinks}
+                open={openSection === "services"}
+                onToggle={toggleSection}
+                onNavigate={navigate}
+              />
+            </div>
+          </div>
+        </nav>
+
+        <div className="mobile-nav-footer shrink-0 space-y-3 px-5 py-6">
+          <MotionPressable
+            type="button"
+            pulse
+            onClick={() => {
+              onClose();
+              openConsultation();
+            }}
+            className="nav-cta w-full"
+          >
+            Book a Consultation
+          </MotionPressable>
+        </div>
+      </>
+    );
+  }
 }

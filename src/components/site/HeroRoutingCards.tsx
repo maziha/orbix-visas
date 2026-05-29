@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { heroRoutingCards } from "./hero-routing-cards";
+import { HERO_MOBILE_DEFAULT_SLIDE_INDEX, heroRoutingCards } from "./hero-routing-cards";
 import { pathwayCard, springGentle } from "@/lib/motion/presets";
 
 const AUTOPLAY_MS = 2000;
@@ -10,8 +10,10 @@ const RESUME_AFTER_INTERACTION_MS = 6000;
 
 export function HeroRoutingCards() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobileCarousel, setIsMobileCarousel] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(HERO_MOBILE_DEFAULT_SLIDE_INDEX);
+  const [isMobileCarousel, setIsMobileCarousel] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches,
+  );
   const pauseUntilRef = useRef(0);
   const cardCount = heroRoutingCards.length;
   const reduced = useReducedMotion();
@@ -51,6 +53,19 @@ export function HeroRoutingCards() {
     setActiveIndex(closest);
   }, []);
 
+  const resetToDefaultSlide = useCallback(
+    (behavior: ScrollBehavior = "instant") => {
+      setActiveIndex(HERO_MOBILE_DEFAULT_SLIDE_INDEX);
+      const track = trackRef.current;
+      if (track) {
+        track.scrollLeft = 0;
+      }
+      scrollToIndex(HERO_MOBILE_DEFAULT_SLIDE_INDEX, behavior);
+      pauseUntilRef.current = Date.now() + RESUME_AFTER_INTERACTION_MS;
+    },
+    [scrollToIndex],
+  );
+
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
     const update = () => setIsMobileCarousel(mq.matches);
@@ -58,6 +73,23 @@ export function HeroRoutingCards() {
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
+
+  useLayoutEffect(() => {
+    if (!isMobileCarousel) return;
+    resetToDefaultSlide("instant");
+    const raf = requestAnimationFrame(() => resetToDefaultSlide("instant"));
+    return () => cancelAnimationFrame(raf);
+  }, [isMobileCarousel, resetToDefaultSlide]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (!event.persisted || !mq.matches) return;
+      resetToDefaultSlide("instant");
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, [resetToDefaultSlide]);
 
   useEffect(() => {
     if (!isMobileCarousel) return;

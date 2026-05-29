@@ -142,16 +142,19 @@ export const pageTransitionDramatic: Variants = {
   },
 };
 
+/** Mobile menu — fast tween only (no spring; pairs with CSS that has no panel/backdrop transition) */
+const mobileEase = [0.32, 0.72, 0, 1] as const;
+
 export const mobileBackdrop: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: tweenQuick },
-  exit: { opacity: 0, transition: { duration: 0.25 } },
+  visible: { opacity: 1, transition: { duration: 0.14, ease: mobileEase } },
+  exit: { opacity: 0, transition: { duration: 0.12, ease: mobileEase } },
 };
 
 export const mobilePanel: Variants = {
   hidden: { x: "100%" },
-  visible: { x: 0, transition: springSoft },
-  exit: { x: "100%", transition: { duration: 0.35, ease: [0.4, 0, 1, 1] } },
+  visible: { x: 0, transition: { duration: 0.2, ease: mobileEase } },
+  exit: { x: "100%", transition: { duration: 0.17, ease: [0.4, 0, 1, 1] } },
 };
 
 export const dropdownInner: Variants = {

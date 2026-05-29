@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { StudyDestinationCard } from "@/components/site/StudyDestinationCard";
 import { BrandPromise, SectionEyebrow, SectionHeading } from "@/components/site/HomeSections";
-import { AmbientTravelBg, Reveal, RevealStagger } from "@/components/motion";
+import { AmbientTravelBg, Reveal, RevealItem, RevealStagger } from "@/components/motion";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { COUNTRIES } from "@/lib/countries";
 import { DESTINATION_HOVER_STATS, STUDY_COUNTRY_CONTENT } from "@/lib/study-country-content";
@@ -30,7 +30,7 @@ function Layout() {
     <SiteLayout>
       <section className="relative py-20 bg-brand-dark text-white overflow-hidden">
         <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
-        <div className="container-px mx-auto max-w-7xl relative">
+        <div className="container-px mx-auto max-w-7xl relative z-[1]">
           {reduced ? (
             <>
               <SectionEyebrow tone="dark">STUDY ABROAD</SectionEyebrow>
@@ -64,7 +64,7 @@ function Layout() {
       </section>
       <section className="py-20">
         <div className="container-px mx-auto max-w-7xl">
-          <Reveal>
+          <Reveal when="mount">
             <SectionHeading
               eyebrow="EXPLORE DESTINATIONS"
               title="Study Destinations"
@@ -72,15 +72,17 @@ function Layout() {
               className="max-w-none mb-10"
             />
           </Reveal>
-          <RevealStagger className="grid items-stretch sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <RevealStagger when="mount" className="grid items-stretch sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {COUNTRIES.map((c, index) => (
-              <StudyDestinationCard
-                key={c.slug}
-                country={c}
-                guide={STUDY_COUNTRY_CONTENT[c.slug]}
-                hoverStat={DESTINATION_HOVER_STATS[c.slug]}
-                index={index}
-              />
+              <RevealItem key={c.slug}>
+                <StudyDestinationCard
+                  country={c}
+                  guide={STUDY_COUNTRY_CONTENT[c.slug]}
+                  hoverStat={DESTINATION_HOVER_STATS[c.slug]}
+                  index={index}
+                  showOnMount
+                />
+              </RevealItem>
             ))}
           </RevealStagger>
         </div>

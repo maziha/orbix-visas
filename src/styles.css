@@ -1059,7 +1059,12 @@
   }
 
   .hero-travel-sky {
-    z-index: 1;
+    z-index: 0;
+  }
+
+  .hero-travel-sky__dot {
+    z-index: 0;
+    opacity: 0.45;
   }
 
   .hero-route-carousel {
@@ -2093,20 +2098,10 @@
     border: none;
     padding: 0;
     background: rgba(4, 1, 117, 0.32);
-    backdrop-filter: blur(0);
-    -webkit-backdrop-filter: blur(0);
-    opacity: 0;
-    cursor: pointer;
-    transition: opacity var(--duration-fade) var(--ease-gentle);
-  }
-
-  .mobile-nav-root--active .mobile-nav-backdrop {
-    opacity: 1;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    transition:
-      opacity var(--duration-panel) var(--ease-gentle),
-      backdrop-filter var(--duration-panel) var(--ease-gentle);
+    cursor: pointer;
+    /* opacity + slide: Framer Motion only — no CSS transition */
   }
 
   .mobile-nav-panel {
@@ -2120,13 +2115,8 @@
     background: #ffffff;
     border-left: 1px solid #e4e8f0;
     box-shadow: -12px 0 40px rgb(4 1 117 / 0.14);
-    transform: translateX(100%);
-    transition: transform var(--duration-panel) var(--ease-gentle);
     overflow: hidden;
-  }
-
-  .mobile-nav-root--active .mobile-nav-panel {
-    transform: translateX(0);
+    /* transform: Framer Motion only */
   }
 
   .mobile-nav-panel__decor {
@@ -2144,7 +2134,7 @@
     width: 11rem;
     height: auto;
     color: color-mix(in srgb, var(--accent-sky) 45%, transparent);
-    animation: orbixFlightArcDrift 2.8s var(--ease-runway) 0.35s both;
+    opacity: 0.85;
   }
 
   .mobile-nav-panel__stamp {
@@ -2153,7 +2143,7 @@
     height: 4.5rem;
     border: 2px dashed color-mix(in srgb, var(--navy) 18%, transparent);
     border-radius: 50%;
-    animation: orbixStampPulse 4s var(--ease-runway) infinite;
+    opacity: 0.35;
   }
 
   .mobile-nav-panel__stamp--a {
@@ -2187,11 +2177,19 @@
     flex-shrink: 0;
   }
 
-  .mobile-nav-panel__title {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--navy);
+  .mobile-nav-panel__logo-link {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    text-decoration: none;
+  }
+
+  .mobile-nav-panel__logo {
+    display: block;
+    height: 2.5rem;
+    width: auto;
+    object-fit: contain;
   }
 
   .mobile-nav-panel__nav {
@@ -2392,8 +2390,8 @@
     color: var(--navy);
     opacity: 0.65;
     transition:
-      transform var(--duration-normal) var(--ease-flight),
-      opacity var(--duration-fast) var(--ease-flight);
+      transform 150ms cubic-bezier(0.32, 0.72, 0, 1),
+      opacity 150ms ease-out;
   }
 
   .mobile-nav-section__chevron--open {
@@ -2404,7 +2402,7 @@
   .mobile-nav-section__panel-wrap {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows var(--duration-panel) var(--ease-gentle);
+    transition: grid-template-rows 180ms cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .mobile-nav-section__panel-wrap--open {

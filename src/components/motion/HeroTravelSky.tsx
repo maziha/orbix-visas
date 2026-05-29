@@ -35,9 +35,12 @@ export function HeroTravelSky() {
           key={dot.label}
           className="hero-travel-sky__dot absolute flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/10 text-[0.625rem] font-bold tracking-wide text-white/90 backdrop-blur-sm"
           style={{ left: dot.left, top: dot.top }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: "spring", damping: 20, stiffness: 260, delay: dot.delay }}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: [0.28, 0.48, 0.28], scale: 1 }}
+          transition={{
+            opacity: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: dot.delay + 0.4 },
+            scale: { type: "spring", damping: 20, stiffness: 260, delay: dot.delay },
+          }}
         >
           {dot.label}
         </motion.span>

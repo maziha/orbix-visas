@@ -22,7 +22,7 @@ function Layout() {
     <SiteLayout>
       <section className="relative py-20 bg-brand-dark text-white overflow-hidden">
         <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
-        <div className="container-px mx-auto max-w-7xl relative">
+        <div className="container-px mx-auto max-w-7xl relative z-[1]">
           {reduced ? (
             <>
               <SectionEyebrow tone="dark">MIGRATION</SectionEyebrow>
@@ -57,10 +57,8 @@ function Layout() {
           )}
         </div>
       </section>
-      <Reveal>
-        <MigrationProgramSections />
-      </Reveal>
-      <Reveal delay={0.1}>
+      <MigrationProgramSections revealOnMount />
+      <Reveal when="mount" delay={0.08}>
         <BrandPromise />
       </Reveal>
     </SiteLayout>

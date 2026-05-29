@@ -35,7 +35,7 @@ export function Hero() {
 
       <HeroTravelSky />
 
-      <div className="relative container-px mx-auto max-w-7xl w-full py-12 sm:py-16 lg:py-20">
+      <div className="relative z-[2] container-px mx-auto max-w-7xl w-full py-12 sm:py-16 lg:py-20">
         <div className="max-w-3xl text-white lg:max-w-none">
           {reduced ? (
             <div className="max-w-3xl">
