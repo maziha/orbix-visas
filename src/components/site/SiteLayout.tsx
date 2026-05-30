@@ -6,12 +6,14 @@ import { ScrollToTop } from "./ScrollToTop";
 import { ConsultationModal /* , ReviewModal */ } from "./Modals";
 import { ModalProvider } from "./modal-store";
 import { PageTransition } from "./PageTransition";
+import { ScrollToTopOnNavigate } from "./ScrollToTopOnNavigate";
 import { GlobalAmbientLayer, MotionProvider } from "@/components/motion";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <MotionProvider>
       <ModalProvider>
+        <ScrollToTopOnNavigate />
         <GlobalAmbientLayer />
         <Header />
         <main className="relative z-[1] pt-16 lg:pt-20">

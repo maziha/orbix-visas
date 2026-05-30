@@ -5,7 +5,11 @@ import { ChevronDown, CalendarDays, Mail, Menu } from "lucide-react";
 import { springGentle } from "@/lib/motion/presets";
 import { useModal } from "./modal-store";
 import { MobileMenu } from "./MobileMenu";
-import { forceUnlockBodyScroll, lockBodyScroll } from "@/lib/body-scroll-lock";
+import {
+  type BodyScrollUnlockOptions,
+  forceUnlockBodyScroll,
+  lockBodyScroll,
+} from "@/lib/body-scroll-lock";
 import { COMPANY_NAME, CONTACT_EMAIL } from "@/lib/contact-info";
 import { getHeaderLogo } from "@/lib/brand-logos";
 import {
@@ -127,9 +131,9 @@ export function Header() {
   const isFirstPathname = useRef(true);
   const reduced = useReducedMotion();
 
-  const closeMobileMenu = useCallback(() => {
+  const closeMobileMenu = useCallback((options?: BodyScrollUnlockOptions) => {
     setMobileOpen(false);
-    forceUnlockBodyScroll();
+    forceUnlockBodyScroll(options);
   }, []);
 
   useEffect(() => {
@@ -138,7 +142,7 @@ export function Header() {
       return;
     }
     setMobileOpen(false);
-    forceUnlockBodyScroll();
+    forceUnlockBodyScroll({ scrollToTop: true });
   }, [pathname]);
 
   useEffect(() => {

@@ -2473,21 +2473,11 @@
     box-shadow: 0 8px 24px rgb(4 1 117 / 0.09);
   }
 
-  .mobile-nav-section--study.mobile-nav-section--open {
-    box-shadow:
-      inset 3px 0 0 var(--accent-sky),
-      0 8px 24px rgb(4 1 117 / 0.09);
-  }
-
-  .mobile-nav-section--migration.mobile-nav-section--open {
-    box-shadow:
-      inset 3px 0 0 color-mix(in srgb, var(--navy) 70%, var(--accent-sky)),
-      0 8px 24px rgb(4 1 117 / 0.09);
-  }
-
+  .mobile-nav-section--study.mobile-nav-section--open,
+  .mobile-nav-section--migration.mobile-nav-section--open,
   .mobile-nav-section--services.mobile-nav-section--open {
     box-shadow:
-      inset 3px 0 0 color-mix(in srgb, var(--accent-sky) 65%, var(--whatsapp)),
+      inset 3px 0 0 var(--accent-sky),
       0 8px 24px rgb(4 1 117 / 0.09);
   }
 

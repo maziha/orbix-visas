@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { forceUnlockBodyScroll, lockBodyScroll } from "@/lib/body-scroll-lock";
+import { type BodyScrollUnlockOptions, lockBodyScroll } from "@/lib/body-scroll-lock";
 import { BRAND_LOGOS } from "@/lib/brand-logos";
 import { COMPANY_NAME } from "@/lib/contact-info";
 import { mobileBackdrop, mobilePanel } from "@/lib/motion/presets";
@@ -108,7 +108,13 @@ const servicesNavLinks: MobileNavLinkItem[] = serviceNavLinks.map((item) => ({
   label: item.name,
 }));
 
-export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function MobileMenu({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: (options?: BodyScrollUnlockOptions) => void;
+}) {
   const { openConsultation } = useModal();
   const [openSection, setOpenSection] = useState<ExploreSectionId | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -127,15 +133,11 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
     return lockBodyScroll();
   }, [open]);
 
-  useEffect(() => {
-    if (!open) forceUnlockBodyScroll();
-  }, [open]);
-
   const toggleSection = (id: ExploreSectionId) => {
     setOpenSection((current) => (current === id ? null : id));
   };
 
-  const navigate = () => onClose();
+  const navigate = () => onClose({ scrollToTop: true });
 
   if (!mounted) return null;
 
@@ -157,7 +159,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
             <button
               type="button"
               className="mobile-nav-backdrop"
-              onClick={onClose}
+              onClick={() => onClose()}
               aria-label="Close menu"
             />
             <div className="mobile-nav-panel-shell lg:hidden">
@@ -172,7 +174,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
               key="mobile-nav-backdrop"
               type="button"
               className="mobile-nav-backdrop lg:hidden"
-              onClick={onClose}
+              onClick={() => onClose()}
               aria-label="Close menu"
               variants={mobileBackdrop}
               initial="hidden"
@@ -224,7 +226,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           </Link>
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => onClose()}
             className="mobile-nav-panel__close"
             aria-label="Close menu"
           >
