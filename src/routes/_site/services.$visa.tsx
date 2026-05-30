@@ -6,7 +6,7 @@ import { COMPANY_NAME } from "@/lib/contact-info";
 import { FAMILY_VISA_TITLES } from "@/lib/page-titles";
 import { buildPageHead } from "@/lib/site-meta";
 
-export const Route = createFileRoute("/services/$visa")({
+export const Route = createFileRoute("/_site/services/$visa")({
   loader: ({ params }) => {
     if (!isFamilyVisaSlug(params.visa)) throw notFound();
     return FAMILY_VISA_CONTENT[params.visa];

@@ -4,7 +4,7 @@ import { BrandPromise } from "@/components/site/HomeSections";
 import { testimonialsClosingCta } from "@/lib/closing-cta-presets";
 import { headForPage } from "@/lib/site-meta";
 
-export const Route = createFileRoute("/testimonials")({
+export const Route = createFileRoute("/_site/testimonials")({
   head: () => headForPage("testimonials"),
   component: Page,
 });

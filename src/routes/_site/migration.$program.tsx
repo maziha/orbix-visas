@@ -24,7 +24,7 @@ function headForMigrationProgram(program: string, fallbackName?: string): PageHe
   });
 }
 
-export const Route = createFileRoute("/migration/$program")({
+export const Route = createFileRoute("/_site/migration/$program")({
   loader: ({ params }) => {
     const content = MIGRATION_PROGRAM_CONTENT[params.program];
     if (!content) throw notFound();

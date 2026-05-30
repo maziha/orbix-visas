@@ -7,7 +7,7 @@ const HomeBelowFold = lazy(() =>
   import("@/components/site/HomeBelowFold").then((m) => ({ default: m.HomeBelowFold })),
 );
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_site/")({
   head: () => {
     const pageHead = headForPage("home");
     return {

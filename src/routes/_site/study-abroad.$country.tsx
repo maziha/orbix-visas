@@ -7,7 +7,7 @@ import { STUDY_COUNTRY_TITLES } from "@/lib/page-titles";
 import { COMPANY_NAME } from "@/lib/contact-info";
 import { buildPageHead } from "@/lib/site-meta";
 
-export const Route = createFileRoute("/study-abroad/$country")({
+export const Route = createFileRoute("/_site/study-abroad/$country")({
   loader: ({ params }) => {
     const content = STUDY_COUNTRY_CONTENT[params.country as CountrySlug];
     if (!content) throw notFound();

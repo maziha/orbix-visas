@@ -7,7 +7,7 @@ import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/mot
 import { MigrationProgramSections, BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
 import { headForPage } from "@/lib/site-meta";
 
-export const Route = createFileRoute("/migration")({
+export const Route = createFileRoute("/_site/migration")({
   head: () => headForPage("migration"),
   component: Layout,
 });

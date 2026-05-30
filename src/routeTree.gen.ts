@@ -9,104 +9,110 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TestimonialsRouteImport } from './routes/testimonials'
-import { Route as StudyAbroadRouteImport } from './routes/study-abroad'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as MigrationRouteImport } from './routes/migration'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as StudyAbroadCountryRouteImport } from './routes/study-abroad.$country'
-import { Route as ServicesVisaRouteImport } from './routes/services.$visa'
-import { Route as MigrationProgramRouteImport } from './routes/migration.$program'
+import { Route as SiteRouteImport } from './routes/_site'
+import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteTestimonialsRouteImport } from './routes/_site/testimonials'
+import { Route as SiteStudyAbroadRouteImport } from './routes/_site/study-abroad'
+import { Route as SiteServicesRouteImport } from './routes/_site/services'
+import { Route as SiteMigrationRouteImport } from './routes/_site/migration'
+import { Route as SiteContactRouteImport } from './routes/_site/contact'
+import { Route as SiteAboutRouteImport } from './routes/_site/about'
+import { Route as SiteStudyAbroadCountryRouteImport } from './routes/_site/study-abroad.$country'
+import { Route as SiteServicesVisaRouteImport } from './routes/_site/services.$visa'
+import { Route as SiteMigrationProgramRouteImport } from './routes/_site/migration.$program'
 
-const TestimonialsRoute = TestimonialsRouteImport.update({
-  id: '/testimonials',
-  path: '/testimonials',
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StudyAbroadRoute = StudyAbroadRouteImport.update({
-  id: '/study-abroad',
-  path: '/study-abroad',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MigrationRoute = MigrationRouteImport.update({
-  id: '/migration',
-  path: '/migration',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
+const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
 } as any)
-const StudyAbroadCountryRoute = StudyAbroadCountryRouteImport.update({
+const SiteTestimonialsRoute = SiteTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteStudyAbroadRoute = SiteStudyAbroadRouteImport.update({
+  id: '/study-abroad',
+  path: '/study-abroad',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteServicesRoute = SiteServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteMigrationRoute = SiteMigrationRouteImport.update({
+  id: '/migration',
+  path: '/migration',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteContactRoute = SiteContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAboutRoute = SiteAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteStudyAbroadCountryRoute = SiteStudyAbroadCountryRouteImport.update({
   id: '/$country',
   path: '/$country',
-  getParentRoute: () => StudyAbroadRoute,
+  getParentRoute: () => SiteStudyAbroadRoute,
 } as any)
-const ServicesVisaRoute = ServicesVisaRouteImport.update({
+const SiteServicesVisaRoute = SiteServicesVisaRouteImport.update({
   id: '/$visa',
   path: '/$visa',
-  getParentRoute: () => ServicesRoute,
+  getParentRoute: () => SiteServicesRoute,
 } as any)
-const MigrationProgramRoute = MigrationProgramRouteImport.update({
+const SiteMigrationProgramRoute = SiteMigrationProgramRouteImport.update({
   id: '/$program',
   path: '/$program',
-  getParentRoute: () => MigrationRoute,
+  getParentRoute: () => SiteMigrationRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/contact': typeof ContactRoute
-  '/migration': typeof MigrationRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/study-abroad': typeof StudyAbroadRouteWithChildren
-  '/testimonials': typeof TestimonialsRoute
-  '/migration/$program': typeof MigrationProgramRoute
-  '/services/$visa': typeof ServicesVisaRoute
-  '/study-abroad/$country': typeof StudyAbroadCountryRoute
+  '/': typeof SiteIndexRoute
+  '/about': typeof SiteAboutRoute
+  '/contact': typeof SiteContactRoute
+  '/migration': typeof SiteMigrationRouteWithChildren
+  '/services': typeof SiteServicesRouteWithChildren
+  '/study-abroad': typeof SiteStudyAbroadRouteWithChildren
+  '/testimonials': typeof SiteTestimonialsRoute
+  '/migration/$program': typeof SiteMigrationProgramRoute
+  '/services/$visa': typeof SiteServicesVisaRoute
+  '/study-abroad/$country': typeof SiteStudyAbroadCountryRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/contact': typeof ContactRoute
-  '/migration': typeof MigrationRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/study-abroad': typeof StudyAbroadRouteWithChildren
-  '/testimonials': typeof TestimonialsRoute
-  '/migration/$program': typeof MigrationProgramRoute
-  '/services/$visa': typeof ServicesVisaRoute
-  '/study-abroad/$country': typeof StudyAbroadCountryRoute
+  '/about': typeof SiteAboutRoute
+  '/contact': typeof SiteContactRoute
+  '/migration': typeof SiteMigrationRouteWithChildren
+  '/services': typeof SiteServicesRouteWithChildren
+  '/study-abroad': typeof SiteStudyAbroadRouteWithChildren
+  '/testimonials': typeof SiteTestimonialsRoute
+  '/': typeof SiteIndexRoute
+  '/migration/$program': typeof SiteMigrationProgramRoute
+  '/services/$visa': typeof SiteServicesVisaRoute
+  '/study-abroad/$country': typeof SiteStudyAbroadCountryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/contact': typeof ContactRoute
-  '/migration': typeof MigrationRouteWithChildren
-  '/services': typeof ServicesRouteWithChildren
-  '/study-abroad': typeof StudyAbroadRouteWithChildren
-  '/testimonials': typeof TestimonialsRoute
-  '/migration/$program': typeof MigrationProgramRoute
-  '/services/$visa': typeof ServicesVisaRoute
-  '/study-abroad/$country': typeof StudyAbroadCountryRoute
+  '/_site': typeof SiteRouteWithChildren
+  '/_site/about': typeof SiteAboutRoute
+  '/_site/contact': typeof SiteContactRoute
+  '/_site/migration': typeof SiteMigrationRouteWithChildren
+  '/_site/services': typeof SiteServicesRouteWithChildren
+  '/_site/study-abroad': typeof SiteStudyAbroadRouteWithChildren
+  '/_site/testimonials': typeof SiteTestimonialsRoute
+  '/_site/': typeof SiteIndexRoute
+  '/_site/migration/$program': typeof SiteMigrationProgramRoute
+  '/_site/services/$visa': typeof SiteServicesVisaRoute
+  '/_site/study-abroad/$country': typeof SiteStudyAbroadCountryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -123,159 +129,177 @@ export interface FileRouteTypes {
     | '/study-abroad/$country'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/about'
     | '/contact'
     | '/migration'
     | '/services'
     | '/study-abroad'
     | '/testimonials'
+    | '/'
     | '/migration/$program'
     | '/services/$visa'
     | '/study-abroad/$country'
   id:
     | '__root__'
-    | '/'
-    | '/about'
-    | '/contact'
-    | '/migration'
-    | '/services'
-    | '/study-abroad'
-    | '/testimonials'
-    | '/migration/$program'
-    | '/services/$visa'
-    | '/study-abroad/$country'
+    | '/_site'
+    | '/_site/about'
+    | '/_site/contact'
+    | '/_site/migration'
+    | '/_site/services'
+    | '/_site/study-abroad'
+    | '/_site/testimonials'
+    | '/_site/'
+    | '/_site/migration/$program'
+    | '/_site/services/$visa'
+    | '/_site/study-abroad/$country'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  ContactRoute: typeof ContactRoute
-  MigrationRoute: typeof MigrationRouteWithChildren
-  ServicesRoute: typeof ServicesRouteWithChildren
-  StudyAbroadRoute: typeof StudyAbroadRouteWithChildren
-  TestimonialsRoute: typeof TestimonialsRoute
+  SiteRoute: typeof SiteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/testimonials': {
-      id: '/testimonials'
-      path: '/testimonials'
-      fullPath: '/testimonials'
-      preLoaderRoute: typeof TestimonialsRouteImport
+    '/_site': {
+      id: '/_site'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/study-abroad': {
-      id: '/study-abroad'
-      path: '/study-abroad'
-      fullPath: '/study-abroad'
-      preLoaderRoute: typeof StudyAbroadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/migration': {
-      id: '/migration'
-      path: '/migration'
-      fullPath: '/migration'
-      preLoaderRoute: typeof MigrationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_site/': {
+      id: '/_site/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
     }
-    '/study-abroad/$country': {
-      id: '/study-abroad/$country'
+    '/_site/testimonials': {
+      id: '/_site/testimonials'
+      path: '/testimonials'
+      fullPath: '/testimonials'
+      preLoaderRoute: typeof SiteTestimonialsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/study-abroad': {
+      id: '/_site/study-abroad'
+      path: '/study-abroad'
+      fullPath: '/study-abroad'
+      preLoaderRoute: typeof SiteStudyAbroadRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/services': {
+      id: '/_site/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof SiteServicesRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/migration': {
+      id: '/_site/migration'
+      path: '/migration'
+      fullPath: '/migration'
+      preLoaderRoute: typeof SiteMigrationRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/contact': {
+      id: '/_site/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof SiteContactRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/about': {
+      id: '/_site/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof SiteAboutRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/study-abroad/$country': {
+      id: '/_site/study-abroad/$country'
       path: '/$country'
       fullPath: '/study-abroad/$country'
-      preLoaderRoute: typeof StudyAbroadCountryRouteImport
-      parentRoute: typeof StudyAbroadRoute
+      preLoaderRoute: typeof SiteStudyAbroadCountryRouteImport
+      parentRoute: typeof SiteStudyAbroadRoute
     }
-    '/services/$visa': {
-      id: '/services/$visa'
+    '/_site/services/$visa': {
+      id: '/_site/services/$visa'
       path: '/$visa'
       fullPath: '/services/$visa'
-      preLoaderRoute: typeof ServicesVisaRouteImport
-      parentRoute: typeof ServicesRoute
+      preLoaderRoute: typeof SiteServicesVisaRouteImport
+      parentRoute: typeof SiteServicesRoute
     }
-    '/migration/$program': {
-      id: '/migration/$program'
+    '/_site/migration/$program': {
+      id: '/_site/migration/$program'
       path: '/$program'
       fullPath: '/migration/$program'
-      preLoaderRoute: typeof MigrationProgramRouteImport
-      parentRoute: typeof MigrationRoute
+      preLoaderRoute: typeof SiteMigrationProgramRouteImport
+      parentRoute: typeof SiteMigrationRoute
     }
   }
 }
 
-interface MigrationRouteChildren {
-  MigrationProgramRoute: typeof MigrationProgramRoute
+interface SiteMigrationRouteChildren {
+  SiteMigrationProgramRoute: typeof SiteMigrationProgramRoute
 }
 
-const MigrationRouteChildren: MigrationRouteChildren = {
-  MigrationProgramRoute: MigrationProgramRoute,
+const SiteMigrationRouteChildren: SiteMigrationRouteChildren = {
+  SiteMigrationProgramRoute: SiteMigrationProgramRoute,
 }
 
-const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
-  MigrationRouteChildren,
+const SiteMigrationRouteWithChildren = SiteMigrationRoute._addFileChildren(
+  SiteMigrationRouteChildren,
 )
 
-interface ServicesRouteChildren {
-  ServicesVisaRoute: typeof ServicesVisaRoute
+interface SiteServicesRouteChildren {
+  SiteServicesVisaRoute: typeof SiteServicesVisaRoute
 }
 
-const ServicesRouteChildren: ServicesRouteChildren = {
-  ServicesVisaRoute: ServicesVisaRoute,
+const SiteServicesRouteChildren: SiteServicesRouteChildren = {
+  SiteServicesVisaRoute: SiteServicesVisaRoute,
 }
 
-const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
-  ServicesRouteChildren,
+const SiteServicesRouteWithChildren = SiteServicesRoute._addFileChildren(
+  SiteServicesRouteChildren,
 )
 
-interface StudyAbroadRouteChildren {
-  StudyAbroadCountryRoute: typeof StudyAbroadCountryRoute
+interface SiteStudyAbroadRouteChildren {
+  SiteStudyAbroadCountryRoute: typeof SiteStudyAbroadCountryRoute
 }
 
-const StudyAbroadRouteChildren: StudyAbroadRouteChildren = {
-  StudyAbroadCountryRoute: StudyAbroadCountryRoute,
+const SiteStudyAbroadRouteChildren: SiteStudyAbroadRouteChildren = {
+  SiteStudyAbroadCountryRoute: SiteStudyAbroadCountryRoute,
 }
 
-const StudyAbroadRouteWithChildren = StudyAbroadRoute._addFileChildren(
-  StudyAbroadRouteChildren,
+const SiteStudyAbroadRouteWithChildren = SiteStudyAbroadRoute._addFileChildren(
+  SiteStudyAbroadRouteChildren,
 )
+
+interface SiteRouteChildren {
+  SiteAboutRoute: typeof SiteAboutRoute
+  SiteContactRoute: typeof SiteContactRoute
+  SiteMigrationRoute: typeof SiteMigrationRouteWithChildren
+  SiteServicesRoute: typeof SiteServicesRouteWithChildren
+  SiteStudyAbroadRoute: typeof SiteStudyAbroadRouteWithChildren
+  SiteTestimonialsRoute: typeof SiteTestimonialsRoute
+  SiteIndexRoute: typeof SiteIndexRoute
+}
+
+const SiteRouteChildren: SiteRouteChildren = {
+  SiteAboutRoute: SiteAboutRoute,
+  SiteContactRoute: SiteContactRoute,
+  SiteMigrationRoute: SiteMigrationRouteWithChildren,
+  SiteServicesRoute: SiteServicesRouteWithChildren,
+  SiteStudyAbroadRoute: SiteStudyAbroadRouteWithChildren,
+  SiteTestimonialsRoute: SiteTestimonialsRoute,
+  SiteIndexRoute: SiteIndexRoute,
+}
+
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  ContactRoute: ContactRoute,
-  MigrationRoute: MigrationRouteWithChildren,
-  ServicesRoute: ServicesRouteWithChildren,
-  StudyAbroadRoute: StudyAbroadRouteWithChildren,
-  TestimonialsRoute: TestimonialsRoute,
+  SiteRoute: SiteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

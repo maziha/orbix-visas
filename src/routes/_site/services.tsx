@@ -6,7 +6,7 @@ import { FAMILY_VISA_CONTENT, isFamilyVisaSlug } from "@/lib/family-visa-content
 import { headForPage } from "@/lib/site-meta";
 import { HoverLift, Reveal, RevealStagger } from "@/components/motion";
 
-export const Route = createFileRoute("/services")({
+export const Route = createFileRoute("/_site/services")({
   head: () => headForPage("services"),
   component: Layout,
 });

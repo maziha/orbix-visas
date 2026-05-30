@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion";
 import { COMPANY_NAME } from "@/lib/contact-info";
 import { headForPage } from "@/lib/site-meta";
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/_site/about")({
   head: () => headForPage("about"),
   component: About,
 });

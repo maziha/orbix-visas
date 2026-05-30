@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { type BodyScrollUnlockOptions, lockBodyScroll } from "@/lib/body-scroll-lock";
+import type { BodyScrollUnlockOptions } from "@/lib/body-scroll-lock";
 import { BRAND_LOGOS } from "@/lib/brand-logos";
 import { COMPANY_NAME } from "@/lib/contact-info";
 import { mobileBackdrop, mobilePanel } from "@/lib/motion/presets";
@@ -118,20 +118,15 @@ export function MobileMenu({
 }) {
   const { openConsultation } = useModal();
   const [openSection, setOpenSection] = useState<ExploreSectionId | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    setMounted(true);
+    setPortalRoot(document.body);
   }, []);
 
   useEffect(() => {
     if (!open) setOpenSection(null);
-  }, [open]);
-
-  useLayoutEffect(() => {
-    if (!open) return;
-    return lockBodyScroll();
   }, [open]);
 
   const toggleSection = (id: ExploreSectionId) => {
@@ -140,7 +135,7 @@ export function MobileMenu({
 
   const onNavClick = useMobileNavClick(onClose);
 
-  if (!mounted) return null;
+  if (!portalRoot || !open) return null;
 
   const dialogProps = {
     role: "dialog" as const,
@@ -150,54 +145,53 @@ export function MobileMenu({
 
   return createPortal(
     <AnimatePresence>
-      {open &&
-        (reduced ? (
-          <div
-            key="mobile-nav"
-            className="mobile-nav-root mobile-nav-root--active lg:hidden"
-            {...dialogProps}
-          >
-            <button
-              type="button"
-              className="mobile-nav-backdrop"
-              onClick={() => onClose()}
-              aria-label="Close menu"
-            />
-            <div className="mobile-nav-panel-shell lg:hidden">
-              <div className="mobile-nav-panel" {...dialogProps}>
-                {menuPanelContent()}
-              </div>
+      {reduced ? (
+        <div
+          key="mobile-nav"
+          className="mobile-nav-root mobile-nav-root--active lg:hidden"
+          {...dialogProps}
+        >
+          <button
+            type="button"
+            className="mobile-nav-backdrop"
+            onClick={() => onClose()}
+            aria-label="Close menu"
+          />
+          <div className="mobile-nav-panel-shell lg:hidden">
+            <div className="mobile-nav-panel" {...dialogProps}>
+              {menuPanelContent()}
             </div>
           </div>
-        ) : (
-          <>
-            <motion.button
-              key="mobile-nav-backdrop"
-              type="button"
-              className="mobile-nav-backdrop lg:hidden"
-              onClick={() => onClose()}
-              aria-label="Close menu"
-              variants={mobileBackdrop}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-            />
-            <motion.div
-              key="mobile-nav-panel-shell"
-              className="mobile-nav-panel-shell lg:hidden"
-              variants={mobilePanel}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              style={{ willChange: "clip-path" }}
-              {...dialogProps}
-            >
-              <div className="mobile-nav-panel">{menuPanelContent()}</div>
-            </motion.div>
-          </>
-        ))}
+        </div>
+      ) : (
+        <>
+          <motion.button
+            key="mobile-nav-backdrop"
+            type="button"
+            className="mobile-nav-backdrop lg:hidden"
+            onClick={() => onClose()}
+            aria-label="Close menu"
+            variants={mobileBackdrop}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          />
+          <motion.div
+            key="mobile-nav-panel-shell"
+            className="mobile-nav-panel-shell lg:hidden"
+            variants={mobilePanel}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            style={{ willChange: "clip-path" }}
+            {...dialogProps}
+          >
+            <div className="mobile-nav-panel">{menuPanelContent()}</div>
+          </motion.div>
+        </>
+      )}
     </AnimatePresence>,
-    document.body,
+    portalRoot,
   );
 
   function menuPanelContent() {

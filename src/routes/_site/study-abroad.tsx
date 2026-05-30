@@ -8,7 +8,7 @@ import { COUNTRIES } from "@/lib/countries";
 import { DESTINATION_HOVER_STATS, STUDY_COUNTRY_CONTENT } from "@/lib/study-country-content";
 import { headForPage } from "@/lib/site-meta";
 
-export const Route = createFileRoute("/study-abroad")({
+export const Route = createFileRoute("/_site/study-abroad")({
   head: () => headForPage("studyAbroad"),
   component: Layout,
 });

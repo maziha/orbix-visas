@@ -17,7 +17,7 @@ import {
 } from "@/lib/contact-info";
 import { headForPage } from "@/lib/site-meta";
 
-export const Route = createFileRoute("/contact")({
+export const Route = createFileRoute("/_site/contact")({
   head: () => headForPage("contact"),
   component: Contact,
 });
