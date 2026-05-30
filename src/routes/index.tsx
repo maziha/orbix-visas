@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { headForPage } from "@/lib/site-meta";
 import { Hero } from "@/components/site/HomeSections";
 
@@ -37,11 +36,11 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <SiteLayout>
+    <>
       <Hero />
       <Suspense fallback={null}>
         <HomeBelowFold />
       </Suspense>
-    </SiteLayout>
+    </>
   );
 }

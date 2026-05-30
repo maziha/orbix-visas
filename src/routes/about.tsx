@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { Achievements } from "@/components/site/HomeSections";
 import { SectionEyebrow } from "@/components/site/SectionEyebrow";
@@ -14,7 +13,7 @@ export const Route = createFileRoute("/about")({
 
 function About() {
   return (
-    <SiteLayout>
+    <>
       <PageHero
         label="About Us"
         title="Built on Trust. Driven by Hope."
@@ -43,6 +42,6 @@ function About() {
         </div>
       </section>
       <Achievements />
-    </SiteLayout>
+    </>
   );
 }

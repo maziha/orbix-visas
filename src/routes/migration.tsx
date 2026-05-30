@@ -4,7 +4,6 @@ import { prepareMigrationHashNavigation } from "@/lib/migration-hash-scroll";
 import { motion, useReducedMotion } from "framer-motion";
 import { AmbientTravelBg, Reveal } from "@/components/motion";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { MigrationProgramSections, BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
 import { headForPage } from "@/lib/site-meta";
 
@@ -23,10 +22,10 @@ function Layout() {
     prepareMigrationHashNavigation();
   }, [isChild]);
 
-  if (isChild) return <SiteLayout><Outlet /></SiteLayout>;
+  if (isChild) return <Outlet />;
 
   return (
-    <SiteLayout>
+    <>
       <section className="relative py-20 bg-brand-dark text-white overflow-hidden">
         <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
         <div className="container-px mx-auto max-w-7xl relative z-[1]">
@@ -68,6 +67,6 @@ function Layout() {
       <Reveal when="mount" delay={0.08}>
         <BrandPromise />
       </Reveal>
-    </SiteLayout>
+    </>
   );
 }

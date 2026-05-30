@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "framer-motion";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { StudyDestinationCard } from "@/components/site/StudyDestinationCard";
 import { BrandPromise, SectionEyebrow, SectionHeading } from "@/components/site/HomeSections";
 import { AmbientTravelBg, Reveal, RevealItem, RevealStagger } from "@/components/motion";
@@ -19,15 +18,10 @@ function Layout() {
   const isChild = matches.some((m) => m.routeId.startsWith("/study-abroad/"));
   const reduced = useReducedMotion();
 
-  if (isChild) {
-    return (
-      <SiteLayout>
-        <Outlet />
-      </SiteLayout>
-    );
-  }
+  if (isChild) return <Outlet />;
+
   return (
-    <SiteLayout>
+    <>
       <section className="relative py-20 bg-brand-dark text-white overflow-hidden">
         <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
         <div className="container-px mx-auto max-w-7xl relative z-[1]">
@@ -88,6 +82,6 @@ function Layout() {
         </div>
       </section>
       <BrandPromise />
-    </SiteLayout>
+    </>
   );
 }

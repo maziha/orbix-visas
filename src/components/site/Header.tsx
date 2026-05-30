@@ -11,14 +11,14 @@ import {
   lockBodyScroll,
 } from "@/lib/body-scroll-lock";
 import { COMPANY_NAME, CONTACT_EMAIL } from "@/lib/contact-info";
-import { getHeaderLogo } from "@/lib/brand-logos";
+import { HeaderLogo } from "./HeaderLogo";
 import {
   migrationLinks,
   serviceNavLinks,
   studyCountryLinks,
 } from "@/lib/nav-links";
-
-const MotionRouterLink = motion.create(Link);
+import { blurActiveElement } from "@/lib/mobile-nav-click";
+import { SiteNavLink } from "./SiteNavLink";
 
 function DropdownLink({
   item,
@@ -36,6 +36,7 @@ function DropdownLink({
         {...(item.hash ? { hash: item.hash } : {})}
         className="nav-dropdown-link"
         style={{ "--link-i": index } as CSSProperties}
+        onClick={blurActiveElement}
       >
         {item.name}
       </Link>
@@ -43,16 +44,15 @@ function DropdownLink({
   }
 
   return (
-    <MotionRouterLink
+    <Link
       to={item.to}
       {...(item.hash ? { hash: item.hash } : {})}
       className="nav-dropdown-link"
       style={{ "--link-i": index } as CSSProperties}
-      whileHover={{ x: 6, backgroundColor: "color-mix(in srgb, var(--accent-sky) 12%, #f4f6fb)" }}
-      transition={springGentle}
+      onClick={blurActiveElement}
     >
       {item.name}
-    </MotionRouterLink>
+    </Link>
   );
 }
 
@@ -72,16 +72,11 @@ function NavDropdown({
         </motion.span>
       </button>
       <div className="nav-dropdown-panel">
-        <motion.div
-          className="nav-dropdown-panel__inner"
-          initial={{ opacity: 0, y: -6 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={springGentle}
-        >
+        <div className="nav-dropdown-panel__inner">
           {items.map((item, index) => (
             <DropdownLink key={item.name} item={item} index={index} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   );
@@ -92,7 +87,7 @@ function ServicesDropdown() {
   const other = serviceNavLinks.slice(5);
 
   return (
-    <div className="nav-dropdown-wrap">
+    <div className="nav-dropdown-wrap nav-dropdown-wrap--wide">
       <button type="button" className="site-nav__trigger" aria-haspopup="true">
         Services{" "}
         <motion.span whileHover={{ rotate: 180 }} transition={springGentle}>
@@ -100,12 +95,7 @@ function ServicesDropdown() {
         </motion.span>
       </button>
       <div className="nav-dropdown-panel">
-        <motion.div
-          className="nav-dropdown-panel__inner nav-dropdown-panel__inner--services"
-          initial={{ opacity: 0, y: -6 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={springGentle}
-        >
+        <div className="nav-dropdown-panel__inner nav-dropdown-panel__inner--services">
           <div className="nav-dropdown-column">
             {visa.map((item, index) => (
               <DropdownLink key={item.name} item={item} index={index} />
@@ -116,7 +106,7 @@ function ServicesDropdown() {
               <DropdownLink key={item.name} item={item} index={visa.length + index} />
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
@@ -145,13 +135,17 @@ export function Header() {
     forceUnlockBodyScroll({ scrollToTop: true });
   }, [pathname]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isHome) {
       setScrolled(true);
       return;
     }
+    setScrolled(window.scrollY >= 80);
+  }, [isHome, pathname]);
+
+  useEffect(() => {
+    if (!isHome) return;
     const onScroll = () => setScrolled(window.scrollY >= 80);
-    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
@@ -176,13 +170,8 @@ export function Header() {
       <div className="container-px mx-auto flex h-16 max-w-7xl items-center justify-between lg:h-20">
         <motion.div whileHover={reduced ? undefined : { scale: 1.03 }} whileTap={reduced ? undefined : { scale: 0.97 }}>
           <Link to="/" className="site-header__logo-link flex shrink-0 items-center">
-            <img
-              src={getHeaderLogo(isHome ? scrolled : true, onHero)}
-              alt={COMPANY_NAME}
-              width={140}
-              height={48}
-              className="site-header__logo h-10 w-auto lg:h-12"
-            />
+            <HeaderLogo onHero={onHero} className="h-10 w-auto lg:h-12" />
+            <span className="sr-only">{COMPANY_NAME}</span>
           </Link>
         </motion.div>
 
@@ -190,20 +179,12 @@ export function Header() {
           <NavDropdown label="Study Abroad" items={studyCountryLinks} />
           <NavDropdown label="Migration" items={migrationLinks} />
           <ServicesDropdown />
-          <MotionRouterLink
-            to="/about"
-            className="site-nav__link px-3 py-2 text-sm font-medium"
-            whileHover={{ y: -2, color: "var(--accent-sky)" }}
-          >
+          <SiteNavLink to="/about" className="site-nav__link px-3 py-2 text-sm font-medium">
             About
-          </MotionRouterLink>
-          <MotionRouterLink
-            to="/contact"
-            className="site-nav__link px-3 py-2 text-sm font-medium"
-            whileHover={{ y: -2, color: "var(--accent-sky)" }}
-          >
+          </SiteNavLink>
+          <SiteNavLink to="/contact" className="site-nav__link px-3 py-2 text-sm font-medium">
             Contact
-          </MotionRouterLink>
+          </SiteNavLink>
         </nav>
 
         <div className="hidden items-center gap-4 lg:ml-auto lg:flex">

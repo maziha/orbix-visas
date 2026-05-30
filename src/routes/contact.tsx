@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "framer-motion";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { ContactSentenceForm } from "@/components/site/enquiry/ContactSentenceForm";
 import { Phone, Mail, MapPin } from "lucide-react";
@@ -34,7 +33,7 @@ function Contact() {
   const reduced = useReducedMotion();
 
   return (
-    <SiteLayout>
+    <>
       <PageHero
         label="Contact"
         title="Let's Talk About Your Future."
@@ -109,6 +108,6 @@ function Contact() {
         </div>
       </section>
       <BrandPromise />
-    </SiteLayout>
+    </>
   );
 }

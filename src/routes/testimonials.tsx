@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { BrandPromise } from "@/components/site/HomeSections";
 import { testimonialsClosingCta } from "@/lib/closing-cta-presets";
@@ -12,13 +11,13 @@ export const Route = createFileRoute("/testimonials")({
 
 function Page() {
   return (
-    <SiteLayout>
+    <>
       <PageHero
         label="Get Started"
         title="Let's Plan Your Next Chapter"
         subtitle="We're a new consultancy building our reputation on honest advice and dedicated support — starting with yours."
       />
       <BrandPromise {...testimonialsClosingCta()} />
-    </SiteLayout>
+    </>
   );
 }

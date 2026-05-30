@@ -15,6 +15,7 @@ import {
   serviceNavLinks,
   studyCountryLinks,
 } from "@/lib/nav-links";
+import { useMobileNavClick } from "@/lib/mobile-nav-click";
 
 type MobileNavLinkItem = {
   to: string;
@@ -37,7 +38,7 @@ function NavSection({
   links: MobileNavLinkItem[];
   open: boolean;
   onToggle: (id: ExploreSectionId) => void;
-  onNavigate: () => void;
+  onNavigate: (to: string) => void;
 }) {
   const panelId = `mobile-nav-panel-${sectionId}`;
 
@@ -78,7 +79,7 @@ function NavSection({
                     to={link.to}
                     hash={link.hash}
                     className="mobile-nav-link"
-                    onClick={onNavigate}
+                    onClick={() => onNavigate(link.to)}
                   >
                     {link.label}
                   </Link>
@@ -137,7 +138,7 @@ export function MobileMenu({
     setOpenSection((current) => (current === id ? null : id));
   };
 
-  const navigate = () => onClose({ scrollToTop: true });
+  const onNavClick = useMobileNavClick(onClose);
 
   if (!mounted) return null;
 
@@ -217,7 +218,7 @@ export function MobileMenu({
         </div>
 
         <div className="mobile-nav-panel__header">
-          <Link to="/" onClick={navigate} className="mobile-nav-panel__logo-link">
+          <Link to="/" onClick={onNavClick("/")} className="mobile-nav-panel__logo-link">
             <img
               src={BRAND_LOGOS.onWhite}
               alt={COMPANY_NAME}
@@ -238,13 +239,31 @@ export function MobileMenu({
           <div className="mobile-nav-group">
             <p className="mobile-nav-group__label">Pages</p>
             <div className="mobile-nav-group__links">
-              <Link to="/" onClick={navigate} className="mobile-nav-top-link">
+              <Link
+                to="/"
+                onClick={onNavClick("/")}
+                className="mobile-nav-top-link"
+                activeOptions={{ exact: true }}
+                activeProps={{ className: "mobile-nav-top-link", "aria-current": "page" }}
+              >
                 Home
               </Link>
-              <Link to="/about" onClick={navigate} className="mobile-nav-top-link">
+              <Link
+                to="/about"
+                onClick={onNavClick("/about")}
+                className="mobile-nav-top-link"
+                activeOptions={{ exact: true }}
+                activeProps={{ className: "mobile-nav-top-link", "aria-current": "page" }}
+              >
                 About
               </Link>
-              <Link to="/contact" onClick={navigate} className="mobile-nav-top-link">
+              <Link
+                to="/contact"
+                onClick={onNavClick("/contact")}
+                className="mobile-nav-top-link"
+                activeOptions={{ exact: true }}
+                activeProps={{ className: "mobile-nav-top-link", "aria-current": "page" }}
+              >
                 Contact
               </Link>
             </div>
@@ -259,7 +278,7 @@ export function MobileMenu({
                 links={studyAbroadLinks}
                 open={openSection === "study"}
                 onToggle={toggleSection}
-                onNavigate={navigate}
+                onNavigate={onNavClick}
               />
               <NavSection
                 sectionId="migration"
@@ -267,7 +286,7 @@ export function MobileMenu({
                 links={migrationNavLinks}
                 open={openSection === "migration"}
                 onToggle={toggleSection}
-                onNavigate={navigate}
+                onNavigate={onNavClick}
               />
               <NavSection
                 sectionId="services"
@@ -275,7 +294,7 @@ export function MobileMenu({
                 links={servicesNavLinks}
                 open={openSection === "services"}
                 onToggle={toggleSection}
-                onNavigate={navigate}
+                onNavigate={onNavClick}
               />
             </div>
           </div>

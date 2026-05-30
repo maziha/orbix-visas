@@ -1,5 +1,4 @@
 import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
 import { otherServices, visaServices } from "@/components/site/services-data";
@@ -15,15 +14,10 @@ export const Route = createFileRoute("/services")({
 function Layout() {
   const matches = useMatches();
   const isChild = matches.some((m) => m.routeId.startsWith("/services/"));
-  if (isChild) {
-    return (
-      <SiteLayout>
-        <Outlet />
-      </SiteLayout>
-    );
-  }
+  if (isChild) return <Outlet />;
+
   return (
-    <SiteLayout>
+    <>
       <PageHero
         label="Services"
         title="Everything You Need, Under One Roof."
@@ -109,6 +103,6 @@ function Layout() {
         </div>
       </section>
       <BrandPromise />
-    </SiteLayout>
+    </>
   );
 }
