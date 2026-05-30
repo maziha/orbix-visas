@@ -12,7 +12,8 @@ import {
   COMPANY_ADDRESS,
   COMPANY_NAME,
   CONTACT_EMAIL,
-  CONTACT_PHONES,
+  CONTACT_PHONE,
+  CONTACT_PHONE_TEL,
   GSTIN,
 } from "@/lib/contact-info";
 import { headForPage } from "@/lib/site-meta";
@@ -101,8 +102,8 @@ function Contact() {
               Complete the sentences below — it only takes a minute.
             </p>
             <ContactSentenceForm />
-            <a href={`tel:${CONTACT_PHONES[0].tel}`} className="contact-form-call-link mt-4 inline-block">
-              Or call us directly — {CONTACT_PHONES.map((p) => p.display).join(" · ")}
+            <a href={`tel:${CONTACT_PHONE_TEL}`} className="contact-form-call-link mt-4 inline-block">
+              Or call us directly — {CONTACT_PHONE}
             </a>
           </HoverLift>
         </div>

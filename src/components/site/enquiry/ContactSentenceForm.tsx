@@ -4,7 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 import { MotionPressable } from "@/components/motion";
 import { popIn, springBouncy, springGentle } from "@/lib/motion/presets";
 import { useSubmitEnquiry } from "@/hooks/use-submit-enquiry";
-import { CONTACT_PHONES } from "@/lib/contact-info";
+import { CONTACT_PHONE } from "@/lib/contact-info";
 import { CONTACT_SERVICE_OPTIONS, contactServiceLabel } from "@/lib/enquiry-options";
 import { SentenceInlineInput, SentenceInlinePick } from "./SentenceField";
 
@@ -61,8 +61,7 @@ export function ContactSentenceForm() {
           <h3 className="contact-form-confirmation__title">Message received</h3>
           <p className="contact-form-confirmation__text">
             We will contact you at the number you provided within 24 business hours. For urgent
-            queries, call or WhatsApp us on either line:{" "}
-            {CONTACT_PHONES.map((p) => p.display).join(" or ")}.
+            queries, call or WhatsApp us at {CONTACT_PHONE}.
           </p>
         </motion.div>
       ) : (

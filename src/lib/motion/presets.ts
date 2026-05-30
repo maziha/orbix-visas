@@ -142,24 +142,41 @@ export const pageTransitionDramatic: Variants = {
   },
 };
 
-/** Mobile menu — clip-path reveal (fixed shell; avoids white edge from translateX) */
-const mobileEase = [0.32, 0.72, 0, 1] as const;
+/** Mobile menu — soft clip-path reveal (fixed shell; avoids white edge from translateX) */
+const mobileEaseOpen = [0.22, 1, 0.36, 1] as const;
+const mobileEaseClose = [0.4, 0, 0.2, 1] as const;
 
 export const mobileBackdrop: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.14, ease: mobileEase } },
-  exit: { opacity: 0, transition: { duration: 0.17, ease: mobileEase } },
+  visible: { opacity: 1, transition: { duration: 0.38, ease: mobileEaseOpen } },
+  exit: { opacity: 0, transition: { duration: 0.32, ease: mobileEaseClose } },
 };
 
 export const mobilePanel: Variants = {
-  hidden: { clipPath: "inset(0 0 0 100%)" },
+  hidden: { clipPath: "inset(0 0 0 100%)", opacity: 0.92 },
   visible: {
     clipPath: "inset(0 0 0 0%)",
-    transition: { duration: 0.22, ease: mobileEase },
+    opacity: 1,
+    transition: { duration: 0.48, ease: mobileEaseOpen },
   },
   exit: {
     clipPath: "inset(0 0 0 100%)",
-    transition: { duration: 0.2, ease: [0.4, 0, 1, 1] },
+    opacity: 0.92,
+    transition: { duration: 0.4, ease: mobileEaseClose },
+  },
+};
+
+export const mobilePanelContent: Variants = {
+  hidden: { opacity: 0, x: 20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.42, ease: mobileEaseOpen, delay: 0.06 },
+  },
+  exit: {
+    opacity: 0,
+    x: 14,
+    transition: { duration: 0.28, ease: mobileEaseClose },
   },
 };
 

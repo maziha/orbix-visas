@@ -1,5 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, CalendarDays, Mail, Menu } from "lucide-react";
 import { springGentle } from "@/lib/motion/presets";
@@ -115,15 +122,33 @@ function ServicesDropdown() {
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileScrollLocked, setMobileScrollLocked] = useState(false);
   const { openConsultation } = useModal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isHome = pathname === "/";
   const isFirstPathname = useRef(true);
   const reduced = useReducedMotion();
+  const mobileUnlockOptionsRef = useRef<BodyScrollUnlockOptions | undefined>(undefined);
+
+  const openMobileMenu = useCallback(() => {
+    setMobileOpen(true);
+    setMobileScrollLocked(true);
+  }, []);
 
   const closeMobileMenu = useCallback((options?: BodyScrollUnlockOptions) => {
+    mobileUnlockOptionsRef.current = options;
     setMobileOpen(false);
-    forceUnlockBodyScroll(options);
+    if (reduced) {
+      setMobileScrollLocked(false);
+      forceUnlockBodyScroll(options);
+      mobileUnlockOptionsRef.current = undefined;
+    }
+  }, [reduced]);
+
+  const handleMobileMenuExitComplete = useCallback(() => {
+    setMobileScrollLocked(false);
+    forceUnlockBodyScroll(mobileUnlockOptionsRef.current);
+    mobileUnlockOptionsRef.current = undefined;
   }, []);
 
   useEffect(() => {
@@ -131,9 +156,8 @@ export function Header() {
       isFirstPathname.current = false;
       return;
     }
-    setMobileOpen(false);
-    forceUnlockBodyScroll({ scrollToTop: true });
-  }, [pathname]);
+    closeMobileMenu({ scrollToTop: true });
+  }, [pathname, closeMobileMenu]);
 
   useLayoutEffect(() => {
     if (!isHome) {
@@ -151,9 +175,9 @@ export function Header() {
   }, [isHome]);
 
   useLayoutEffect(() => {
-    if (!mobileOpen) return;
+    if (!mobileScrollLocked) return;
     return lockBodyScroll();
-  }, [mobileOpen]);
+  }, [mobileScrollLocked]);
 
   useEffect(() => {
     return () => forceUnlockBodyScroll();
@@ -216,7 +240,7 @@ export function Header() {
         <motion.button
           type="button"
           className="site-header__menu-btn lg:hidden"
-          onClick={() => setMobileOpen(true)}
+          onClick={openMobileMenu}
           aria-label="Open menu"
           aria-expanded={mobileOpen}
           whileTap={{ scale: 0.92 }}
@@ -226,7 +250,11 @@ export function Header() {
         </motion.button>
       </div>
 
-      <MobileMenu open={mobileOpen} onClose={closeMobileMenu} />
+      <MobileMenu
+        open={mobileOpen}
+        onClose={closeMobileMenu}
+        onExitComplete={handleMobileMenuExitComplete}
+      />
     </header>
   );
 }

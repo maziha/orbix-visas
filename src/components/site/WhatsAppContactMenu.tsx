@@ -1,14 +1,7 @@
-import { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { motion, useReducedMotion } from "framer-motion";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { CONTACT_PHONES, whatsAppUrlFor } from "@/lib/contact-info";
-import { ContactPhoneAvatar } from "./ContactPhoneAvatar";
+import { WHATSAPP_URL } from "@/lib/contact-info";
 import { cn } from "@/lib/utils";
-import {
-  AnimatedPopoverPanel,
-  AnimatedPopoverRow,
-  FloatingActionButton,
-} from "@/components/motion";
 
 type WhatsAppContactMenuProps = {
   variant?: "floating" | "inline";
@@ -16,16 +9,12 @@ type WhatsAppContactMenuProps = {
   className?: string;
 };
 
-function displayShort(phone: (typeof CONTACT_PHONES)[number]) {
-  return phone.display.replace("+91 ", "");
-}
-
 export function WhatsAppContactMenu({
   variant = "floating",
   triggerLabel,
   className,
 }: WhatsAppContactMenuProps) {
-  const [open, setOpen] = useState(false);
+  const reduced = useReducedMotion();
 
   const triggerClass =
     variant === "floating"
@@ -33,68 +22,44 @@ export function WhatsAppContactMenu({
       : "whatsapp-menu-trigger btn-secondary";
 
   const ariaLabel =
-    variant === "inline" && triggerLabel
-      ? `${triggerLabel} — choose a WhatsApp line`
-      : "Choose a WhatsApp line";
+    variant === "inline" && triggerLabel ? triggerLabel : "Chat on WhatsApp";
 
-  const trigger =
-    variant === "floating" ? (
-      <FloatingActionButton
-        ariaLabel={ariaLabel}
-        aria-expanded={open}
+  const motionProps = {
+    whileHover: reduced ? undefined : { scale: 1.07 },
+    whileTap: reduced ? undefined : { scale: 0.94 },
+    animate: reduced
+      ? undefined
+      : {
+          y: [0, -5, 0],
+          transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" as const },
+        },
+  };
+
+  if (variant === "floating") {
+    return (
+      <motion.a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={ariaLabel}
         className={cn(triggerClass, className)}
+        {...motionProps}
       >
         <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
-      </FloatingActionButton>
-    ) : (
-      <button
-        type="button"
-        aria-label={ariaLabel}
-        aria-expanded={open}
-        className={cn(triggerClass, className)}
-      >
-        <WhatsAppIcon className="h-5 w-5" />
-        {triggerLabel ? <span className="whatsapp-menu-trigger__label">{triggerLabel}</span> : null}
-      </button>
+      </motion.a>
     );
+  }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent
-        side="top"
-        align="start"
-        sideOffset={12}
-        className="w-[min(100vw-2rem,17.5rem)] border-0 bg-transparent p-0 shadow-none"
-        onOpenAutoFocus={(e) => e.preventDefault()}
-      >
-        <AnimatedPopoverPanel className="contact-line-menu rounded-[0.875rem] border border-[#e4e8f0] bg-popover p-2 shadow-lg">
-          <p className="contact-line-menu__title">Chat on WhatsApp</p>
-          <p className="contact-line-menu__hint">Choose a line — we&apos;ll reply from Vyttila.</p>
-          <ul className="contact-line-menu__list">
-            {CONTACT_PHONES.map((phone) => (
-              <AnimatedPopoverRow key={phone.tel}>
-                <a
-                  href={whatsAppUrlFor(phone)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="contact-line-menu__item contact-line-menu__item--whatsapp"
-                  onClick={() => setOpen(false)}
-                >
-                  <ContactPhoneAvatar phone={phone} size="md" />
-                  <span className="contact-line-menu__copy">
-                    <span className="contact-line-menu__label">{phone.name}</span>
-                    <span className="contact-line-menu__number">
-                      {phone.role} · {displayShort(phone)}
-                    </span>
-                  </span>
-                  <WhatsAppIcon className="contact-line-menu__action-icon h-4 w-4 shrink-0" aria-hidden />
-                </a>
-              </AnimatedPopoverRow>
-            ))}
-          </ul>
-        </AnimatedPopoverPanel>
-      </PopoverContent>
-    </Popover>
+    <a
+      href={WHATSAPP_URL}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={ariaLabel}
+      className={cn(triggerClass, "inline-flex items-center justify-center gap-2", className)}
+    >
+      <WhatsAppIcon className="h-5 w-5" />
+      {triggerLabel ? <span className="whatsapp-menu-trigger__label">{triggerLabel}</span> : null}
+    </a>
   );
 }

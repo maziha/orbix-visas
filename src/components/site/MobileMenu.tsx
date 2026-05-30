@@ -2,12 +2,12 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, Mail, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BodyScrollUnlockOptions } from "@/lib/body-scroll-lock";
 import { BRAND_LOGOS } from "@/lib/brand-logos";
-import { COMPANY_NAME } from "@/lib/contact-info";
-import { mobileBackdrop, mobilePanel } from "@/lib/motion/presets";
+import { COMPANY_NAME, CONTACT_EMAIL } from "@/lib/contact-info";
+import { mobileBackdrop, mobilePanel, mobilePanelContent } from "@/lib/motion/presets";
 import { MotionPressable } from "@/components/motion";
 import { useModal } from "./modal-store";
 import {
@@ -112,9 +112,12 @@ const servicesNavLinks: MobileNavLinkItem[] = serviceNavLinks.map((item) => ({
 export function MobileMenu({
   open,
   onClose,
+  onExitComplete,
 }: {
   open: boolean;
   onClose: (options?: BodyScrollUnlockOptions) => void;
+  /** Fires after close animation finishes — use to release scroll lock. */
+  onExitComplete?: () => void;
 }) {
   const { openConsultation } = useModal();
   const [openSection, setOpenSection] = useState<ExploreSectionId | null>(null);
@@ -135,7 +138,7 @@ export function MobileMenu({
 
   const onNavClick = useMobileNavClick(onClose);
 
-  if (!portalRoot || !open) return null;
+  if (!portalRoot) return null;
 
   const dialogProps = {
     role: "dialog" as const,
@@ -144,52 +147,60 @@ export function MobileMenu({
   };
 
   return createPortal(
-    <AnimatePresence>
-      {reduced ? (
-        <div
-          key="mobile-nav"
-          className="mobile-nav-root mobile-nav-root--active lg:hidden"
-          {...dialogProps}
-        >
-          <button
-            type="button"
-            className="mobile-nav-backdrop"
-            onClick={() => onClose()}
-            aria-label="Close menu"
-          />
-          <div className="mobile-nav-panel-shell lg:hidden">
-            <div className="mobile-nav-panel" {...dialogProps}>
-              {menuPanelContent()}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          <motion.button
-            key="mobile-nav-backdrop"
-            type="button"
-            className="mobile-nav-backdrop lg:hidden"
-            onClick={() => onClose()}
-            aria-label="Close menu"
-            variants={mobileBackdrop}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-          />
-          <motion.div
-            key="mobile-nav-panel-shell"
-            className="mobile-nav-panel-shell lg:hidden"
-            variants={mobilePanel}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            style={{ willChange: "clip-path" }}
+    <AnimatePresence onExitComplete={() => onExitComplete?.()}>
+      {open &&
+        (reduced ? (
+          <div
+            key="mobile-nav"
+            className="mobile-nav-root mobile-nav-root--active lg:hidden"
             {...dialogProps}
           >
-            <div className="mobile-nav-panel">{menuPanelContent()}</div>
-          </motion.div>
-        </>
-      )}
+            <button
+              type="button"
+              className="mobile-nav-backdrop"
+              onClick={() => onClose()}
+              aria-label="Close menu"
+            />
+            <div className="mobile-nav-panel-shell lg:hidden">
+              <div className="mobile-nav-panel">{menuPanelContent()}</div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <motion.button
+              key="mobile-nav-backdrop"
+              type="button"
+              className="mobile-nav-backdrop lg:hidden"
+              onClick={() => onClose()}
+              aria-label="Close menu"
+              variants={mobileBackdrop}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+            />
+            <motion.div
+              key="mobile-nav-panel-shell"
+              className="mobile-nav-panel-shell lg:hidden"
+              variants={mobilePanel}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              style={{ willChange: "clip-path, opacity" }}
+              {...dialogProps}
+            >
+              <motion.div
+                className="mobile-nav-panel"
+                variants={mobilePanelContent}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                style={{ willChange: "transform, opacity" }}
+              >
+                {menuPanelContent()}
+              </motion.div>
+            </motion.div>
+          </>
+        ))}
     </AnimatePresence>,
     portalRoot,
   );
@@ -294,18 +305,28 @@ export function MobileMenu({
           </div>
         </nav>
 
-        <div className="mobile-nav-footer shrink-0 space-y-3 px-5 py-6">
-          <MotionPressable
-            type="button"
-            pulse
-            onClick={() => {
-              onClose();
-              openConsultation();
-            }}
-            className="nav-cta w-full"
-          >
-            Book a Consultation
-          </MotionPressable>
+        <div className="mobile-nav-footer shrink-0 px-5 py-6">
+          <div className="mobile-nav-footer__actions">
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="mobile-nav-footer-link"
+              onClick={() => onClose()}
+            >
+              <Mail className="h-4 w-4 shrink-0" aria-hidden />
+              Email us
+            </a>
+            <MotionPressable
+              type="button"
+              pulse
+              onClick={() => {
+                onClose();
+                openConsultation();
+              }}
+              className="nav-cta mobile-nav-footer__cta"
+            >
+              Book a Consultation
+            </MotionPressable>
+          </div>
         </div>
       </>
     );

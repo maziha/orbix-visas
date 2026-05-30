@@ -2664,6 +2664,26 @@
     background: #f4f6fb;
   }
 
+  .mobile-nav-footer__actions {
+    display: flex;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .mobile-nav-footer__actions .mobile-nav-footer-link,
+  .mobile-nav-footer__actions .mobile-nav-footer__cta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mobile-nav-footer__actions .mobile-nav-footer__cta {
+    white-space: normal;
+    text-align: center;
+    padding: 0.75rem 0.625rem;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
   .mobile-nav-footer-link {
     display: flex;
     align-items: center;
