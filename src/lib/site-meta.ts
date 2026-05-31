@@ -10,7 +10,7 @@ export const SITE_NAME = COMPANY_NAME;
 /** Public site origin for absolute OG URLs — set VITE_SITE_URL in production. */
 export const SITE_ORIGIN =
   (typeof import.meta.env.VITE_SITE_URL === "string" && import.meta.env.VITE_SITE_URL) ||
-  "https://orbixoverseascareers.com";
+  "https://orbixvisas.com";
 
 export const OG_IMAGE_PATH = "/og-image.jpg";
 
