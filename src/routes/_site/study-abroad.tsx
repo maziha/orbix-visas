@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "framer-motion";
 import { StudyDestinationCard } from "@/components/site/StudyDestinationCard";
 import { BrandPromise, SectionEyebrow, SectionHeading } from "@/components/site/HomeSections";
@@ -6,6 +6,7 @@ import { AmbientTravelBg, Reveal, RevealItem, RevealStagger } from "@/components
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { COUNTRIES } from "@/lib/countries";
 import { DESTINATION_HOVER_STATS, STUDY_COUNTRY_CONTENT } from "@/lib/study-country-content";
+import { SITE_CHILD_ROUTE, useActiveChildRoute } from "@/lib/nested-layout";
 import { headForPage } from "@/lib/site-meta";
 
 export const Route = createFileRoute("/_site/study-abroad")({
@@ -14,11 +15,10 @@ export const Route = createFileRoute("/_site/study-abroad")({
 });
 
 function Layout() {
-  const matches = useMatches();
-  const isChild = matches.some((m) => m.routeId.startsWith("/study-abroad/"));
+  const countryRoute = useActiveChildRoute(SITE_CHILD_ROUTE.studyCountry);
   const reduced = useReducedMotion();
 
-  if (isChild) return <Outlet />;
+  if (countryRoute) return <Outlet />;
 
   return (
     <>

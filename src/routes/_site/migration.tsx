@@ -1,10 +1,11 @@
-import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { prepareMigrationHashNavigation } from "@/lib/migration-hash-scroll";
 import { motion, useReducedMotion } from "framer-motion";
 import { AmbientTravelBg, Reveal } from "@/components/motion";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { MigrationProgramSections, BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
+import { SITE_CHILD_ROUTE, useActiveChildRoute } from "@/lib/nested-layout";
 import { headForPage } from "@/lib/site-meta";
 
 export const Route = createFileRoute("/_site/migration")({
@@ -13,16 +14,15 @@ export const Route = createFileRoute("/_site/migration")({
 });
 
 function Layout() {
-  const matches = useMatches();
-  const isChild = matches.some((m) => m.routeId.startsWith("/migration/"));
+  const programRoute = useActiveChildRoute(SITE_CHILD_ROUTE.migrationProgram);
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (isChild) return;
+    if (programRoute) return;
     prepareMigrationHashNavigation();
-  }, [isChild]);
+  }, [programRoute]);
 
-  if (isChild) return <Outlet />;
+  if (programRoute) return <Outlet />;
 
   return (
     <>

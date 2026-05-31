@@ -1,8 +1,9 @@
-import { createFileRoute, Link, Outlet, useMatches } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/PageHero";
 import { BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";
 import { otherServices, visaServices } from "@/components/site/services-data";
 import { FAMILY_VISA_CONTENT, isFamilyVisaSlug } from "@/lib/family-visa-content";
+import { SITE_CHILD_ROUTE, useActiveChildRoute } from "@/lib/nested-layout";
 import { headForPage } from "@/lib/site-meta";
 import { HoverLift, Reveal, RevealStagger } from "@/components/motion";
 
@@ -12,9 +13,8 @@ export const Route = createFileRoute("/_site/services")({
 });
 
 function Layout() {
-  const matches = useMatches();
-  const isChild = matches.some((m) => m.routeId.startsWith("/services/"));
-  if (isChild) return <Outlet />;
+  const visaRoute = useActiveChildRoute(SITE_CHILD_ROUTE.serviceVisa);
+  if (visaRoute) return <Outlet />;
 
   return (
     <>
