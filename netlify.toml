@@ -3,5 +3,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Public contact email matches site footer; omit if still set in Netlify UI.
+  SECRETS_SCAN_OMIT_KEYS = "ENQUIRY_TO_EMAIL"
 
 # Next.js 16 is supported natively on Netlify via the OpenNext adapter (zero plugin config required).

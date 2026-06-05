@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { submitEnquirySchema } from "@/lib/enquiry-types";
 import { sendEnquiryEmail } from "@/server/send-enquiry-email";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   try {
     const body: unknown = await request.json();

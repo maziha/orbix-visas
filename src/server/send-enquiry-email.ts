@@ -1,3 +1,4 @@
+import "server-only";
 import { Resend } from "resend";
 import { CONTACT_EMAIL, COMPANY_NAME } from "@/lib/contact-info";
 import type { SubmitEnquiryInput } from "@/lib/enquiry-types";
@@ -75,7 +76,8 @@ export async function sendEnquiryEmail(data: SubmitEnquiryInput) {
     );
   }
 
-  const to = getServerEnv("ENQUIRY_TO_EMAIL") ?? CONTACT_EMAIL;
+  // Enquiries go to the public contact address (see contact-info.ts).
+  const to = CONTACT_EMAIL;
   const from =
     getServerEnv("RESEND_FROM_EMAIL") ??
     `${COMPANY_NAME} <orbixvisas@resend.dev>`;
