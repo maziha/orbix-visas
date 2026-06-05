@@ -3,6 +3,8 @@
 
 [build]
   command = "npm run build"
+  # Overrides legacy Netlify UI value (dist/client from old Vite app).
+  publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
