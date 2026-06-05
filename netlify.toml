@@ -1,9 +1,13 @@
+# Next.js App Router — do NOT set publish to dist/client (legacy Vite output).
+# The plugin below handles routing and deploy output automatically.
+
 [build]
   command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [build.environment]
   NODE_VERSION = "22"
   # Public contact email matches site footer; omit if still set in Netlify UI.
   SECRETS_SCAN_OMIT_KEYS = "ENQUIRY_TO_EMAIL"
-
-# Next.js 16 is supported natively on Netlify via the OpenNext adapter (zero plugin config required).
