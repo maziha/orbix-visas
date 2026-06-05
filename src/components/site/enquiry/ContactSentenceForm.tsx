@@ -1,14 +1,25 @@
-import { useState } from "react";
+"use client";
+
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { MotionPressable } from "@/components/motion";
 import { popIn, springBouncy, springGentle } from "@/lib/motion/presets";
 import { useSubmitEnquiry } from "@/hooks/use-submit-enquiry";
 import { CONTACT_PHONE } from "@/lib/contact-info";
-import { CONTACT_SERVICE_OPTIONS, contactServiceLabel } from "@/lib/enquiry-options";
+import {
+  CONTACT_SERVICE_OPTIONS,
+  contactServiceLabel,
+  resolveContactServiceFromParam,
+} from "@/lib/enquiry-options";
 import { SentenceInlineInput, SentenceInlinePick } from "./SentenceField";
 
-export function ContactSentenceForm() {
+type ContactSentenceFormProps = {
+  initialService?: string;
+};
+
+export function ContactSentenceForm({ initialService = "" }: ContactSentenceFormProps) {
   const { send, isSubmitting, error } = useSubmitEnquiry();
   const [submitted, setSubmitted] = useState(false);
   const reduced = useReducedMotion();
@@ -16,7 +27,7 @@ export function ContactSentenceForm() {
     fullName: "",
     phone: "",
     email: "",
-    service: "",
+    service: initialService,
     message: "",
   });
 
@@ -149,5 +160,19 @@ export function ContactSentenceForm() {
     </motion.form>
       )}
     </AnimatePresence>
+  );
+}
+
+function ContactSentenceFormFromUrl() {
+  const searchParams = useSearchParams();
+  const initialService = resolveContactServiceFromParam(searchParams.get("service")) ?? "";
+  return <ContactSentenceForm initialService={initialService} />;
+}
+
+export function ContactSentenceFormWithParams() {
+  return (
+    <Suspense fallback={<ContactSentenceForm />}>
+      <ContactSentenceFormFromUrl />
+    </Suspense>
   );
 }

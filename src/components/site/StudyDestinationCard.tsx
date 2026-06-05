@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Country } from "@/lib/countries";
 import type { StudyCountryContent } from "@/lib/study-country-content";
@@ -61,11 +63,7 @@ export function StudyDestinationCard({
           <p className="destination-card-stat">{hoverStat}</p>
         </div>
         <div className="destination-card-actions mt-4">
-          <Link
-            to="/study-abroad/$country"
-            params={{ country: country.slug }}
-            className="btn-secondary self-start"
-          >
+          <Link href={`/study-abroad/${country.slug}`} className="btn-secondary self-start">
             Explore guide →
           </Link>
         </div>
@@ -94,11 +92,7 @@ export function StudyDestinationCard({
         <p className="destination-card-stat">{hoverStat}</p>
       </div>
       <div className="destination-card-actions mt-4">
-        <Link
-          to="/study-abroad/$country"
-          params={{ country: country.slug }}
-          className="btn-secondary self-start"
-        >
+        <Link href={`/study-abroad/${country.slug}`} className="btn-secondary self-start">
           Explore guide →
         </Link>
       </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import * as DialogPrimitive from "@radix-ui/react-dialog";

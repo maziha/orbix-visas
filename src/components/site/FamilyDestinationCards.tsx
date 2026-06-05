@@ -1,3 +1,5 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import { CheckCircle2 } from "lucide-react";
 import type { FamilyVisaDestination } from "@/lib/family-visa-content";

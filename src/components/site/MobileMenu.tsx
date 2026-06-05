@@ -1,4 +1,7 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -76,8 +79,7 @@ function NavSection({
               {links.map((link) => (
                 <li key={`${link.to}${link.hash ?? ""}-${link.label}`}>
                   <Link
-                    to={link.to}
-                    hash={link.hash}
+                    href={link.hash ? `${link.to}#${link.hash}` : link.to}
                     className="mobile-nav-link"
                     onClick={() => onNavigate(link.to)}
                   >
@@ -136,6 +138,7 @@ export function MobileMenu({
     setOpenSection((current) => (current === id ? null : id));
   };
 
+  const pathname = usePathname();
   const onNavClick = useMobileNavClick(onClose);
 
   if (!portalRoot) return null;
@@ -223,7 +226,7 @@ export function MobileMenu({
         </div>
 
         <div className="mobile-nav-panel__header">
-          <Link to="/" onClick={onNavClick("/")} className="mobile-nav-panel__logo-link">
+          <Link href="/" onClick={onNavClick("/")} className="mobile-nav-panel__logo-link">
             <img
               src={BRAND_LOGOS.onWhite}
               alt={COMPANY_NAME}
@@ -245,29 +248,34 @@ export function MobileMenu({
             <p className="mobile-nav-group__label">Pages</p>
             <div className="mobile-nav-group__links">
               <Link
-                to="/"
+                href="/"
                 onClick={onNavClick("/")}
                 className="mobile-nav-top-link"
-                activeOptions={{ exact: true }}
-                activeProps={{ className: "mobile-nav-top-link", "aria-current": "page" }}
+                aria-current={pathname === "/" ? "page" : undefined}
               >
                 Home
               </Link>
               <Link
-                to="/about"
+                href="/blog"
+                onClick={onNavClick("/blog")}
+                className="mobile-nav-top-link"
+                aria-current={pathname.startsWith("/blog") ? "page" : undefined}
+              >
+                Guides
+              </Link>
+              <Link
+                href="/about"
                 onClick={onNavClick("/about")}
                 className="mobile-nav-top-link"
-                activeOptions={{ exact: true }}
-                activeProps={{ className: "mobile-nav-top-link", "aria-current": "page" }}
+                aria-current={pathname === "/about" ? "page" : undefined}
               >
                 About
               </Link>
               <Link
-                to="/contact"
+                href="/contact"
                 onClick={onNavClick("/contact")}
                 className="mobile-nav-top-link"
-                activeOptions={{ exact: true }}
-                activeProps={{ className: "mobile-nav-top-link", "aria-current": "page" }}
+                aria-current={pathname === "/contact" ? "page" : undefined}
               >
                 Contact
               </Link>

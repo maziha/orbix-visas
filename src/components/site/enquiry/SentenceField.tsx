@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronDown } from "lucide-react";
 import { useId } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";

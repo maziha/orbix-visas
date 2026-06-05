@@ -1,12 +1,14 @@
 import type { CountryCode } from "@/lib/countries";
+import type { FaqItem } from "@/lib/faq-types";
+import { AUSTRALIA_PR_FAQ, CANADA_PR_FAQ } from "@/lib/migration-faq-content";
 
 export type MigrationPathwayCard = {
   id: string;
   title: string;
   whoQualifies: string;
   timeline: string;
-  /** Anchor on /migration for “Start here” */
-  startHash: string;
+  /** Destination for the pathway “First step” CTA — never the current page. */
+  firstStepHref: string;
 };
 
 export type MigrationExpectStep = {
@@ -31,6 +33,7 @@ export type MigrationProgramContent = {
   primaryCtaLabel: string;
   finalCtaTitle: string;
   finalCtaSubtitle: string;
+  faq: FaqItem[];
 };
 
 export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> = {
@@ -38,7 +41,7 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
     slug: "canada-pr",
     name: "Canada PR",
     countryCode: "CA",
-    heroH1: "Canada Permanent Residency — Express Entry, PNP & Family Sponsorship",
+    heroH1: "Canada Permanent Residency — Expert Consultant in Kochi, Kerala",
     heroH2: "The fastest pathway to Canadian PR for skilled professionals from Kerala.",
     heroStatPills: [
       "Processing time: 6–12 months for Express Entry",
@@ -51,7 +54,7 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
         whoQualifies:
           "Skilled workers with a degree-level qualification, at least one year of skilled work experience, and English or French at CLB 7+ (roughly IELTS 6.0 each band). You compete on a CRS points score in the federal pool.",
         timeline: "Typically 12–18 months from a complete profile to confirmation of permanent residence, depending on CRS and draw frequency.",
-        startHash: "canada-express-entry",
+        firstStepHref: "/blog/how-to-check-crs-score",
       },
       {
         id: "pnp",
@@ -59,7 +62,7 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
         whoQualifies:
           "Applicants with a valid job offer, prior study or work in a province, or an occupation on a provincial priority list. A nomination can add CRS points or provide a dedicated stream.",
         timeline: "Often 12–24 months including provincial processing and federal stages — varies significantly by province and stream.",
-        startHash: "canada-pnp",
+        firstStepHref: "/contact?service=pnp",
       },
       {
         id: "family",
@@ -67,7 +70,7 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
         whoQualifies:
           "Canadian citizens and permanent residents sponsoring a spouse, partner, dependent child, or eligible parent. The sponsor must meet income and undertaking requirements.",
         timeline: "Typically 12–24+ months depending on relationship, whether the sponsor lives in Canada, and completeness of the file.",
-        startHash: "canada-family-sponsorship",
+        firstStepHref: "/contact?service=family-sponsorship",
       },
     ],
     expectSteps: [
@@ -119,12 +122,13 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
     finalCtaTitle: "Book a Free Assessment",
     finalCtaSubtitle:
       "We will review your eligibility in your first session at no cost — including a realistic view of CRS, timelines, and whether Express Entry, PNP, or family sponsorship fits your profile.",
+    faq: CANADA_PR_FAQ,
   },
   "australia-pr": {
     slug: "australia-pr",
     name: "Australia PR",
     countryCode: "AU",
-    heroH1: "Australia Permanent Residency — Subclass 189, 190 & 491",
+    heroH1: "Australia Permanent Residency — Skilled Migration Consultant in Kochi",
     heroH2: "Skilled migration pathways for professionals from Kerala — points-tested and state-nominated routes explained clearly.",
     heroStatPills: [
       "Processing time: 6–12 months after invitation (typical)",
@@ -137,7 +141,7 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
         whoQualifies:
           "Occupation on the relevant skilled list, positive skills assessment, competent English, and a competitive points score — no employer or state sponsor required.",
         timeline: "Often 12–24 months from skills assessment through invitation and visa grant; occupation ceilings and points cut-offs affect timing.",
-        startHash: "australia-189",
+        firstStepHref: "/contact?service=subclass-189",
       },
       {
         id: "subclass-190",
@@ -145,7 +149,7 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
         whoQualifies:
           "Applicants who receive nomination from an Australian state or territory and commit to living in that state. Extra nomination points can improve invitation chances.",
         timeline: "Typically 12–24 months including state nomination processing and visa lodgement after invitation.",
-        startHash: "australia-190",
+        firstStepHref: "/contact?service=subclass-190",
       },
       {
         id: "subclass-491",
@@ -153,7 +157,7 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
         whoQualifies:
           "Skilled workers willing to live and work in designated regional areas. Provisional visa with a pathway to permanent residency when residence and income conditions are met.",
         timeline: "Often 15–30+ months including provisional period before eligible to apply for permanent residency.",
-        startHash: "australia-491",
+        firstStepHref: "/contact?service=subclass-491",
       },
     ],
     expectSteps: [
@@ -205,5 +209,6 @@ export const MIGRATION_PROGRAM_CONTENT: Record<string, MigrationProgramContent> 
     finalCtaTitle: "Book a Free Assessment",
     finalCtaSubtitle:
       "We will review your points, occupation list status, and realistic pathway (189, 190, or 491) in your first session at no cost.",
+    faq: AUSTRALIA_PR_FAQ,
   },
 };

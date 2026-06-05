@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 import type { ClosingCtaPanelProps } from "@/components/site/ClosingCtaPanel";
 import {
   presetFromFamilyVisa,
@@ -8,7 +8,7 @@ import {
 import type { FamilyVisaContent } from "@/lib/family-visa-content";
 import type { MigrationProgramContent } from "@/lib/migration-program-content";
 import type { StudyCountryContent } from "@/lib/study-country-content";
-import type { StudyPageContent } from "@/lib/study-country-page-content";
+import { studyCountryFinalCta } from "@/lib/study-country-page-content";
 const STUDY_CLOSING_PRIMARY_LABEL = "Book free consultation";
 
 export function familyVisaClosingCta(content: FamilyVisaContent): ClosingCtaPanelProps {
@@ -22,7 +22,7 @@ export function familyVisaClosingCta(content: FamilyVisaContent): ClosingCtaPane
     footer: (
       <p>
         Comparing visa types?{" "}
-        <Link to="/services" hash="family-visa" className="closing-cta-panel__footer-link">
+        <Link href="/services#family-visa" className="closing-cta-panel__footer-link">
           View all family visa guides
         </Link>
       </p>
@@ -30,19 +30,16 @@ export function familyVisaClosingCta(content: FamilyVisaContent): ClosingCtaPane
   };
 }
 
-export function studyCountryClosingCta(
-  content: StudyCountryContent,
-  page: StudyPageContent,
-): ClosingCtaPanelProps {
+export function studyCountryClosingCta(content: StudyCountryContent): ClosingCtaPanelProps {
   return {
-    title: page.finalCtaLabel,
+    title: studyCountryFinalCta(content.name),
     description: `Share your marks, English score, and budget — we will suggest realistic options in ${content.name} before you pay any application fees.`,
     primaryLabel: STUDY_CLOSING_PRIMARY_LABEL,
     consultationPreset: presetFromStudyCountry(content),
     footer: (
       <p>
         Comparing countries?{" "}
-        <Link to="/study-abroad" className="closing-cta-panel__footer-link">
+        <Link href="/study-abroad" className="closing-cta-panel__footer-link">
           View all 7 study destinations
         </Link>
       </p>

@@ -1,4 +1,7 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   useCallback,
   useEffect,
@@ -39,8 +42,7 @@ function DropdownLink({
   if (reduced) {
     return (
       <Link
-        to={item.to}
-        {...(item.hash ? { hash: item.hash } : {})}
+        href={item.hash ? `${item.to}#${item.hash}` : item.to}
         className="nav-dropdown-link"
         style={{ "--link-i": index } as CSSProperties}
         onClick={blurActiveElement}
@@ -52,8 +54,7 @@ function DropdownLink({
 
   return (
     <Link
-      to={item.to}
-      {...(item.hash ? { hash: item.hash } : {})}
+      href={item.hash ? `${item.to}#${item.hash}` : item.to}
       className="nav-dropdown-link"
       style={{ "--link-i": index } as CSSProperties}
       onClick={blurActiveElement}
@@ -124,7 +125,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileScrollLocked, setMobileScrollLocked] = useState(false);
   const { openConsultation } = useModal();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = usePathname();
   const isHome = pathname === "/";
   const isFirstPathname = useRef(true);
   const reduced = useReducedMotion();
@@ -191,9 +192,9 @@ export function Header() {
 
   return (
     <header className={headerClass}>
-      <div className="container-px mx-auto flex h-16 max-w-7xl items-center justify-between lg:h-20">
+      <div className="site-container flex h-16 items-center justify-between lg:h-20">
         <motion.div whileHover={reduced ? undefined : { scale: 1.03 }} whileTap={reduced ? undefined : { scale: 0.97 }}>
-          <Link to="/" className="site-header__logo-link flex shrink-0 items-center">
+          <Link href="/" className="site-header__logo-link flex shrink-0 items-center">
             <HeaderLogo onHero={onHero} className="h-10 w-auto lg:h-12" />
             <span className="sr-only">{COMPANY_NAME}</span>
           </Link>
@@ -203,10 +204,13 @@ export function Header() {
           <NavDropdown label="Study Abroad" items={studyCountryLinks} />
           <NavDropdown label="Migration" items={migrationLinks} />
           <ServicesDropdown />
-          <SiteNavLink to="/about" className="site-nav__link px-3 py-2 text-sm font-medium">
+          <SiteNavLink href="/blog" className="site-nav__link px-3 py-2 text-sm font-medium">
+            Guides
+          </SiteNavLink>
+          <SiteNavLink href="/about" className="site-nav__link px-3 py-2 text-sm font-medium">
             About
           </SiteNavLink>
-          <SiteNavLink to="/contact" className="site-nav__link px-3 py-2 text-sm font-medium">
+          <SiteNavLink href="/contact" className="site-nav__link px-3 py-2 text-sm font-medium">
             Contact
           </SiteNavLink>
         </nav>

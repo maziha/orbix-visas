@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { FAMILY_VISA_CONTENT, FAMILY_VISA_SLUGS } from "@/lib/family-visa-content";
@@ -7,7 +9,7 @@ import { springGentle } from "@/lib/motion/presets";
 import { useModal } from "./modal-store";
 import { SectionEyebrow } from "./SectionEyebrow";
 
-const MotionRouterLink = motion.create(Link);
+const MotionNextLink = motion.create(Link);
 
 export function FamilyVisaHighlightSection() {
   const { openConsultation } = useModal();
@@ -42,14 +44,13 @@ export function FamilyVisaHighlightSection() {
                 Book a Consultation <ArrowRight className="h-4 w-4" />
               </MotionPressable>
               <p className="mt-4 text-sm">
-                <MotionRouterLink
-                  to="/services"
-                  hash="family-visa"
+                <MotionNextLink
+                  href="/services#family-visa"
                   className="font-semibold text-[var(--accent-sky)] hover:underline"
                   whileHover={{ x: 4 }}
                 >
                   Compare all family visa guides →
-                </MotionRouterLink>
+                </MotionNextLink>
               </p>
             </div>
 
@@ -58,9 +59,8 @@ export function FamilyVisaHighlightSection() {
                 const guide = FAMILY_VISA_CONTENT[slug];
                 return (
                   <RevealItem key={slug}>
-                    <MotionRouterLink
-                      to="/services/$visa"
-                      params={{ visa: slug }}
+                    <MotionNextLink
+                      href={`/services/${slug}`}
                       className="family-visa-panel-card group"
                       whileHover={
                         reduced
@@ -85,7 +85,7 @@ export function FamilyVisaHighlightSection() {
                       >
                         →
                       </motion.span>
-                    </MotionRouterLink>
+                    </MotionNextLink>
                   </RevealItem>
                 );
               })}

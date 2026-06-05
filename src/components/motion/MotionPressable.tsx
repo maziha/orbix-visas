@@ -1,8 +1,10 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+"use client";
+
+import { forwardRef, type ReactNode } from "react";
+import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-type MotionPressableProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type MotionPressableProps = Omit<HTMLMotionProps<"button">, "children"> & {
   children: ReactNode;
   className?: string;
   /** Subtle idle pulse for primary CTAs */

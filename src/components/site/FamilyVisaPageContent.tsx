@@ -1,27 +1,37 @@
+"use client";
+
 import { CheckCircle2 } from "lucide-react";
 import type { FamilyVisaContent } from "@/lib/family-visa-content";
-import { FAMILY_VISA_COST_DISCLAIMER } from "@/lib/family-visa-content";
+import { BREADCRUMBS } from "@/lib/breadcrumbs";
 import { familyVisaClosingCta } from "@/lib/closing-cta-presets";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { FamilyDestinationCards } from "./FamilyDestinationCards";
+import { FaqSection } from "./FaqSection";
 import { PageHero } from "./PageHero";
+import { SiteContainer } from "./SiteContainer";
 
 export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent }) {
 
   return (
-    <>
-      <PageHero label="Visa Services" title={content.name} subtitle={content.heroSubtitle} />
+    <article>
+      <PageHero
+        label="Visa Services"
+        title={content.heroH1}
+        subtitle={content.heroSubtitle}
+        breadcrumbs={BREADCRUMBS.familyVisa(content.slug, content.name)}
+      />
 
-      <section className="py-16 bg-brand-white">
-        <div className="container-px mx-auto max-w-3xl">
+      <section className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer>
           <SectionEyebrow>VISA SERVICES</SectionEyebrow>
           <p className="text-muted-foreground text-lg leading-relaxed">{content.overview}</p>
+          <p className="text-muted-foreground text-lg leading-relaxed mt-5">{content.introduction}</p>
           <p className="text-xs text-muted-foreground mt-4 leading-relaxed">{content.costDisclaimer}</p>
-        </div>
+        </SiteContainer>
       </section>
 
-      <section className="py-16 bg-brand-subtle">
-        <div className="container-px mx-auto max-w-5xl">
+      <section className="py-16 md:py-20 bg-brand-subtle">
+        <SiteContainer>
           <SectionEyebrow>QUICK FACTS</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mb-8">At a glance</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -34,11 +44,11 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
               </div>
             ))}
           </div>
-        </div>
+        </SiteContainer>
       </section>
 
-      <section className="py-16 bg-brand-white">
-        <div className="container-px mx-auto max-w-4xl grid lg:grid-cols-2 gap-12">
+      <section className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer className="grid lg:grid-cols-2 gap-12">
           <div>
             <SectionEyebrow>ELIGIBILITY</SectionEyebrow>
             <h2 className="font-display text-3xl text-[var(--navy)] mb-6">Can you apply?</h2>
@@ -63,11 +73,11 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
               ))}
             </ul>
           </div>
-        </div>
+        </SiteContainer>
       </section>
 
-      <section className="py-16 bg-brand-subtle">
-        <div className="container-px mx-auto max-w-6xl">
+      <section className="py-16 md:py-20 bg-brand-subtle">
+        <SiteContainer>
           <SectionEyebrow>BY DESTINATION</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mb-4">Rules by sponsor country</h2>
           <p className="text-muted-foreground mb-10 max-w-3xl leading-relaxed">
@@ -75,12 +85,12 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
             current requirements for your sponsor&apos;s status at consultation.
           </p>
           <FamilyDestinationCards destinations={content.destinations} />
-          <p className="text-xs text-muted-foreground mt-6 leading-relaxed">{FAMILY_VISA_COST_DISCLAIMER}</p>
-        </div>
+          <p className="text-xs text-muted-foreground mt-6 leading-relaxed">{content.costDisclaimer}</p>
+        </SiteContainer>
       </section>
 
-      <section className="py-16 bg-brand-white">
-        <div className="container-px mx-auto max-w-4xl">
+      <section className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer>
           <SectionEyebrow>TIMELINE</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mb-6">Typical timeline</h2>
           <div className="grid sm:grid-cols-3 gap-4">
@@ -94,11 +104,11 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
             ))}
           </div>
           <p className="text-sm text-muted-foreground mt-6 leading-relaxed">{content.timelineNote}</p>
-        </div>
+        </SiteContainer>
       </section>
 
-      <section className="py-16 bg-brand-subtle">
-        <div className="container-px mx-auto max-w-4xl">
+      <section className="py-16 md:py-20 bg-brand-subtle">
+        <SiteContainer>
           <SectionEyebrow>PROCESS</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mb-10">How Orbix guides your application</h2>
           <ol className="space-y-6">
@@ -117,24 +127,24 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
               </li>
             ))}
           </ol>
-        </div>
+        </SiteContainer>
       </section>
 
       {content.keralaContext && (
-        <section className="py-16 bg-brand-white">
-          <div className="container-px mx-auto max-w-3xl">
+        <section className="py-16 md:py-20 bg-brand-white">
+          <SiteContainer>
             <SectionEyebrow>KERALA FAMILIES</SectionEyebrow>
             <h2 className="font-display text-3xl text-[var(--navy)] mb-6">
               Common situations for families from Kerala
             </h2>
             <p className="text-muted-foreground leading-relaxed">{content.keralaContext}</p>
             {/* TODO: Add verified reunification stories when client provides them */}
-          </div>
+          </SiteContainer>
         </section>
       )}
 
-      <section className="py-16 bg-brand-subtle">
-        <div className="container-px mx-auto max-w-4xl">
+      <section className="py-16 md:py-20 bg-brand-subtle">
+        <SiteContainer>
           <SectionEyebrow>ORBIX SUPPORT</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mb-6">What we handle for you</h2>
           <ul className="grid sm:grid-cols-2 gap-4">
@@ -148,10 +158,15 @@ export function FamilyVisaPageContent({ content }: { content: FamilyVisaContent 
               </li>
             ))}
           </ul>
-        </div>
+        </SiteContainer>
       </section>
 
+      <FaqSection
+        faq={content.faq}
+        title={`${content.name} from Kerala — common questions`}
+      />
+
       <BrandPromise {...familyVisaClosingCta(content)} />
-    </>
+    </article>
   );
 }

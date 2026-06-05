@@ -1,6 +1,9 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { homepageOtherServices } from "./services-data";
 import { SectionHeading } from "./SectionHeading";
+import { hrefWithHash } from "@/lib/href";
 
 export function OtherServicesTableSection() {
   return (
@@ -11,10 +14,10 @@ export function OtherServicesTableSection() {
         <div className="other-services-table mt-10 border-t border-[#e4e8f0]">
           {homepageOtherServices.map((service) => {
             const Icon = service.icon;
-            const guideLink =
+            const guideHref =
               service.id === "spouse-visa" || service.id === "parent-visa"
-                ? ({ to: "/services/$visa" as const, params: { visa: service.id } })
-                : ({ to: "/services" as const, hash: service.id });
+                ? `/services/${service.id}`
+                : hrefWithHash("/services", service.id);
 
             return (
               <div key={service.id} className="other-services-table__row">
@@ -25,7 +28,7 @@ export function OtherServicesTableSection() {
                   <h3 className="font-display text-lg font-semibold text-[var(--navy)]">{service.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{service.desc}</p>
                 </div>
-                <Link {...guideLink} className="other-services-table__link shrink-0">
+                <Link href={guideHref} className="other-services-table__link shrink-0">
                   Learn more →
                 </Link>
               </div>

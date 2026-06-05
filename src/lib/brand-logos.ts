@@ -9,9 +9,9 @@ import logoWhiteOnSkyBlue from "@/assets/logo_white_skyblue_background.webp";
  * - onSkyBlue: white mark on sky blue (#3fb8f7) — accent band sections
  */
 export const BRAND_LOGOS = {
-  onWhite: logoBlueOnWhite,
-  onNavy: logoWhiteOnNavy,
-  onSkyBlue: logoWhiteOnSkyBlue,
+  onWhite: logoBlueOnWhite.src,
+  onNavy: logoWhiteOnNavy.src,
+  onSkyBlue: logoWhiteOnSkyBlue.src,
 } as const;
 
 export type BrandLogoVariant = keyof typeof BRAND_LOGOS;

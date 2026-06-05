@@ -1,3 +1,5 @@
+"use client";
+
 import { WhatsAppContactMenu } from "./WhatsAppContactMenu";
 import { PhoneContactMenu } from "./PhoneContactMenu";
 

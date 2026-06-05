@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { useModal } from "./modal-store";
 import { MigrationProgramsSection } from "./MigrationProgramsSection";
 import { MigrationProgramSections } from "./MigrationProgramSections";
@@ -106,7 +108,7 @@ export function MigrationSplit() {
           <p className="text-muted-foreground mt-5 leading-relaxed">
             The decision to migrate can be fuelled by career opportunities, better education, improved living standards, or simply the joy of something new. Apart from a whole new direction in life, you'll gain cultural awareness, global perspective, and elevated confidence. Let us guide you through the HOWs.
           </p>
-          <Link to="/migration" className="btn-secondary mt-6">
+          <Link href="/migration" className="btn-secondary mt-6">
             Explore Migration Programs <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -200,7 +202,7 @@ export function ChoosingFuture() {
             <button type="button" onClick={() => openConsultation()} className="btn-primary">
               Book a Consultation
             </button>
-            <Link to="/about" className="btn-secondary">Learn About Our Process</Link>
+            <Link href="/about" className="btn-secondary">Learn About Our Process</Link>
           </div>
         </div>
         <div className="aspect-square max-w-md mx-auto rounded-2xl overflow-hidden shadow-2xl">

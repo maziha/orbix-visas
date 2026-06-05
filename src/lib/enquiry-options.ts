@@ -52,7 +52,13 @@ export const QUALIFICATION_OPTIONS: PickOption[] = [
 
 export const CONTACT_SERVICE_OPTIONS: PickOption[] = [
   { value: "canada-pr", label: "Canada PR" },
+  { value: "express-entry", label: "Canada Express Entry (CRS assessment)" },
+  { value: "pnp", label: "Canada Provincial Nominee Program (PNP)" },
+  { value: "family-sponsorship", label: "Canada family sponsorship" },
   { value: "australia-pr", label: "Australia PR" },
+  { value: "subclass-189", label: "Australia Subclass 189 (skilled independent)" },
+  { value: "subclass-190", label: "Australia Subclass 190 (state nominated)" },
+  { value: "subclass-491", label: "Australia Subclass 491 (regional)" },
   { value: "study-abroad", label: "study abroad" },
   { value: "spouse-family-visa", label: "spouse or family visa" },
   { value: "job-seekers-visa", label: "job seekers visa" },
@@ -60,6 +66,13 @@ export const CONTACT_SERVICE_OPTIONS: PickOption[] = [
   { value: "ielts-language", label: "IELTS / language training" },
   { value: "other", label: "something else" },
 ];
+
+const CONTACT_SERVICE_URL_PARAMS = new Set(CONTACT_SERVICE_OPTIONS.map((o) => o.value));
+
+export function resolveContactServiceFromParam(param: string | null | undefined): string | undefined {
+  if (!param) return undefined;
+  return CONTACT_SERVICE_URL_PARAMS.has(param) ? param : undefined;
+}
 
 const CONTACT_SERVICE_LABELS: Record<string, string> = Object.fromEntries(
   CONTACT_SERVICE_OPTIONS.map((o) => [o.value, o.label]),

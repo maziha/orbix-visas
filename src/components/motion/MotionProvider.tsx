@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { MotionConfig } from "framer-motion";
 import { usePrefersReducedMotion } from "@/lib/motion";

@@ -1,23 +1,25 @@
+"use client";
+
 import type { ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { blurActiveElement } from "@/lib/mobile-nav-click";
 import { cn } from "@/lib/utils";
 
 type SiteNavLinkProps = {
-  to: string;
+  href: string;
   children: ReactNode;
   className?: string;
 };
 
-export function SiteNavLink({ to, children, className }: SiteNavLinkProps) {
+export function SiteNavLink({ href, children, className }: SiteNavLinkProps) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
     <Link
-      to={to}
-      className={className}
-      activeProps={{
-        className: cn(className, "site-nav__link--active"),
-      }}
-      activeOptions={{ exact: true }}
+      href={href}
+      className={cn(className, isActive && "site-nav__link--active")}
       onClick={blurActiveElement}
     >
       {children}

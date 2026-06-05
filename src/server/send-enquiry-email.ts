@@ -71,7 +71,7 @@ export async function sendEnquiryEmail(data: SubmitEnquiryInput) {
   const apiKey = getServerEnv("RESEND_API_KEY");
   if (!apiKey) {
     throw new Error(
-      "Email is not configured on the server. Set RESEND_API_KEY in Netlify environment variables and redeploy.",
+      "Email is not configured on the server. Set RESEND_API_KEY in `.env.local` (local) or Netlify environment variables (production), then redeploy.",
     );
   }
 

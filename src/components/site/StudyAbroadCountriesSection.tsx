@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { COUNTRIES } from "@/lib/countries";
 
@@ -23,7 +25,7 @@ export function StudyAbroadCountriesSection() {
               specific experience with student visa pathways for Indian applicants.
             </p>
             <Link
-              to="/study-abroad"
+              href="/study-abroad"
               className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-sky)] hover:underline"
             >
               Explore Study Destinations <ChevronRight className="h-4 w-4" />
@@ -34,8 +36,7 @@ export function StudyAbroadCountriesSection() {
             {COUNTRIES.map((country) => (
               <li key={country.slug}>
                 <Link
-                  to="/study-abroad/$country"
-                  params={{ country: country.slug }}
+                  href={`/study-abroad/${country.slug}`}
                   className="study-abroad-countries-list__row group"
                 >
                   <span className="text-[17px] font-semibold text-white">{country.name}</span>

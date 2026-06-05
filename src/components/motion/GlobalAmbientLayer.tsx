@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -9,10 +11,11 @@ export function GlobalAmbientLayer() {
   useEffect(() => {
     if (reduced) return;
     const enable = () => setActive(true);
-    if ("requestIdleCallback" in window) {
+    if (typeof window.requestIdleCallback === "function") {
       const id = window.requestIdleCallback(enable, { timeout: 2500 });
       return () => window.cancelIdleCallback(id);
     }
+
     const t = window.setTimeout(enable, 1200);
     return () => window.clearTimeout(t);
   }, [reduced]);

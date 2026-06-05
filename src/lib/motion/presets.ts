@@ -203,12 +203,12 @@ export const stampFloat: Variants = {
   },
 };
 
-export const flightPathDraw = {
+export const flightPathDraw: Variants = {
   hidden: { pathLength: 0, opacity: 0 },
   visible: {
     pathLength: 1,
     opacity: 0.55,
-    transition: { duration: 2.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 },
+    transition: { duration: 2.2, ease: [0.22, 1, 0.36, 1] as const, delay: 0.4 },
   },
 };
 

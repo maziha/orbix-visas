@@ -32,9 +32,6 @@ export type StudyCountryContent = {
   secondaryCtaLabel: string;
 };
 
-export const STUDY_FEE_DISCLAIMER =
-  "Tuition and living costs are approximate guides in INR (2025–26). Actual fees vary by university, city, and intake.";
-
 /** One-line stat revealed on homepage destination card hover (data-stat) */
 export const DESTINATION_HOVER_STATS: Record<CountrySlug, string> = {
   canada: "Post-study work: up to 3 years",

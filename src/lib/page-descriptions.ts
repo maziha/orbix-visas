@@ -20,9 +20,12 @@ export const PAGE_DESCRIPTIONS = {
 } as const;
 
 export const FAMILY_VISA_DESCRIPTIONS: Record<string, string> = {
-  "spouse-visa": `Spouse visa consultant in Kochi — ${COMPANY_NAME_SHORT} explains eligibility, documents, timelines, and costs for Canada, UK, and Australia sponsors from Kerala.`,
-  "parent-visa": `Parent visa consultant Kerala — ${COMPANY_NAME_SHORT} guides balance-of-family tests, documents, and realistic timelines for Canada, UK, and Australia from Kochi.`,
-  "student-dependent-visa": `Student dependent visa Kochi — ${COMPANY_NAME_SHORT} helps families lodge spouse and child visas linked to study abroad applications from Kerala.`,
+  "spouse-visa":
+    "Spouse visa consultant in Kochi, Kerala — OrbiX guides Canada, UK & Australia partner visa eligibility, relationship evidence, documents & timelines. Free consultation in Vyttila.",
+  "parent-visa":
+    "Parent visa consultant in Kerala — bring parents to Canada, UK or Australia. OrbiX explains balance-of-family rules, documents, queues & costs from Kochi.",
+  "student-dependent-visa":
+    "Student dependent visa Kerala — take spouse or children abroad while you study. OrbiX coordinates dependant files with your student visa from Kochi. Free consultation.",
 };
 
 export const MIGRATION_PROGRAM_DESCRIPTIONS: Record<string, string> = {

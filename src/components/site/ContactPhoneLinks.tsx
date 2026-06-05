@@ -1,3 +1,5 @@
+"use client";
+
 import { Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { CONTACT_PHONE, CONTACT_PHONE_TEL, WHATSAPP_URL } from "@/lib/contact-info";

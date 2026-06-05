@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { MigrationProgramContent } from "@/lib/migration-program-content";
@@ -13,18 +15,23 @@ import {
 } from "@/components/motion";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { presetFromMigrationProgram } from "@/lib/enquiry-options";
+import { BREADCRUMBS } from "@/lib/breadcrumbs";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { CountryFlag } from "./CountryFlag";
+import { FaqSection } from "./FaqSection";
+import { PageBreadcrumbs } from "./PageBreadcrumbs";
 import { useModal } from "./modal-store";
+import { SiteContainer } from "./SiteContainer";
 
-const MotionRouterLink = motion.create(Link);
+const MotionNextLink = motion.create(Link);
 
 export function MigrationProgramPageContent({ content }: { content: MigrationProgramContent }) {
   const { openConsultation } = useModal();
   const reduced = useReducedMotion();
+  const breadcrumbs = BREADCRUMBS.migrationProgram(content.slug, content.name);
 
   return (
-    <>
+    <article>
       <section className="relative py-20 md:py-28 bg-brand-dark text-white overflow-hidden">
         <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
         <div
@@ -35,9 +42,10 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
           }}
           aria-hidden
         />
-        <div className="container-px mx-auto max-w-7xl relative">
+        <SiteContainer className="relative">
           {reduced ? (
             <>
+              <PageBreadcrumbs items={breadcrumbs} tone="dark" />
               <SectionEyebrow tone="dark">MIGRATION</SectionEyebrow>
               <div className="flex flex-wrap items-start gap-4 mt-2 max-w-4xl">
                 <CountryFlag
@@ -74,6 +82,9 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
             </>
           ) : (
             <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
+              <motion.div variants={staggerItem}>
+                <PageBreadcrumbs items={breadcrumbs} tone="dark" />
+              </motion.div>
               <motion.div variants={staggerItem}>
                 <SectionEyebrow tone="dark" static>
                   MIGRATION
@@ -134,11 +145,11 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
               </motion.div>
             </motion.div>
           )}
-        </div>
+        </SiteContainer>
       </section>
 
-      <Reveal as="section" className="py-16 bg-brand-white">
-        <div className="container-px mx-auto max-w-6xl">
+      <Reveal as="section" className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer>
           <SectionEyebrow>MIGRATION PATHWAYS</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-8">
             Which pathway is right for you?
@@ -159,23 +170,21 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
                   <span className="font-semibold text-[var(--navy)]">Timeline: </span>
                   {card.timeline}
                 </p>
-                <MotionRouterLink
-                  to="/migration"
-                  hash={card.startHash}
-                  hashScrollIntoView={false}
+                <MotionNextLink
+                  href={card.firstStepHref}
                   className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent-sky)] hover:underline"
                   whileHover={reduced ? undefined : { x: 4 }}
                 >
-                  Start here →
-                </MotionRouterLink>
+                  First step →
+                </MotionNextLink>
               </HoverLift>
             ))}
           </RevealStagger>
-        </div>
+        </SiteContainer>
       </Reveal>
 
-      <Reveal as="section" delay={0.06} className="py-16 bg-brand-subtle">
-        <div className="container-px mx-auto max-w-4xl">
+      <Reveal as="section" delay={0.06} className="py-16 md:py-20 bg-brand-subtle">
+        <SiteContainer>
           <SectionEyebrow>PROCESS</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-10">What to expect</h2>
           <RevealStagger as="ol" className="space-y-0 list-none">
@@ -214,11 +223,11 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
               </RevealItem>
             ))}
           </RevealStagger>
-        </div>
+        </SiteContainer>
       </Reveal>
 
-      <Reveal as="section" delay={0.1} className="py-16 bg-brand-white">
-        <div className="container-px mx-auto max-w-3xl">
+      <Reveal as="section" delay={0.1} className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer>
           <SectionEyebrow>DOCUMENTS</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-6">Documents you will need</h2>
           <p className="text-muted-foreground mb-6 leading-relaxed">{content.documentsNote}</p>
@@ -236,10 +245,16 @@ export function MigrationProgramPageContent({ content }: { content: MigrationPro
               </RevealItem>
             ))}
           </RevealStagger>
-        </div>
+        </SiteContainer>
       </Reveal>
 
+      <FaqSection
+        faq={content.faq}
+        title={`${content.name} from Kerala — common questions`}
+        className="py-16 bg-brand-subtle"
+      />
+
       <BrandPromise {...migrationProgramClosingCta(content)} />
-    </>
+    </article>
   );
 }

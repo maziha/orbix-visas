@@ -1,13 +1,18 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+"use client";
+
+import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { springGentle } from "@/lib/motion/presets";
 import { cn } from "@/lib/utils";
 
-type HoverLiftProps = ComponentPropsWithoutRef<"div"> & {
+type HoverLiftProps = {
   children: ReactNode;
+  className?: string;
   index?: number;
   instant?: boolean;
   as?: "div" | "article" | "li";
+  id?: string;
+  style?: React.CSSProperties;
 };
 
 export function HoverLift({

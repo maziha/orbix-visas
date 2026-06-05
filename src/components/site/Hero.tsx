@@ -1,3 +1,5 @@
+"use client";
+
 import { lazy, Suspense, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { HeroRoutingCards } from "./HeroRoutingCards";

@@ -1,3 +1,5 @@
+"use client";
+
 import { SmartEnquiryForm } from "./enquiry/SmartEnquiryForm";
 
 export function QuickEnquiryForm() {

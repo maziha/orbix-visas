@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { Dialog, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { OrbixDialogContent } from "@/components/motion";
 import { useModal } from "./modal-store";
 import { SmartEnquiryForm } from "./enquiry/SmartEnquiryForm";

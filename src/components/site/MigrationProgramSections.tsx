@@ -1,5 +1,7 @@
+"use client";
+
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HoverLift, Reveal } from "@/components/motion";
@@ -11,6 +13,7 @@ import {
   scheduleMigrationHashScroll,
   tabValueForMigrationHash,
 } from "@/lib/migration-hash-scroll";
+import { useLocationHash } from "@/lib/use-location-hash";
 import { CountryFlag } from "./CountryFlag";
 import { SectionHeading } from "./SectionHeading";
 import {
@@ -60,8 +63,7 @@ function CountryPathwayHub({
               : "One guide covers Subclass 189, 190, and 491 — points, state nomination, and regional routes explained together."}
           </p>
           <Link
-            to="/migration/$program"
-            params={{ program: countryGuideSlug(group) }}
+            href={`/migration/${countryGuideSlug(group)}`}
             className="btn-primary mt-4 inline-flex items-center gap-2"
           >
             Full {country} guide
@@ -124,8 +126,7 @@ function MigrationProgramCard({ program, index }: { program: MigrationProgram; i
           {program.typicalTimeline}
         </p>
         <Link
-          to="/migration/$program"
-          params={{ program: program.programPage }}
+          href={program.firstStepHref}
           className="migration-pathway-card__cta"
         >
           <span className="migration-pathway-card__cta-label">First step</span>
@@ -139,7 +140,7 @@ function MigrationProgramCard({ program, index }: { program: MigrationProgram; i
 
 export function MigrationProgramSections({ revealOnMount = false }: { revealOnMount?: boolean }) {
   const [activeTab, setActiveTab] = useState(initialTab);
-  const routerHash = useRouterState({ select: (state) => state.location.hash });
+  const routerHash = useLocationHash();
   const cancelScrollRef = useRef<(() => void) | null>(null);
   const pendingScrollIdRef = useRef<string | null>(null);
   const handledHashRef = useRef<string | null>(null);

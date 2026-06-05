@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 import type { ConsultationPreset } from "@/lib/enquiry-options";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import type { SubmitEnquiryInput } from "@/lib/enquiry-types";
 import { submitEnquiry } from "@/lib/submit-enquiry";
@@ -10,7 +12,7 @@ export function useSubmitEnquiry() {
     setIsSubmitting(true);
     setError(null);
     try {
-      await submitEnquiry({ data: payload });
+      await submitEnquiry(payload);
       return true;
     } catch (err) {
       const message =

@@ -1,4 +1,12 @@
-import type { ProcessStep } from "@/lib/migration-program-content";
+import type { FaqItem } from "@/lib/faq-types";
+import { FAMILY_VISA_FAQ } from "@/lib/family-visa-faq-content";
+import { getFamilyVisaCostDisclaimer } from "@/lib/year";
+
+export type ProcessStep = {
+  step: number;
+  title: string;
+  detail: string;
+};
 
 export type FamilyVisaSlug = "spouse-visa" | "parent-visa" | "student-dependent-visa";
 
@@ -13,9 +21,13 @@ export type FamilyVisaDestination = {
 export type FamilyVisaContent = {
   slug: FamilyVisaSlug;
   name: string;
+  /** SEO H1 — keyword-rich, distinct from document title */
+  heroH1: string;
   previewLine: string;
   heroSubtitle: string;
   overview: string;
+  /** Additional intro copy for on-page depth and SEO */
+  introduction: string;
   quickFacts: { label: string; value: string }[];
   eligibility: string[];
   documents: string[];
@@ -26,43 +38,107 @@ export type FamilyVisaContent = {
   costDisclaimer: string;
   keralaContext?: string;
   orbixRole: string[];
+  faq: FaqItem[];
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
 };
 
-export const FAMILY_VISA_COST_DISCLAIMER =
-  "Fee figures are approximate guides in INR (as of 2026) and vary by exchange rate, embassy fees, medicals, translations, and whether you use a consultant. Confirm current amounts before you apply.";
-
-const sharedProcessSteps: ProcessStep[] = [
+const spouseVisaProcessSteps: ProcessStep[] = [
   {
     step: 1,
-    title: "Relationship & sponsor review",
+    title: "Sponsor & relationship check",
     detail:
-      "We confirm sponsor status, relationship type, and which country’s rules apply — and flag gaps before you spend on applications.",
+      "We verify your sponsor’s citizenship, PR, or visa status and whether your marriage or de facto partnership meets the country’s definition — before you pay government fees.",
   },
   {
     step: 2,
-    title: "Document checklist",
+    title: "Relationship evidence plan",
     detail:
-      "You receive a tailored list: civil status proofs, financials, police certificates, medicals, and relationship evidence.",
+      "You receive a tailored list of photos, communications, joint finances, and travel history that visa officers expect — weak evidence is the most common refusal reason for Kerala applicants.",
   },
   {
     step: 3,
-    title: "Application preparation",
+    title: "Document preparation",
     detail:
-      "Forms, cover letters, and supporting documents are aligned so dates, names, and addresses match across every paper.",
+      "Marriage certificates, police clearances, medicals, and sponsor financials are checked for matching names, dates, and addresses across every form.",
   },
   {
     step: 4,
-    title: "Lodgement & tracking",
+    title: "Lodgement & biometrics",
     detail:
-      "We guide online or paper submission, biometrics, and responding to any additional document requests from the visa office.",
+      "We guide online or paper submission to IRCC, UKVI, or Home Affairs, biometrics appointments, and any follow-up document requests.",
   },
   {
     step: 5,
-    title: "After grant",
+    title: "After grant & arrival",
     detail:
-      "Pointers on travel, arrival compliance, and next steps (e.g. open work rights, extension, or eventual PR linkage where relevant).",
+      "Pointers on travel, conditional periods, open work rights, and eventual permanent residence linkage where your stream allows.",
+  },
+];
+
+const parentVisaProcessSteps: ProcessStep[] = [
+  {
+    step: 1,
+    title: "Stream selection",
+    detail:
+      "We compare permanent parent visas, contributory routes, Super Visa, and long-stay visit options — and tell you honestly which is realistic for your family.",
+  },
+  {
+    step: 2,
+    title: "Balance-of-family & income review",
+    detail:
+      "For Australia and similar tests, we map where siblings live and whether your sponsor meets income or assurance-of-support thresholds.",
+  },
+  {
+    step: 3,
+    title: "Document gathering",
+    detail:
+      "Birth certificates linking parent and sponsor, family composition proof, sponsor employment, and parent medical and police certificates.",
+  },
+  {
+    step: 4,
+    title: "Application lodgement",
+    detail:
+      "Forms, fees, and bonds lodged correctly — including lottery or queue registration for capped programs like Canada PGP.",
+  },
+  {
+    step: 5,
+    title: "Queue tracking & visits",
+    detail:
+      "While permanent queues run, we advise on interim visit visas so parents in Kochi can travel safely when appropriate.",
+  },
+];
+
+const studentDependentProcessSteps: ProcessStep[] = [
+  {
+    step: 1,
+    title: "Dependant eligibility check",
+    detail:
+      "We confirm your course level and country allow spouse or children — many UK and Australia programs restrict dependants to postgraduate or higher.",
+  },
+  {
+    step: 2,
+    title: "Combined funds calculation",
+    detail:
+      "Living costs, tuition, OSHC or IHS, and dependant fees are calculated together so neither file is refused for understated finances.",
+  },
+  {
+    step: 3,
+    title: "Linked document prep",
+    detail:
+      "Marriage and birth certificates, relationship proof, and dependant passports aligned with the main student’s CoE, CAS, or offer letter.",
+  },
+  {
+    step: 4,
+    title: "Joint lodgement",
+    detail:
+      "Student and dependant applications submitted together with a consistent study plan and Genuine Student / GTE narrative.",
+  },
+  {
+    step: 5,
+    title: "Decision & family arrival",
+    detail:
+      "Track outcomes for all family members and brief you on dependant work, study, and insurance conditions after arrival.",
   },
 ];
 
@@ -76,11 +152,14 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
   "spouse-visa": {
     slug: "spouse-visa",
     name: "Spouse Visa",
+    heroH1: "Spouse Visa Consultant in Kochi, Kerala — Reunite with Your Partner Abroad",
     previewLine: "Sponsor PR/citizen · 12–24 mo typical · relationship evidence required",
     heroSubtitle:
       "Reunite with your spouse abroad — eligibility, documents, timelines, and typical costs for Canada, UK, and Australia sponsors.",
     overview:
       "A spouse or partner visa lets a married or de facto partner join someone who already lives abroad as a citizen, permanent resident, or eligible temporary resident. Each country tests whether the relationship is genuine and whether the sponsor can support you financially. Orbix helps families from Kerala prepare a complete file the first time — not a rushed submission that triggers delays or refusals.",
+    introduction:
+      "If your husband or wife is already in Canada on PR, working in Australia on a skilled visa, or settled in the UK, the partner visa is usually the correct route — not a visitor visa with repeated extensions. Visa officers look for consistent timelines: when you met, when you married, when the sponsor emigrated, and how you maintain contact across Kochi, the Gulf, or India while apart. Orbix builds that narrative with evidence that survives scrutiny, whether your sponsor is in Toronto, Melbourne, London, or Birmingham.",
     quickFacts: [
       { label: "Who sponsors", value: "Citizen, PR, or eligible visa holder abroad" },
       { label: "Relationship", value: "Marriage or 12+ months de facto (country rules vary)" },
@@ -144,7 +223,7 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
         ],
       },
     ],
-    processSteps: sharedProcessSteps,
+    processSteps: spouseVisaProcessSteps,
     timeline: [
       { label: "Document gathering", duration: "1–3 months" },
       { label: "Visa office processing", duration: "6–18 months" },
@@ -152,7 +231,7 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
     ],
     timelineNote:
       "Processing times are published ranges only — they change with visa office workload. Outcomes depend on genuine relationship, sponsor eligibility, and a complete, consistent application.",
-    costDisclaimer: FAMILY_VISA_COST_DISCLAIMER,
+    costDisclaimer: getFamilyVisaCostDisclaimer(),
     keralaContext:
       "Many Kerala families reunite after one spouse obtains Canada PR or an Australia skilled visa while the other remains in India. We commonly prepare files where the sponsor is already working in Toronto, Melbourne, or London and the partner is in Kochi or the Gulf — coordinating police certificates, marriage registration, and evidence across countries is where mistakes happen without guidance.",
     orbixRole: [
@@ -163,17 +242,21 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
       "Track biometrics, medicals, and any additional document requests",
       "Honest advice if the case needs more evidence or is not ready to lodge yet",
     ],
+    faq: FAMILY_VISA_FAQ["spouse-visa"],
     primaryCtaLabel: "Check Your Eligibility",
     secondaryCtaLabel: "Call Our Kochi Office",
   },
   "parent-visa": {
     slug: "parent-visa",
     name: "Parent Visa",
+    heroH1: "Parent Visa Consultant in Kerala — Bring Your Parents Abroad",
     previewLine: "Sponsor citizen/PR · long queues in some countries · balance-of-family tests",
     heroSubtitle:
       "Bring parents to join you abroad — who can sponsor, typical queues, documents, and costs for Canada, UK, and Australia.",
     overview:
       "Parent visas let adult children who are citizens or permanent residents sponsor their mother or father to live abroad. These streams are often slower and more selective than spouse visas — some countries cap places or require balance-of-family tests. Orbix explains realistic timelines so families in Kerala can plan finances and expectations before applying.",
+    introduction:
+      "Parents in Kochi often ask whether they can move permanently to Canada or Australia after their child receives PR. The answer depends on the stream: Canada’s Parent and Grandparent Program runs a lottery with multi-year queues; Australia’s contributory parent visa moves faster but carries a significant second instalment; the UK’s permanent parent route is extremely narrow for most families. Orbix compares these honestly and helps you choose between permanent migration, Super Visa-style long visits, or repeated visit visas — without spending lakhs on the wrong application.",
     quickFacts: [
       { label: "Who sponsors", value: "Adult citizen or PR child abroad" },
       { label: "Who can join", value: "Parent(s) — biological or adoptive per country rules" },
@@ -233,7 +316,7 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
         ],
       },
     ],
-    processSteps: sharedProcessSteps,
+    processSteps: parentVisaProcessSteps,
     timeline: [
       { label: "Eligibility & stream choice", duration: "1–2 months" },
       { label: "Queue / processing", duration: "1–10+ years" },
@@ -241,7 +324,7 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
     ],
     timelineNote:
       "Parent migration is often the slowest family stream. We will tell you honestly if a temporary visit visa is more realistic than a permanent parent visa in your situation.",
-    costDisclaimer: FAMILY_VISA_COST_DISCLAIMER,
+    costDisclaimer: getFamilyVisaCostDisclaimer(),
     keralaContext:
       "Kerala families frequently explore parent visas after a child settles in Canada or Australia on PR. We help compare contributory vs non-contributory Australia routes, Canada Super Visa for extended visits, and when a straightforward visit visa is the practical first step for parents still in Kochi.",
     orbixRole: [
@@ -252,17 +335,21 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
       "Explain queue times so families can plan without false promises",
       "Lodge and track applications; respond to visa office requests",
     ],
+    faq: FAMILY_VISA_FAQ["parent-visa"],
     primaryCtaLabel: "Check Your Eligibility",
     secondaryCtaLabel: "Call Our Kochi Office",
   },
   "student-dependent-visa": {
     slug: "student-dependent-visa",
     name: "Student Dependent Visa",
+    heroH1: "Student Dependent Visa in Kerala — Take Your Family While Studying Abroad",
     previewLine: "Tied to main student visa · spouse/children · funds proof required",
     heroSubtitle:
       "Bring your spouse or children while you study abroad — eligibility, documents, and timelines linked to your student visa.",
     overview:
       "A student dependent visa lets the spouse or children of an international student live in the same country for the duration of the main student’s course. Rules mirror the primary student visa: if the student’s visa lapses or is cancelled, dependants must usually leave or change status. Orbix helps study-abroad families from Kerala plan dependant applications together with the main student file.",
+    introduction:
+      "Families from Ernakulam and across Kerala often want the spouse or children to travel together when the main applicant starts a master’s in Canada, the UK, or Australia. That is only possible when the course level, provider, and funds meet dependant rules — lodging a separate visitor visa for family while the student holds a study permit is a common mistake. Orbix coordinates both files so your Genuine Student statement, maintenance funds, and marriage or birth certificates tell one consistent story to the visa officer.",
     quickFacts: [
       { label: "Who sponsors", value: "International student (main applicant)" },
       { label: "Who can join", value: "Spouse/partner and dependent children" },
@@ -322,7 +409,7 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
         ],
       },
     ],
-    processSteps: sharedProcessSteps,
+    processSteps: studentDependentProcessSteps,
     timeline: [
       { label: "Plan with student file", duration: "2–4 weeks" },
       { label: "Lodgement together", duration: "Same day as student" },
@@ -330,7 +417,9 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
     ],
     timelineNote:
       "Dependant visas are refused when funds are understated or the main student’s course does not allow family members. We review both files together before submission.",
-    costDisclaimer: FAMILY_VISA_COST_DISCLAIMER,
+    costDisclaimer: getFamilyVisaCostDisclaimer(),
+    keralaContext:
+      "We often work with students in Vyttila who receive a UK or Canada offer and want their spouse to join from Kerala within the same intake. Course level, funds in rupees, and OSHC or IHS for the whole family must be planned before the main student lodges — not after a refusal.",
     orbixRole: [
       "Confirm whether your course and country allow dependants",
       "Calculate combined funds required for student + family",
@@ -339,6 +428,7 @@ export const FAMILY_VISA_CONTENT: Record<FamilyVisaSlug, FamilyVisaContent> = {
       "Lodge linked applications and track decisions for all family members",
       "Advise on work/study rights for dependants after arrival",
     ],
+    faq: FAMILY_VISA_FAQ["student-dependent-visa"],
     primaryCtaLabel: "Check Your Eligibility",
     secondaryCtaLabel: "Call Our Kochi Office",
   },

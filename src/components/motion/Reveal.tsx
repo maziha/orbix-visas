@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { fadeUp, springGentle } from "@/lib/motion/presets";
@@ -9,6 +11,7 @@ type RevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
+  id?: string;
   /** How much of element must be visible (0–1) — inView only */
   amount?: number;
   as?: "div" | "section" | "article";
@@ -20,6 +23,7 @@ export function Reveal({
   children,
   className,
   delay = 0,
+  id,
   amount = 0.08,
   as = "div",
   when = "inView",
@@ -29,7 +33,11 @@ export function Reveal({
 
   if (reduced) {
     const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
+    return (
+      <Tag id={id} className={className}>
+        {children}
+      </Tag>
+    );
   }
 
   const transition = { ...springGentle, delay };
@@ -37,6 +45,7 @@ export function Reveal({
   if (when === "mount") {
     return (
       <Component
+        id={id}
         className={cn(className)}
         initial="hidden"
         animate="visible"
@@ -50,6 +59,7 @@ export function Reveal({
 
   return (
     <Component
+      id={id}
       className={cn(className)}
       initial="hidden"
       whileInView="visible"

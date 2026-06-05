@@ -1,25 +1,42 @@
+"use client";
+
+import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { CountryCode } from "@/lib/countries";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { AmbientTravelBg } from "@/components/motion";
 import { CountryFlag } from "./CountryFlag";
+import { PageBreadcrumbs } from "./PageBreadcrumbs";
 import { SectionEyebrow } from "./SectionEyebrow";
+import { SiteContainer } from "./SiteContainer";
+import type { BreadcrumbItem } from "@/lib/breadcrumbs";
 
 export function PageHero({
   label,
   title,
   subtitle,
   countryCode,
+  breadcrumbs,
+  meta,
+  compact = false,
 }: {
   label: string;
   title: string;
   subtitle?: string;
   countryCode?: CountryCode;
+  breadcrumbs?: BreadcrumbItem[];
+  /** Reading time, date, etc. — shown below the eyebrow */
+  meta?: ReactNode;
+  /** Shorter padding for detail pages (blog articles, country pages) */
+  compact?: boolean;
 }) {
   const reduced = useReducedMotion();
+  const sectionPadding = compact
+    ? "py-20 md:py-28"
+    : "py-24 md:py-32 lg:py-36";
 
   return (
-    <section className="relative py-24 md:py-32 lg:py-36 bg-brand-dark text-white overflow-hidden">
+    <section className={`relative ${sectionPadding} bg-brand-dark text-white overflow-hidden`}>
       <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
       <div
         className="absolute inset-0 opacity-30"
@@ -29,26 +46,44 @@ export function PageHero({
         }}
         aria-hidden
       />
-      <div className="container-px mx-auto max-w-7xl relative">
+      <SiteContainer className="relative">
         {reduced ? (
           <>
+            {breadcrumbs && <PageBreadcrumbs items={breadcrumbs} tone="dark" />}
             <SectionEyebrow tone="dark">{label}</SectionEyebrow>
-            <HeroTitle title={title} countryCode={countryCode} />
-            {subtitle && <p className="text-white/80 mt-6 max-w-2xl text-lg leading-relaxed">{subtitle}</p>}
+            {meta ? <div className="mt-4 mb-1">{meta}</div> : null}
+            <HeroTitle title={title} countryCode={countryCode} compact={compact} />
+            {subtitle && (
+              <p
+                className={`text-white/80 text-lg leading-relaxed ${compact ? "mt-5 max-w-3xl" : "mt-6 max-w-2xl"}`}
+              >
+                {subtitle}
+              </p>
+            )}
           </>
         ) : (
           <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
+            {breadcrumbs && (
+              <motion.div variants={staggerItem}>
+                <PageBreadcrumbs items={breadcrumbs} tone="dark" />
+              </motion.div>
+            )}
             <motion.div variants={staggerItem}>
               <SectionEyebrow tone="dark" static>
                 {label}
               </SectionEyebrow>
             </motion.div>
+            {meta ? (
+              <motion.div className="mt-4 mb-1" variants={staggerItem}>
+                {meta}
+              </motion.div>
+            ) : null}
             <motion.div variants={blurFade} transition={springGentle}>
-              <HeroTitle title={title} countryCode={countryCode} />
+              <HeroTitle title={title} countryCode={countryCode} compact={compact} />
             </motion.div>
             {subtitle && (
               <motion.p
-                className="text-white/80 mt-6 max-w-2xl text-lg leading-relaxed"
+                className={`text-white/80 text-lg leading-relaxed ${compact ? "mt-5 max-w-3xl" : "mt-6 max-w-2xl"}`}
                 variants={staggerItem}
               >
                 {subtitle}
@@ -56,13 +91,24 @@ export function PageHero({
             )}
           </motion.div>
         )}
-      </div>
+      </SiteContainer>
     </section>
   );
 }
 
-function HeroTitle({ title, countryCode }: { title: string; countryCode?: CountryCode }) {
+function HeroTitle({
+  title,
+  countryCode,
+  compact = false,
+}: {
+  title: string;
+  countryCode?: CountryCode;
+  compact?: boolean;
+}) {
   const reduced = useReducedMotion();
+  const titleClass = compact
+    ? "font-display text-3xl md:text-5xl mt-0 leading-tight"
+    : "font-display text-4xl md:text-6xl mt-0 leading-tight";
 
   if (reduced) {
     return (
@@ -70,7 +116,7 @@ function HeroTitle({ title, countryCode }: { title: string; countryCode?: Countr
         {countryCode && (
           <CountryFlag code={countryCode} size="xl" title={title} className="ring-2 ring-white/20" />
         )}
-        <h1 className="font-display text-4xl md:text-6xl mt-0 leading-tight">{title}</h1>
+        <h1 className={titleClass}>{title}</h1>
       </div>
     );
   }
@@ -87,7 +133,7 @@ function HeroTitle({ title, countryCode }: { title: string; countryCode?: Countr
         </motion.div>
       )}
       <motion.h1
-        className="font-display text-4xl md:text-6xl mt-0 leading-tight"
+        className={titleClass}
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ ...springGentle, delay: 0.2 }}

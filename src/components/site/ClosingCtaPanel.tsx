@@ -1,5 +1,8 @@
+"use client";
+
 import type { ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
+import { hrefWithHash } from "@/lib/href";
 import { motion, useReducedMotion } from "framer-motion";
 import { Phone } from "lucide-react";
 import { MotionPressable, Reveal } from "@/components/motion";
@@ -49,8 +52,7 @@ function ClosingCtaSecondary({ action }: { action: ClosingCtaSecondaryAction }) 
 
   return (
     <Link
-      to={action.to}
-      hash={action.hash}
+      href={hrefWithHash(action.to, action.hash)}
       className="btn-secondary inline-flex items-center justify-center"
     >
       {action.label}

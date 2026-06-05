@@ -1,3 +1,5 @@
+"use client";
+
 import { Mail, MapPin } from "lucide-react";
 import { BRAND_LOGOS } from "@/lib/brand-logos";
 import { ContactPhoneLinksList } from "@/components/site/ContactPhoneLinks";
@@ -8,6 +10,7 @@ import {
   GSTIN,
 } from "@/lib/contact-info";
 import { MotionLink, Reveal, RevealItem, RevealStagger } from "@/components/motion";
+import { getFeaturedBlogPosts } from "@/lib/blog-posts";
 
 const studyAbroadLinks = [
   { label: "Canada", to: "/study-abroad/canada" as const },
@@ -34,10 +37,18 @@ const serviceLinks = [
 ] as const;
 
 export function Footer() {
+  const guideLinks = [
+    ...getFeaturedBlogPosts().map((post) => ({
+      label: post.title.split("—")[0].trim(),
+      to: `/blog/${post.slug}` as const,
+    })),
+    { label: "All Guides", to: "/blog" as const },
+  ];
+
   return (
     <footer className="site-footer relative z-[1] bg-brand-dark text-white">
       <Reveal as="section">
-        <RevealStagger className="container-px mx-auto max-w-7xl py-10 sm:py-12 lg:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
+        <RevealStagger className="site-container py-10 sm:py-12 lg:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 sm:gap-10">
           <RevealItem>
             <img
               src={BRAND_LOGOS.onNavy}
@@ -60,7 +71,7 @@ export function Footer() {
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
               {studyAbroadLinks.map(({ label, to }) => (
                 <li key={to}>
-                  <MotionLink to={to}>{label}</MotionLink>
+                  <MotionLink href={to}>{label}</MotionLink>
                 </li>
               ))}
             </ul>
@@ -73,7 +84,20 @@ export function Footer() {
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
               {migrationLinks.map(({ label, to }) => (
                 <li key={to}>
-                  <MotionLink to={to}>{label}</MotionLink>
+                  <MotionLink href={to}>{label}</MotionLink>
+                </li>
+              ))}
+            </ul>
+          </RevealItem>
+
+          <RevealItem>
+            <h3 className="font-display text-base sm:text-lg mb-3 sm:mb-4 text-[var(--accent-sky)]">
+              Guides
+            </h3>
+            <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
+              {guideLinks.map(({ label, to }) => (
+                <li key={to}>
+                  <MotionLink href={to}>{label}</MotionLink>
                 </li>
               ))}
             </ul>
@@ -86,7 +110,7 @@ export function Footer() {
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-white/80">
               {serviceLinks.map(({ label, hash }) => (
                 <li key={hash}>
-                  <MotionLink to="/services" hash={hash}>
+                  <MotionLink href={`/services#${hash}`}>
                     {label}
                   </MotionLink>
                 </li>
@@ -116,7 +140,7 @@ export function Footer() {
                 <span className="leading-relaxed">{COMPANY_ADDRESS}</span>
               </li>
               <li>
-                <MotionLink to="/contact" className="text-[var(--accent-sky)]">
+                <MotionLink href="/contact" className="text-[var(--accent-sky)]">
                   Contact page →
                 </MotionLink>
               </li>
@@ -126,7 +150,7 @@ export function Footer() {
       </Reveal>
       <div className="border-t border-white/10">
         <Reveal delay={0.1}>
-          <div className="container-px mx-auto max-w-7xl py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-3 text-[11px] sm:text-xs text-white/60 text-center md:text-left">
+          <div className="site-container py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-3 text-[11px] sm:text-xs text-white/60 text-center md:text-left">
             <span suppressHydrationWarning>
               © {new Date().getFullYear()} {COMPANY_NAME}. GSTIN {GSTIN}. All rights reserved.
             </span>

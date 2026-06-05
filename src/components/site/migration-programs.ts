@@ -15,6 +15,8 @@ export type MigrationProgram = {
   whoItsFor: string;
   typicalTimeline: string;
   firstStep: string;
+  /** Contact or guide link for the pathway “First step” CTA. */
+  firstStepHref: string;
 };
 
 export type MigrationProgramGroup = {
@@ -39,6 +41,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
           "Skilled workers with strong English, recognised education, and at least one year of skilled work experience who want the fastest federal pathway to Canada PR. You enter the CRS pool, improve your score where possible, and apply when IRCC issues an invitation.",
         typicalTimeline: "12–18 months from complete profile to COPR (typical)",
         firstStep: "Calculate your CRS score",
+        firstStepHref: "/blog/how-to-check-crs-score",
       },
       {
         id: "canada-pnp",
@@ -53,6 +56,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
           "Applicants with a job offer, prior study or work in a province, or an occupation on a provincial priority list. A nomination can add CRS points or provide a dedicated stream outside Express Entry.",
         typicalTimeline: "12–24 months depending on province and stream",
         firstStep: "Check if your occupation is in demand in a target province",
+        firstStepHref: "/contact?service=pnp",
       },
       {
         id: "canada-family-sponsorship",
@@ -67,6 +71,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
           "Canadian citizens and permanent residents sponsoring a spouse, partner, dependent child, or eligible parent. Requirements and processing times depend on the relationship and whether the sponsor lives in Canada.",
         typicalTimeline: "12–24+ months depending on relationship and stream",
         firstStep: "Confirm your sponsor meets income and status requirements",
+        firstStepHref: "/contact?service=family-sponsorship",
       },
     ],
   },
@@ -86,6 +91,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
           "Highly skilled professionals whose occupation is on the relevant skilled list and who can score competitively without state nomination. You must pass skills assessment and receive an invitation to apply.",
         typicalTimeline: "12–24 months from skills assessment to visa grant (typical)",
         firstStep: "Check your occupation list status and points total",
+        firstStepHref: "/contact?service=subclass-189",
       },
       {
         id: "australia-190",
@@ -100,6 +106,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
           "Applicants willing to commit to living in the nominating state and who meet that state's occupation and points requirements. State nomination typically adds points and may open occupations not available on 189.",
         typicalTimeline: "12–24 months including nomination and visa processing",
         firstStep: "Research which states nominate your occupation",
+        firstStepHref: "/contact?service=subclass-190",
       },
       {
         id: "australia-491",
@@ -114,6 +121,7 @@ export const migrationProgramGroups: MigrationProgramGroup[] = [
           "Skilled workers targeting regional areas who want a pathway to PR with potentially more accessible points thresholds. You live and work in a designated regional area before applying for permanent residency.",
         typicalTimeline: "15–30+ months including provisional visa and PR pathway",
         firstStep: "Compare regional points thresholds for your occupation",
+        firstStepHref: "/contact?service=subclass-491",
       },
     ],
   },

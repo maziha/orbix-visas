@@ -1,3 +1,5 @@
+"use client";
+
 import { Clock, MapPin, ShieldCheck } from "lucide-react";
 import { COMPANY_ADDRESS_SHORT } from "@/lib/contact-info";
 import { QuickEnquiryForm } from "./QuickEnquiryForm";

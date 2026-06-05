@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { fadeUp, springGentle } from "@/lib/motion/presets";

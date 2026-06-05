@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useId, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { useSubmitEnquiry } from "@/hooks/use-submit-enquiry";

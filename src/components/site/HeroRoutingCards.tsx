@@ -1,5 +1,8 @@
+"use client";
+
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
+import { hrefWithHash } from "@/lib/href";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { HERO_MOBILE_DEFAULT_SLIDE_INDEX, heroRoutingCards } from "./hero-routing-cards";
@@ -143,8 +146,7 @@ export function HeroRoutingCards() {
           const Icon = card.icon;
           const inner = (
             <Link
-              to={card.to}
-              hash={card.hash}
+              href={hrefWithHash(card.to, card.hash)}
               className="hero-route-card__link"
               onFocus={pauseAutoplay}
             >

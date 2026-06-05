@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
   Accordion,
@@ -88,8 +90,7 @@ export function MigrationProgramsSection() {
                             {program.firstStep}
                           </p>
                           <Link
-                            to="/migration/$program"
-                            params={{ program: program.programPage }}
+                            href={`/migration/${program.programPage}`}
                             className="mt-4 inline-flex items-center gap-1 font-semibold text-[var(--accent-sky)] hover:underline"
                           >
                             Learn more about {program.name} →

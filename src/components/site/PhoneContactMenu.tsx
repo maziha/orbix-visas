@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useReducedMotion } from "framer-motion";
 import { Phone } from "lucide-react";
 import { CONTACT_PHONE_TEL } from "@/lib/contact-info";

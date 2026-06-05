@@ -1,9 +1,16 @@
+"use client";
+
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { StudyCountryContent } from "@/lib/study-country-content";
-import { STUDY_FEE_DISCLAIMER } from "@/lib/study-country-content";
-import { STUDY_PAGE_CONTENT } from "@/lib/study-country-page-content";
+import { getStudyFeeDisclaimer } from "@/lib/year";
+import {
+  STUDY_PAGE_CONTENT,
+  studyCountryFinalCta,
+  getStudyCountryHeroTitle,
+} from "@/lib/study-country-page-content";
 import { studyCountryClosingCta } from "@/lib/closing-cta-presets";
+import { FaqSection } from "./FaqSection";
 import {
   AmbientTravelBg,
   HoverLift,
@@ -14,17 +21,23 @@ import {
 } from "@/components/motion";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { presetFromStudyCountry } from "@/lib/enquiry-options";
+import { BREADCRUMBS } from "@/lib/breadcrumbs";
 import { BrandPromise, SectionEyebrow } from "./HomeSections";
 import { CountryFlag } from "./CountryFlag";
+import { PageBreadcrumbs } from "./PageBreadcrumbs";
 import { useModal } from "./modal-store";
+import { SiteContainer } from "./SiteContainer";
 
 export function StudyCountryPageContent({ content }: { content: StudyCountryContent }) {
   const { openConsultation } = useModal();
   const page = STUDY_PAGE_CONTENT[content.slug];
   const reduced = useReducedMotion();
+  const heroTitle = getStudyCountryHeroTitle(content.slug);
+  const finalCtaLabel = studyCountryFinalCta(content.name);
+  const breadcrumbs = BREADCRUMBS.studyCountry(content.slug, content.name);
 
   return (
-    <>
+    <article>
       <section className="relative py-20 md:py-28 bg-brand-dark text-white overflow-hidden">
         <AmbientTravelBg variant="hero" className="absolute inset-0 text-[var(--accent-sky)]" />
         <div
@@ -35,9 +48,10 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
           }}
           aria-hidden
         />
-        <div className="container-px mx-auto max-w-7xl relative">
+        <SiteContainer className="relative">
           {reduced ? (
             <>
+              <PageBreadcrumbs items={breadcrumbs} tone="dark" />
               <SectionEyebrow tone="dark">STUDY ABROAD</SectionEyebrow>
               <div className="flex flex-wrap items-start gap-4 mt-2 max-w-4xl">
                 <CountryFlag
@@ -47,7 +61,7 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
                   className="ring-2 ring-white/20 shrink-0"
                 />
                 <div className="min-w-0">
-                  <h1 className="font-display text-3xl md:text-5xl leading-tight">{page.heroTitle}</h1>
+                  <h1 className="font-display text-3xl md:text-5xl leading-tight">{heroTitle}</h1>
                   <p className="text-lg text-white/80 mt-4 leading-relaxed">{content.heroSubtitle}</p>
                 </div>
               </div>
@@ -69,12 +83,15 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
                 onClick={() => openConsultation(presetFromStudyCountry(content))}
                 className="btn-primary mt-8 inline-flex items-center gap-2"
               >
-                {page.finalCtaLabel}
+                {finalCtaLabel}
                 <ArrowRight className="h-4 w-4 shrink-0" />
               </button>
             </>
           ) : (
             <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
+              <motion.div variants={staggerItem}>
+                <PageBreadcrumbs items={breadcrumbs} tone="dark" />
+              </motion.div>
               <motion.div variants={staggerItem}>
                 <SectionEyebrow tone="dark" static>
                   STUDY ABROAD
@@ -98,7 +115,7 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
                   />
                 </motion.div>
                 <div className="min-w-0">
-                  <h1 className="font-display text-3xl md:text-5xl leading-tight">{page.heroTitle}</h1>
+                  <h1 className="font-display text-3xl md:text-5xl leading-tight">{heroTitle}</h1>
                   <p className="text-lg text-white/80 mt-4 leading-relaxed">{content.heroSubtitle}</p>
                 </div>
               </motion.div>
@@ -130,17 +147,28 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
                   onClick={() => openConsultation(presetFromStudyCountry(content))}
                   className="btn-primary inline-flex items-center gap-2"
                 >
-                  {page.finalCtaLabel}
+                  {finalCtaLabel}
                   <ArrowRight className="h-4 w-4 shrink-0" />
                 </MotionPressable>
               </motion.div>
             </motion.div>
           )}
-        </div>
+        </SiteContainer>
       </section>
 
-      <Reveal as="section" className="py-16 bg-brand-white">
-        <div className="container-px mx-auto max-w-4xl">
+      <Reveal as="section" className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer>
+          <SectionEyebrow>OVERVIEW</SectionEyebrow>
+          <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-6">
+            Studying in {content.name} from Kerala
+          </h2>
+          <p className="text-muted-foreground leading-relaxed text-lg">{content.overview}</p>
+          <p className="text-muted-foreground leading-relaxed mt-5">{content.keralaContext}</p>
+        </SiteContainer>
+      </Reveal>
+
+      <Reveal as="section" delay={0.04} className="py-16 md:py-20 bg-brand-subtle">
+        <SiteContainer>
           <SectionEyebrow>WHY {content.name.toUpperCase()}?</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-8">Why {content.name}?</h2>
           <RevealStagger as="ul" className="space-y-5 list-none">
@@ -157,11 +185,11 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
               </RevealItem>
             ))}
           </RevealStagger>
-        </div>
+        </SiteContainer>
       </Reveal>
 
-      <Reveal as="section" delay={0.05} className="py-16 bg-brand-subtle">
-        <div className="container-px mx-auto max-w-5xl">
+      <Reveal as="section" delay={0.05} className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer>
           <SectionEyebrow>COURSES</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-4">
             Popular courses for Kerala students
@@ -176,21 +204,32 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
                 key={course.category}
                 index={index}
                 as="li"
-                className="card-base bg-brand-white rounded-xl border border-border p-5 md:p-6"
+                className="card-base bg-brand-subtle rounded-xl border border-border p-5 md:p-6"
               >
                 <h3 className="font-display text-xl text-[var(--navy)]">{course.category}</h3>
                 <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{course.outcomeNote}</p>
               </HoverLift>
             ))}
           </RevealStagger>
-          <p className="text-xs text-muted-foreground mt-6 leading-relaxed">{STUDY_FEE_DISCLAIMER}</p>
-        </div>
+          <p className="text-xs text-muted-foreground mt-6 leading-relaxed">{getStudyFeeDisclaimer()}</p>
+        </SiteContainer>
       </Reveal>
 
-      <Reveal as="section" delay={0.08} className="py-16 bg-brand-white">
-        <div className="container-px mx-auto max-w-4xl">
+      <Reveal as="section" delay={0.08} className="py-16 md:py-20 bg-brand-subtle">
+        <SiteContainer>
           <SectionEyebrow>VISA</SectionEyebrow>
-          <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-10">Visa process</h2>
+          <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-4">Visa process</h2>
+          <p className="text-muted-foreground mb-8 leading-relaxed">{content.visaSection.title}</p>
+          <RevealStagger as="ul" className="space-y-3 list-none mb-10">
+            {content.visaSection.bullets.map((bullet) => (
+              <RevealItem key={bullet}>
+                <li className="flex gap-3 text-muted-foreground leading-relaxed text-sm">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-[var(--accent-sky)] mt-0.5" />
+                  <span>{bullet}</span>
+                </li>
+              </RevealItem>
+            ))}
+          </RevealStagger>
           <RevealStagger as="ol" className="space-y-0 list-none">
             {page.visaTimeline.map((s, i) => (
               <RevealItem key={s.step}>
@@ -222,36 +261,41 @@ export function StudyCountryPageContent({ content }: { content: StudyCountryCont
               </RevealItem>
             ))}
           </RevealStagger>
-        </div>
+        </SiteContainer>
       </Reveal>
 
-      <Reveal as="section" delay={0.1} className="py-16 bg-brand-subtle">
-        <div className="container-px mx-auto max-w-4xl">
+      <Reveal as="section" delay={0.1} className="py-16 md:py-20 bg-brand-white">
+        <SiteContainer>
           <SectionEyebrow>ORBIX SUPPORT</SectionEyebrow>
           <h2 className="font-display text-3xl text-[var(--navy)] mt-2 mb-8">How Orbix helps</h2>
           <RevealStagger as="ol" className="space-y-4 list-none">
             {page.orbixHelps.map((item, i) => (
               <RevealItem key={item}>
-              <HoverLift
-                index={i}
-                instant
-                className="flex gap-4 bg-brand-white rounded-xl border border-border p-5"
-              >
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-dark text-sm font-bold text-white"
-                  aria-hidden
+                <HoverLift
+                  index={i}
+                  instant
+                  className="flex gap-4 bg-brand-subtle rounded-xl border border-border p-5"
                 >
-                  {i + 1}
-                </span>
-                <span className="text-muted-foreground leading-relaxed pt-0.5">{item}</span>
-              </HoverLift>
+                  <span
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-dark text-sm font-bold text-white"
+                    aria-hidden
+                  >
+                    {i + 1}
+                  </span>
+                  <span className="text-muted-foreground leading-relaxed pt-0.5">{item}</span>
+                </HoverLift>
               </RevealItem>
             ))}
           </RevealStagger>
-        </div>
+        </SiteContainer>
       </Reveal>
 
-      <BrandPromise {...studyCountryClosingCta(content, page)} />
-    </>
+      <FaqSection
+        faq={page.faq}
+        title={`Studying in ${content.name} from Kerala — common questions`}
+      />
+
+      <BrandPromise {...studyCountryClosingCta(content)} />
+    </article>
   );
 }

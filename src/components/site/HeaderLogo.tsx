@@ -1,3 +1,5 @@
+"use client";
+
 import { BRAND_LOGOS } from "@/lib/brand-logos";
 import { cn } from "@/lib/utils";
 

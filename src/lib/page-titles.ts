@@ -19,17 +19,17 @@ export const MIGRATION_PROGRAM_TITLES: Record<string, string> = {
 };
 
 export const FAMILY_VISA_TITLES: Record<string, string> = {
-  "spouse-visa": `Spouse Visa Consultant Kochi | ${COMPANY_NAME}`,
-  "parent-visa": `Parent Visa Consultant Kerala | ${COMPANY_NAME}`,
-  "student-dependent-visa": `Student Dependent Visa Kochi | ${COMPANY_NAME}`,
+  "spouse-visa": "Spouse Visa Consultant Kochi, Kerala | OrbiX Overseas Careers",
+  "parent-visa": "Parent Visa Consultant Kerala | Bring Parents Abroad | OrbiX",
+  "student-dependent-visa": "Student Dependent Visa Kerala | Take Family While Studying | OrbiX",
 };
 
 export const STUDY_COUNTRY_TITLES: Record<string, string> = {
-  canada: `Study in Canada | ${COMPANY_NAME}`,
-  australia: `Study in Australia | ${COMPANY_NAME}`,
-  "new-zealand": `Study in New Zealand | ${COMPANY_NAME}`,
-  uk: `Study in the UK | ${COMPANY_NAME}`,
-  france: `Study in France | ${COMPANY_NAME}`,
-  germany: `Study in Germany | ${COMPANY_NAME}`,
-  poland: `Study in Poland | ${COMPANY_NAME}`,
+  canada: "Study in Canada from Kerala | Admissions & Visa Consultant Kochi",
+  uk: "Study in the UK from Kerala | Student Route Visa Consultant Kochi",
+  australia: "Study in Australia from Kerala | Visa & PSWR Consultant Kochi",
+  germany: "Study in Germany from Kerala | Free Tuition Consultant Kochi",
+  "new-zealand": "Study in New Zealand from Kerala | Visa Consultant Kochi",
+  france: "Study in France from Kerala | Campus France Consultant Kochi",
+  poland: "Study in Poland from Kerala | EU Degree Consultant Kochi",
 };

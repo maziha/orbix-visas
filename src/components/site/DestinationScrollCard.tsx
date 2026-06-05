@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Country } from "@/lib/countries";
 import type { DestinationCardConfig } from "@/lib/destination-cards";
@@ -59,19 +61,11 @@ export function DestinationScrollCard({
         <h3 className="destination-scroll-card__name">{country.name}</h3>
         <p className="destination-scroll-card__metric">{config.metric}</p>
         <div className="destination-scroll-card__tags">
-          <Link
-            to="/study-abroad/$country"
-            params={{ country: country.slug }}
-            className="destination-tag"
-          >
+          <Link href={`/study-abroad/${country.slug}`} className="destination-tag">
             Study
           </Link>
           {config.hasMigration && (
-            <Link
-              to="/migration/$program"
-              params={{ program: `${country.slug}-pr` }}
-              className="destination-tag"
-            >
+            <Link href={`/migration/${country.slug}-pr`} className="destination-tag">
               PR / Migration
             </Link>
           )}

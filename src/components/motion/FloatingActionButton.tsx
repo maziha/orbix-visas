@@ -1,8 +1,10 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+"use client";
+
+import { forwardRef, type ReactNode } from "react";
+import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-type FloatingActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type FloatingActionButtonProps = Omit<HTMLMotionProps<"button">, "children"> & {
   children: ReactNode;
   /** Accessible name (maps to aria-label) */
   ariaLabel: string;

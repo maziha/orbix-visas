@@ -1,4 +1,4 @@
-/** Server-only env (set in .env.local locally, Netlify env vars in production). */
+/** Server-only env (`.env.local` locally, Netlify environment variables in production). */
 const SERVER_ENV_KEYS = [
   "RESEND_API_KEY",
   "ENQUIRY_TO_EMAIL",

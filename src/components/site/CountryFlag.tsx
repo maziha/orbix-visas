@@ -1,4 +1,6 @@
-import { lazy, Suspense, type ComponentType, type SVGProps } from "react";
+"use client";
+
+import { lazy, Suspense, type ComponentType } from "react";
 import { cn } from "@/lib/utils";
 import type { CountryCode } from "@/lib/countries";
 
@@ -10,7 +12,7 @@ const LazyFlags = {
   FR: lazy(() => import("country-flag-icons/react/3x2/FR")),
   DE: lazy(() => import("country-flag-icons/react/3x2/DE")),
   PL: lazy(() => import("country-flag-icons/react/3x2/PL")),
-} satisfies Record<CountryCode, ReturnType<typeof lazy<ComponentType<SVGProps<SVGSVGElement>>>>>;
+} satisfies Record<CountryCode, ReturnType<typeof lazy<ComponentType<object>>>>;
 
 const SIZE_CLASS = {
   sm: "w-8",

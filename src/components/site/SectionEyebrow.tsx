@@ -1,9 +1,12 @@
+"use client";
+
+import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { springGentle, slideInLeft } from "@/lib/motion/presets";
 import { cn } from "@/lib/utils";
 
 type SectionEyebrowProps = {
-  children: string;
+  children: ReactNode;
   tone?: "light" | "dark";
   className?: string;
   as?: "span" | "p";
