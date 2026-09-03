@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { springGentle } from "@/lib/motion/presets";
 import { cn } from "@/lib/utils";
 

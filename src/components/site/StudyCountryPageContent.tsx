@@ -1,7 +1,8 @@
 "use client";
 
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import type { StudyCountryContent } from "@/lib/study-country-content";
 import { getStudyFeeDisclaimer } from "@/lib/year";
 import {

@@ -1,10 +1,10 @@
 import type { Transition, Variants } from "framer-motion";
 
 /** Soft spring — modals, panels (no harsh bounce) */
-export const springSoft = { type: "spring" as const, damping: 28, stiffness: 320, mass: 0.85 };
+export const springSoft = { type: "spring" as const, damping: 34, stiffness: 240, mass: 1 };
 
 /** Gentle spring — cards, hovers */
-export const springGentle = { type: "spring" as const, damping: 32, stiffness: 260, mass: 0.9 };
+export const springGentle = { type: "spring" as const, damping: 38, stiffness: 200, mass: 1.05 };
 
 /** Bouncy spring — playful entrances */
 export const springBouncy = { type: "spring" as const, damping: 18, stiffness: 280, mass: 0.75 };

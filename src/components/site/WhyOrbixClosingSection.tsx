@@ -1,7 +1,8 @@
 "use client";
 
 import { CheckCircle2 } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { ClosingCtaPanel } from "./ClosingCtaPanel";
 import { SectionEyebrow } from "./SectionEyebrow";
 import { Reveal, RevealItem, RevealStagger } from "@/components/motion";

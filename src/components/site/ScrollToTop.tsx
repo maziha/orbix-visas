@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { ChevronUp } from "lucide-react";
 import { springGentle } from "@/lib/motion/presets";
 

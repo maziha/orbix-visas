@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { fadeUp, springGentle } from "@/lib/motion/presets";
 import { cn } from "@/lib/utils";
 
@@ -28,18 +28,7 @@ export function Reveal({
   as = "div",
   when = "inView",
 }: RevealProps) {
-  const reduced = useReducedMotion();
   const Component = motion[as];
-
-  if (reduced) {
-    const Tag = as;
-    return (
-      <Tag id={id} className={className}>
-        {children}
-      </Tag>
-    );
-  }
-
   const transition = { ...springGentle, delay };
 
   if (when === "mount") {
@@ -87,14 +76,7 @@ export function RevealStagger({
   as = "div",
   when = "inView",
 }: RevealStaggerProps) {
-  const reduced = useReducedMotion();
-  const Tag = as;
   const Component = motion[as];
-
-  if (reduced) {
-    return <Tag className={className}>{children}</Tag>;
-  }
-
   const staggerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -136,12 +118,6 @@ export function RevealItem({
   children: ReactNode;
   className?: string;
 }) {
-  const reduced = useReducedMotion();
-
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
     <motion.div
       className={cn(className)}

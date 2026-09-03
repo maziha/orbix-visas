@@ -1,7 +1,8 @@
 "use client";
 
 import { lazy, Suspense, useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { HeroRoutingCards } from "./HeroRoutingCards";
 import { springGentle, staggerContainer } from "@/lib/motion/presets";
 
@@ -41,7 +42,7 @@ export function Hero() {
           alt=""
           width={1280}
           height={853}
-          className={`absolute inset-0 h-full w-full object-cover${reduced ? "" : " hero-bg-ken-burns"}`}
+          className="absolute inset-0 h-full w-full object-cover hero-bg-ken-burns"
           fetchPriority="high"
           decoding="async"
         />

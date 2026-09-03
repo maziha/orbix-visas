@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { fadeUp, springGentle } from "@/lib/motion/presets";
 
 /** Wrap tab panel children for cross-fade + slide when value changes */

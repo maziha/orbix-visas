@@ -2,12 +2,13 @@
 
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { CheckCircle2 } from "lucide-react";
 import { MotionPressable } from "@/components/motion";
 import { popIn, springBouncy, springGentle } from "@/lib/motion/presets";
 import { useSubmitEnquiry } from "@/hooks/use-submit-enquiry";
-import { CONTACT_PHONE } from "@/lib/contact-info";
+import { CONTACT_PHONE, CONTACT_WHATSAPP_DISPLAY } from "@/lib/contact-info";
 import {
   CONTACT_SERVICE_OPTIONS,
   contactServiceLabel,
@@ -72,7 +73,7 @@ export function ContactSentenceForm({ initialService = "" }: ContactSentenceForm
           <h3 className="contact-form-confirmation__title">Message received</h3>
           <p className="contact-form-confirmation__text">
             We will contact you at the number you provided within 24 business hours. For urgent
-            queries, call or WhatsApp us at {CONTACT_PHONE}.
+            queries, call us at {CONTACT_PHONE} or WhatsApp us at {CONTACT_WHATSAPP_DISPLAY}.
           </p>
         </motion.div>
       ) : (

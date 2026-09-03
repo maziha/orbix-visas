@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { StudyDestinationCard } from "@/components/site/StudyDestinationCard";
 import { BrandPromise, SectionHeading } from "@/components/site/HomeSections";
 import { AmbientTravelBg, Reveal, RevealItem, RevealStagger } from "@/components/motion";

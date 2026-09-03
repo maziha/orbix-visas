@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
 /** Site-wide soft orbs — deferred until idle so they stay off the critical path. */
 export function GlobalAmbientLayer() {

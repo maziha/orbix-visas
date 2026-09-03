@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { PageHero } from "@/components/site/PageHero";
 import { ContactSentenceFormWithParams } from "@/components/site/enquiry/ContactSentenceForm";
 import { Phone, Mail, MapPin } from "lucide-react";

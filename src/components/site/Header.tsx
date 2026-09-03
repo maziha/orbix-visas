@@ -10,7 +10,8 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { ChevronDown, CalendarDays, Mail, Menu } from "lucide-react";
 import { springGentle } from "@/lib/motion/presets";
 import { useModal } from "./modal-store";
@@ -193,7 +194,7 @@ export function Header() {
   return (
     <header className={headerClass}>
       <div className="site-container flex h-16 items-center justify-between lg:h-20">
-        <motion.div whileHover={reduced ? undefined : { scale: 1.03 }} whileTap={reduced ? undefined : { scale: 0.97 }}>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Link href="/" className="site-header__logo-link flex shrink-0 items-center">
             <HeaderLogo onHero={onHero} className="h-10 w-auto lg:h-12" />
             <span className="sr-only">{COMPANY_NAME}</span>
@@ -219,8 +220,8 @@ export function Header() {
           <motion.a
             href={`mailto:${CONTACT_EMAIL}`}
             className="nav-mail"
-            whileHover={reduced ? undefined : { y: -1 }}
-            whileTap={reduced ? undefined : { scale: 0.98 }}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
           >
             <span className="nav-mail__icon" aria-hidden>
               <Mail className="h-3.5 w-3.5" strokeWidth={2} />
@@ -231,8 +232,8 @@ export function Header() {
             type="button"
             className="nav-mail"
             onClick={() => openConsultation()}
-            whileHover={reduced ? undefined : { y: -1 }}
-            whileTap={reduced ? undefined : { scale: 0.98 }}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
           >
             <span className="nav-mail__icon" aria-hidden>
               <CalendarDays className="h-3.5 w-3.5" strokeWidth={2} />

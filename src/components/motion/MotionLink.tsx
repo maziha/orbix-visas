@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type MotionLinkProps = {
@@ -14,16 +14,6 @@ type MotionLinkProps = {
 };
 
 export function MotionLink({ className, children, slide = true, href }: MotionLinkProps) {
-  const reduced = useReducedMotion();
-
-  if (reduced) {
-    return (
-      <Link href={href} className={className}>
-        {children}
-      </Link>
-    );
-  }
-
   return (
     <motion.span
       className={cn("inline-block", className)}

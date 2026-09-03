@@ -156,38 +156,14 @@
     animation-iteration-count: 1 !important;
   }
 
-  .page-shell--enter,
-  .orbix-popover-content[data-state="open"] .contact-line-menu__item,
-  [data-state="open"].orbix-accordion-content,
-  [data-state="closed"].orbix-accordion-content {
+  .mobile-nav-panel__flight-arc,
+  .mobile-nav-panel__stamp {
     animation: none !important;
   }
 
-  .floating-action-btn {
-    transition: none;
-  }
-
-  .floating-action-btn:hover,
-  .floating-action-btn:active,
-  .floating-action-btn[aria-expanded="true"] {
-    transform: none;
-  }
-
-  .page-shell--enter {
-    opacity: 1;
-  }
-
-  .mobile-nav-panel,
-  .mobile-nav-panel-shell,
-  .mobile-nav-backdrop,
-  .mobile-nav-section__panel-wrap,
-  .mobile-nav-section__panel-inner,
-  .nav-dropdown-panel__inner {
-    transition: none !important;
-  }
-
-  .mobile-nav-panel__flight-arc,
-  .mobile-nav-panel__stamp {
+  .pulse-gold,
+  .pulse-whatsapp,
+  .floating-fab-bob {
     animation: none !important;
   }
 }
@@ -196,6 +172,20 @@
   .hero-bg-ken-burns {
     animation: hero-ken-burns 24s ease-in-out infinite;
     will-change: transform;
+  }
+
+  .floating-fab-bob {
+    animation: floating-fab-bob 3.5s ease-in-out infinite;
+  }
+}
+
+@keyframes floating-fab-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
   }
 }
 

@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { hrefWithHash } from "@/lib/href";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import { HERO_MOBILE_DEFAULT_SLIDE_INDEX, heroRoutingCards } from "./hero-routing-cards";
 import { pathwayCard, springGentle } from "@/lib/motion/presets";

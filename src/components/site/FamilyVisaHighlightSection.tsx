@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { FAMILY_VISA_CONTENT, FAMILY_VISA_SLUGS } from "@/lib/family-visa-content";
 import { MotionPressable, Reveal, RevealItem, RevealStagger } from "@/components/motion";
 import { springGentle } from "@/lib/motion/presets";

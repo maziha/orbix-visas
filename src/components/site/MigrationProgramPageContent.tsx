@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import type { MigrationProgramContent } from "@/lib/migration-program-content";
 import { migrationProgramClosingCta } from "@/lib/closing-cta-presets";
 import {

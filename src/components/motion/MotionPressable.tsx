@@ -1,7 +1,8 @@
 "use client";
 
 import { forwardRef, type ReactNode } from "react";
-import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 type MotionPressableProps = Omit<HTMLMotionProps<"button">, "children"> & {

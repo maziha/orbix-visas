@@ -9,7 +9,8 @@ export const CONTACT_EMAIL = "orbixoverseascareers@gmail.com";
 export const CONTACT_PHONE = "+91 8592026124";
 export const CONTACT_PHONE_TEL = "+918592026124";
 /** Digits only, for wa.me (no + or spaces) */
-export const CONTACT_WHATSAPP = "918592026124";
+export const CONTACT_WHATSAPP = "916235056655";
+export const CONTACT_WHATSAPP_DISPLAY = "+91 6235056655";
 export const WHATSAPP_URL = `https://wa.me/${CONTACT_WHATSAPP}`;
 
 export const COMPANY_ADDRESS =

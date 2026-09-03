@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import type { Country } from "@/lib/countries";
 import type { StudyCountryContent } from "@/lib/study-country-content";
 import { springGentle } from "@/lib/motion/presets";

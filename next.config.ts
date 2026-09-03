@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         destination: "/manifest.webmanifest",
         permanent: true,
       },
+      {
+        source: "/manifest.json",
+        destination: "/manifest.webmanifest",
+        permanent: true,
+      },
     ];
   },
 };

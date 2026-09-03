@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { flightPathDraw } from "@/lib/motion/presets";
 
 /** Ambient flight path + destination dots — study / migration / visa theme */

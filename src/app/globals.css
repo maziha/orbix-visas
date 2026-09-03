@@ -407,10 +407,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .card-hover-destination:hover,
-    .card-hover-service:hover {
-      transform: none;
-    }
     .card-hover-migration:hover .card-reveal-footer {
       animation: none;
       opacity: 1;
@@ -2625,12 +2621,6 @@
 
   .mobile-nav-section__panel-wrap--open {
     grid-template-rows: 1fr;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .mobile-nav-section__panel-wrap {
-      transition: none;
-    }
   }
 
   .mobile-nav-section__panel-inner {

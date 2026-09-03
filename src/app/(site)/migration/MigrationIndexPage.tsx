@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import { prepareMigrationHashNavigation } from "@/lib/migration-hash-scroll";
 import { BREADCRUMBS } from "@/lib/breadcrumbs";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { AmbientTravelBg, Reveal } from "@/components/motion";
 import { blurFade, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";
 import { MigrationProgramSections, BrandPromise, SectionEyebrow } from "@/components/site/HomeSections";

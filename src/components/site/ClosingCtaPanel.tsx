@@ -3,7 +3,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { hrefWithHash } from "@/lib/href";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { Phone } from "lucide-react";
 import { MotionPressable, Reveal } from "@/components/motion";
 import { scaleIn, springGentle, staggerContainer, staggerItem } from "@/lib/motion/presets";

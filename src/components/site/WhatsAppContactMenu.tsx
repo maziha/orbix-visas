@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { WHATSAPP_URL } from "@/lib/contact-info";
 import { cn } from "@/lib/utils";
@@ -16,41 +15,13 @@ export function WhatsAppContactMenu({
   triggerLabel,
   className,
 }: WhatsAppContactMenuProps) {
-  const reduced = useReducedMotion();
-
   const triggerClass =
     variant === "floating"
-      ? "floating-whatsapp pulse-whatsapp flex min-h-11 min-w-11 h-12 w-12 items-center justify-center rounded-full sm:min-h-[3.25rem] sm:min-w-[3.25rem] sm:h-14 sm:w-14"
+      ? "floating-whatsapp floating-action-btn pulse-whatsapp flex min-h-11 min-w-11 h-12 w-12 items-center justify-center rounded-full sm:min-h-[3.25rem] sm:min-w-[3.25rem] sm:h-14 sm:w-14"
       : "whatsapp-menu-trigger btn-secondary";
 
   const ariaLabel =
     variant === "inline" && triggerLabel ? triggerLabel : "Chat on WhatsApp";
-
-  const motionProps = {
-    whileHover: reduced ? undefined : { scale: 1.07 },
-    whileTap: reduced ? undefined : { scale: 0.94 },
-    animate: reduced
-      ? undefined
-      : {
-          y: [0, -5, 0],
-          transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" as const },
-        },
-  };
-
-  if (variant === "floating") {
-    return (
-      <motion.a
-        href={WHATSAPP_URL}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={ariaLabel}
-        className={cn(triggerClass, className)}
-        {...motionProps}
-      >
-        <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
-      </motion.a>
-    );
-  }
 
   return (
     <a
@@ -58,10 +29,20 @@ export function WhatsAppContactMenu({
       target="_blank"
       rel="noreferrer"
       aria-label={ariaLabel}
-      className={cn(triggerClass, "inline-flex items-center justify-center gap-2", className)}
+      className={cn(
+        triggerClass,
+        variant === "inline" && "inline-flex items-center justify-center gap-2",
+        className,
+      )}
     >
-      <WhatsAppIcon className="h-5 w-5" />
-      {triggerLabel ? <span className="whatsapp-menu-trigger__label">{triggerLabel}</span> : null}
+      {variant === "floating" ? (
+        <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
+      ) : (
+        <>
+          <WhatsAppIcon className="h-5 w-5" />
+          {triggerLabel ? <span className="whatsapp-menu-trigger__label">{triggerLabel}</span> : null}
+        </>
+      )}
     </a>
   );
 }
