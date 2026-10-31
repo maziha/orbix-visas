@@ -61,6 +61,7 @@ export default function AboutPage() {
         </SiteContainer>
       </section>
 
+      {/* Our Team section — temporarily hidden
       <section className="py-16 md:py-20 bg-brand-subtle">
         <SiteContainer>
           <Reveal>
@@ -107,6 +108,7 @@ export default function AboutPage() {
           </Reveal>
         </SiteContainer>
       </section>
+      */}
 
       <Achievements />
     </>
